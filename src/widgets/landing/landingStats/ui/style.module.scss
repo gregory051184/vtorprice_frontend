@@ -1,0 +1,19 @@
+@import "@box/app/styles/mixins.scss";
+
+.table {
+  @include adaptive("xxsm"){
+    display: none;
+  }
+}
+
+.slider {
+  display: none;
+
+  &_slide {
+    padding: 28px 25px;
+    border-radius: 10px;
+  }
+  @include adaptive("xxsm"){
+    display: block;
+  }
+}

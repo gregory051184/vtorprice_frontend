@@ -1,0 +1,17 @@
+@import "@styles/mixins.scss";
+
+.block {
+  @include adaptive("xxsm"){
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  &_pills {
+    justify-content: flex-end;
+    @include adaptive("xxsm"){
+      justify-content: flex-start;
+    }
+  }
+}

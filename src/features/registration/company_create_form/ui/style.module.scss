@@ -1,0 +1,17 @@
+@import "@styles/mixins.scss";
+
+.buttons {
+  @include adaptive("xsm"){
+    flex-direction: column;
+  }
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+
+  & > * {
+    max-width: 454px;
+    width: 100%;
+  }
+}

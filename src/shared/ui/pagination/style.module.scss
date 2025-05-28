@@ -1,0 +1,37 @@
+@import "@styles/mixins.scss";
+
+.button {
+    padding: 12px 24px;
+
+}
+
+.perpage {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  @media only screen and (max-width: 680px) {
+    top: 120%;
+    right: 50%;
+    transform:translate(50%, 0);
+  }
+
+  @media only screen and (max-width: 430px) {
+    top: 0;
+  }
+}
+
+.top {
+  @media only screen and (max-width: 430px) {
+    flex-direction: column-reverse;
+    margin-top: 48px;
+  }
+}
+
+.update {
+  @media only screen and (max-width: 430px) {
+    margin-right: 0 !important;
+    margin-top: 10px;
+  }
+}

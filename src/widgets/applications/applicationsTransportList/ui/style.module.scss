@@ -1,0 +1,37 @@
+.table_view {
+  @media only screen and (max-width: 1100px) {
+    display: none;
+  }
+}
+
+.card_view {
+  display: none;
+
+  @media only screen and (max-width: 1100px) {
+    display: block;
+  }
+
+  &_block {
+    display: none;
+    @media only screen and (max-width: 1100px) {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -20px;
+    }
+    margin-bottom: 20px;
+    @media only screen and (max-width: 600px) {
+      margin-left: 0;
+    }
+  }
+
+  &_card {
+    width: calc(100% / 2 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @media only screen and (max-width: 600px) {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+}

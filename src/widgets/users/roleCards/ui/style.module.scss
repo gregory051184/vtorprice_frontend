@@ -1,0 +1,29 @@
+@import "@styles/mixins.scss";
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  @include adaptive("md") {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include adaptive("xsm") {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+.card {
+  border: 1px solid;
+  padding: 20px 24px;
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  text-align: start;
+  @apply border border-grey-20 border-solid rounded-2xl;
+  @include adaptive("xsm") {
+    text-align: end;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

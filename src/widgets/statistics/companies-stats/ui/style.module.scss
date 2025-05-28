@@ -1,0 +1,17 @@
+@import "@styles/mixins.scss";
+
+
+    @include adaptive("xsm"){
+        .piesHolder {
+            height: 1200px;
+        }
+        
+    }
+
+    @include adaptive("xsm"){
+        .piesHolder {
+            height: 1300px;
+        }
+        
+    }
+  

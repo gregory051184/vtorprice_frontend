@@ -1,0 +1,15 @@
+@import "@styles/mixins.scss";
+
+.fields {
+  display: flex;
+  gap: 16px;
+  flex-grow: 1;
+  @include adaptive('xsm') {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.searchField {
+  flex-grow: 1;
+}

@@ -1,0 +1,38 @@
+.description {
+  @media only screen and (max-width: 376px) {
+    flex-direction: column;
+  }
+}
+
+.container {
+  @media only screen and (max-width: 701px) {
+    gap: 20px;
+    flex-direction: column-reverse;
+
+    & > div {
+      min-width: 100%;
+    }
+  }
+}
+
+.right {
+  @media only screen and (max-width: 701px) {
+    max-width: 100%;
+  }
+}
+
+.paper {
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+.file {
+
+
+  div {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+

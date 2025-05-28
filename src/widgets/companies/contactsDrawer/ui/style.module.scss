@@ -1,0 +1,54 @@
+@import "@styles/mixins.scss";
+ 
+.myButton {
+  @apply border;
+  border-color: transparent;
+  background: none;
+  
+  p {
+    @apply text-black;
+    @apply text-sm;
+  }
+  svg {
+    @apply fill-primaryGreen-main;
+  }
+
+  &:hover {
+    p {
+      @apply text-black;
+      @apply text-sm;
+    }
+
+    svg {
+      @apply fill-primaryGreen-light
+    }
+  }
+
+  &:disabled {
+    p {
+      @apply text-grey-30;
+      @apply text-sm;
+    }
+  }  
+}
+
+.mySlider {
+  &_container{
+    @include adaptive("xxsm"){
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  &_wrapper{
+    @include adaptive("xxsm"){
+      width: 100%;
+    }
+  }
+
+}

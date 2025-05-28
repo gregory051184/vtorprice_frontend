@@ -1,0 +1,25 @@
+.filters {
+  @media only screen and (max-width: 430px) {
+    flex-direction: column;
+
+    button {
+      div {
+        div {
+          justify-content: flex-start;
+        }
+      }
+    }
+  }
+}
+
+.title_for_filters {
+  margin-top: 25px;
+  background: rgba(37, 37, 37, 0.6);
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+
+

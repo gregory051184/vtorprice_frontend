@@ -1,0 +1,59 @@
+.category_main_page {
+  display: inline-flex;
+  width: 150px;
+  height: 100px;
+  background-color: rgba(240, 240, 240);
+  font-size: 13px;
+  border-radius: 15px;
+  margin-left: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.category_main_page:hover {
+  background-color: rgba(190, 190, 190);
+}
+
+.category_main_page_name {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.company_title {
+  margin-top: 12px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.company_title:hover {
+  color: crimson;
+  font-size: 15px;
+}
+
+.companies_list {
+  background-color: rgba(240, 240, 240);
+  flex-wrap: wrap;
+  display: inline-flex;
+  margin-left: 20px;
+  margin-top: 28px;
+  width: 384px;
+  padding: 6px;
+  border-radius: 5px;
+}
+
+.category_main_page_slider {
+  word-break: keep-all;
+  display: inline-flex;
+  width: 200px;
+  height: 200px;
+  background-color: rgba(240, 240, 240);
+  font-size: 13px;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.category_main_page_slider_name {
+  margin-top: 16px;
+  margin-left: 16px;
+}

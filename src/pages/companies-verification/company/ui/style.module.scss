@@ -1,0 +1,128 @@
+@import "@styles/mixins.scss";
+
+.block {
+
+    &_title {
+        @apply text-xl font-medium;
+    }
+
+    &_content {
+        @apply mt-[26px];
+    
+    }
+}
+
+@include adaptive("xsm"){
+    .adaptive {
+        display: none;
+    }  
+}
+
+@include adaptive("xxsm"){
+    .adaptiveXXSM {
+        display: none;
+    }  
+}
+
+@include adaptive("xsm"){
+    .kostil {
+        column-span: 3;
+        display: table-row;
+    }  
+}
+
+@include adaptive("xxsm"){
+    .kostil {
+        display: none;
+    }
+    .kostil2 {
+        display: table-row;
+    }
+}
+
+
+
+.table {
+    width:100%;
+    td {
+        padding: 20px 50px 20px 0;
+
+    }
+
+    @include adaptive("xsm"){
+        td {
+            padding: 20px 0px 20px 0;
+
+        }   
+    }
+
+    tr {
+        @apply border-b border-b-grey-20
+    }
+
+    &_description {
+        column-span: 3
+    }
+
+    tr:last-child {
+        border: none
+    }
+}
+
+.field {
+    &_label {
+        @apply font-normal text-xs text-grey-40;
+    }
+
+    &_text {
+        @apply text-base font-normal text-black;
+        margin-top: 4px;
+    }
+}
+
+.orange_button {
+  @apply bg-orange-dark border-orange-dark
+}
+
+@import "@styles/mixins.scss";
+
+@include adaptive("xxsm"){
+    .buttons{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@include adaptive("xxsm"){
+    .fileButtons{
+        display: flex;
+    }
+}
+
+.myButton {
+
+    @apply border;
+    border-color: transparent;
+    background: none;
+    
+    p {
+        @apply text-black;
+        @apply text-sm;
+    }
+    svg {
+        @apply fill-primaryGreen-main;
+    }
+    
+    &:hover {
+        p {
+        @apply text-black;
+        @apply text-sm;
+        }
+    
+        svg {
+        @apply fill-primaryGreen-light
+        }
+    }
+
+}

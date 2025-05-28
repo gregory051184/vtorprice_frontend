@@ -1,0 +1,117 @@
+@import "@styles/mixins.scss";
+
+.block {
+  &_title {
+    @apply text-xl font-medium;
+  }
+
+  &_content {
+    @apply mt-[26px];
+  }
+}
+
+.table {
+  width: 100%;
+  td {
+    padding: 20px 50px 20px 0;
+  }
+
+  tr {
+    @apply border-b border-b-grey-20;
+  }
+
+  &_description {
+    column-span: 3;
+  }
+
+  tr:last-child {
+    border: none;
+  }
+}
+
+.field {
+  &_label {
+    @apply font-normal text-xs text-grey-40;
+  }
+
+  &_text {
+    @apply text-base font-normal text-black;
+  }
+}
+
+.card_view {
+  &_block {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -20px;
+    margin-bottom: 20px;
+    @include adaptive("xxsm") {
+      margin-left: 0;
+    }
+  }
+
+  &_card {
+    width: calc(100% / 5 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @include adaptive("xxsm") {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+}
+
+.buttonsBox {
+  @include adaptive("xxsm") {
+  }
+  .btnOpenDeal {
+    @include adaptive("xxsm") {
+      flex-grow: 1;
+    }
+  }
+  .btnFav {
+    padding-left: 0;
+    @include adaptive("xxsm") {
+      order: -1;
+    }
+  }
+}
+
+.buttonShowOnMap {
+  @include adaptive("xxsm") {
+    width: 100%;
+  }
+}
+
+.titles {
+  @include adaptive("xxsm") {
+    margin-top: 24px;
+    align-items: start;
+  }
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+.row {
+  @include adaptive("xsm") {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.companyBox {
+  @include adaptive("xxsm") {
+    flex-direction: column;
+    gap: 24px;
+    align-items: start;
+  }
+}
+
+.rec_img {
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+    height: auto;
+  }
+}

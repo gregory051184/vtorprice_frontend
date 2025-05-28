@@ -1,0 +1,44 @@
+@import "@styles/mixins.scss";
+
+.iconColor > div > svg > path{
+    fill: #399977;
+}
+.iconColor2 > svg > path{
+    fill: #399977;
+}
+
+.fileButton {
+    background: none;
+    @apply border-primaryGreen-light ;
+    outline: none;
+    @apply border border-solid;
+    cursor: pointer;
+    transition: .2s;
+    padding: 10px;
+    width: 50%;
+}
+
+.typedDocsHolder {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.typedDocsHolder {
+    max-height: 300px;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(128, 128, 128, 0.2) transparent;
+}
+
+.typedDocsHolder::-webkit-scrollbar {
+    width: 6px;
+}
+
+.typedDocsHolder::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 3px;
+}
+
+.typedDocsHolder::-webkit-scrollbar-track {
+    background-color: transparent;
+}

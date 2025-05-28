@@ -1,0 +1,29 @@
+@import "@styles/mixins.scss";
+
+.adaptive {
+  @include adaptive("sm"){
+    flex-direction:column ;
+    align-items: flex-start;
+    gap: 10px;
+
+  }
+}
+.tab {
+  @include adaptive("sm"){
+    width: 100%;
+  }
+  @include adaptive("sm"){
+    justify-content:unset;
+  }
+  @include adaptive("xxsm"){
+    flex-direction: column;
+  }
+      
+}
+
+.tabholder {
+  @include adaptive("xxsm"){
+    flex-direction: column;
+  }
+      
+}

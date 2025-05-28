@@ -1,0 +1,33 @@
+@import "@styles/mixins.scss";
+
+.head {
+  td {
+    @apply text-grey-40;
+  }
+}
+
+.table_view {
+  margin-top: 14px;
+}
+
+.search_view {
+  @include adaptive("sm") {
+    display: none;
+  }
+}
+
+.switch_button {
+  cursor: pointer;
+  font-size: 13px;
+  background-color: rgba(67, 158, 126, 1);
+  padding: 4px;
+  color: white;
+  border-radius: 3px;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.all_categories:hover {
+  color: crimson;
+}

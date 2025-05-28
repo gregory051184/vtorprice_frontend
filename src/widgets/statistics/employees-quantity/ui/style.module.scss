@@ -1,0 +1,23 @@
+@import "@styles/mixins.scss";
+
+  
+    @include adaptive("sm"){
+        .card_view {
+            @apply grid-cols-3;
+        }
+        
+    }
+
+    @include adaptive("xsm"){
+        .card_view  {
+            @apply grid-cols-2;
+        }
+        
+    }
+
+    @include adaptive("xxsm"){
+        .card_view {
+            @apply grid-cols-1;
+        }
+    }
+  

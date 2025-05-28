@@ -1,0 +1,71 @@
+@import "@styles/mixins.scss";
+
+.images {
+  display: flex;
+  margin-left: -20px;
+  margin-top: -20px;
+
+  @include adaptive("xsm"){
+    flex-wrap: wrap;
+  }
+
+  &_image {
+    width: calc(100% / 5 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @include adaptive("xsm"){
+      width: calc(100% / 2 - 20px);
+    }
+  }
+}
+
+
+.block {
+  @include adaptive("xsm"){
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+
+    &_input {
+      width: 100%;
+    }
+  }
+}
+
+.block_long {
+  @media only screen and (max-width: 1100px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.inputs {
+  @include adaptive("xsm"){
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+}
+
+.input {
+  @include adaptive("xsm"){
+    width: 100%;
+  }
+}
+
+.footer {
+  @include adaptive("xsm"){
+    align-items: flex-start;
+  }
+
+  &_price {
+    @include adaptive("xxsm"){
+      flex-direction: column;
+    }
+  }
+}
+
+.footer {
+
+}

@@ -1,0 +1,51 @@
+@import "@styles/mixins.scss";
+
+.drawer {
+  height: calc(100 * var(--vh, "1vh"));
+  max-width: 600px;
+  width: 100%;
+  position: absolute;
+  z-index: 1001;
+  right: 0;
+  gap: 30px;
+
+  @include adaptive("sm") {
+    flex-direction: column-reverse;
+    max-width: 460px;
+    gap: 20px;
+  }
+}
+
+.close_button_out {
+  margin-top: 1.5rem;
+
+  @include adaptive("sm") {
+    width: 100%;
+    margin-top: 0;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+}
+
+.slide_enter {
+    transform: translateX(100%);
+}
+
+.slide_enter_active{
+    transform: translateX(0);
+    transition: transform 200ms;
+}
+
+.slide_enter_done{
+    transform: translateX(0);
+}
+
+.slide_exit{
+    transform: translateX(0);
+}
+
+.slide_exit_active{
+    transform: translateX(100%);
+    transition: transform 200ms;
+
+}

@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+    ports:
+      - 127.0.0.1:3000:3000
+    networks:
+      - frontend
+    restart: always
+
+  frontend_stage:
+    container_name: frontend_stage
+    build:
+      context: .
+    ports:
+      - 127.0.0.1:3001:3000
+    networks:
+      - frontend_stage
+    restart: always   
+
+networks:
+  frontend:
+  frontend_stage:

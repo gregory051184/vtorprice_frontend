@@ -1,0 +1,55 @@
+.table {
+  border-collapse:separate;
+  border-spacing: 0 15px;
+  tbody {
+    tr {
+      td {
+        @apply border-y border-t-grey-20 border-b-grey-20;
+      }
+      td:first-child {
+        border-left-style:solid;
+        @apply border-l border-l-grey-20;
+        border-radius: 15px 0 0 15px;
+        padding-left: 15px;
+      }
+
+      td:last-child {
+        border-right-style:solid;
+        @apply border-r border-r-grey-20;
+        border-radius: 0 15px 15px 0;
+        padding-right: 15px;
+      }
+    }
+  }
+  thead {
+    td:first-child {
+      padding-left: 15px;
+    }
+
+    td:last-child{
+      padding-right: 15px;
+    }
+  }
+}
+
+@import "@styles/mixins.scss";
+
+.isHiddenForAdaptive {
+  @include adaptive("xsm"){
+    display: none;
+  }
+}
+
+.adaptive {
+  @include adaptive("xsm"){
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 16px;
+    margin-top: 16px;
+  }
+  @include adaptive("xxsm"){
+    display: block;
+    margin-top: 0;
+  }
+}
+

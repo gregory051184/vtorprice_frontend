@@ -1,0 +1,7 @@
+@import "@styles/mixins.scss";
+
+.filter {
+  @include adaptive("sm"){
+   flex-direction: column;
+  }
+}

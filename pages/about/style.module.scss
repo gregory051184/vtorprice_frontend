@@ -1,0 +1,52 @@
+@import "@styles/mixins.scss";
+
+.top_banner, .banner_stats {
+  width: 100%;
+}
+
+
+.boss {
+  &_wrapper {
+    padding: 55px 0 0 0;
+  }
+
+  &_info {
+    padding: 0 0 55px 0;
+
+  }
+
+  &_image {
+    &_wrapper {
+      display: flex;
+      justify-content: center;
+    }
+    position: sticky;
+    bottom: 0;
+    margin-top: auto;
+    width: 352px;
+    align-self: start;
+  }
+}
+
+
+@include adaptive("xxsm"){ 
+  .notForAdaptive {
+    display: none;
+  }
+  .forAdaptive {
+    display: block;
+  }
+  .adaptive {
+    width: 100%;
+  }
+  .textAdaptive {
+    text-align: center;
+  }
+  .buttonAdaptive {
+    width: 100%;
+  }
+}
+
+
+
+

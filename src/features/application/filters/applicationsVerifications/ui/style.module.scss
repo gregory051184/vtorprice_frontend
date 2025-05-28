@@ -1,0 +1,21 @@
+@import "@styles/mixins.scss";
+
+.filters {
+    &_drawerDataFilter{
+            width: 400px
+    }
+    @include adaptive("xsm"){
+        &_drawerDataFilter{
+            width: 100%
+        }
+    }
+  
+    @include adaptive("xxsm"){
+        &_filters {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+    }
+  }

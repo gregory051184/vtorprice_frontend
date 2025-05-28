@@ -1,0 +1,181 @@
+@import "@styles/mixins.scss";
+
+.top_banner {
+  @include adaptive("xsm") {
+    width: 100%;
+  }
+
+  &_buttons {
+    @include adaptive("xxsm") {
+      flex-direction: column;
+    }
+  }
+}
+
+.main_title {
+  font-weight: bold;
+  width: 100%;
+}
+
+.category_title {
+  font-weight: bold;
+  cursor: pointer;
+  width: 180px;
+}
+
+.category_title_statistics {
+  font-weight: bold;
+  cursor: pointer;
+  width: 280px;
+}
+
+.category_title_statistics:hover {
+  color: crimson;
+}
+
+.category_title:hover {
+  color: crimson;
+}
+
+.category_main_page {
+  width: 100%;
+  height: auto;
+  background-color: rgba(240, 240, 240);
+  font-size: 25px;
+  border-radius: 15px;
+  margin-top: 24px;
+  padding: 20px;
+}
+
+.fraction {
+  padding-left: 16px;
+  padding-top: 12px;
+  width: auto;
+}
+
+.fraction_plus {
+  padding-left: 16px;
+  padding-top: 12px;
+  width: auto;
+
+  display: inline;
+  animation: background-pade 0.4s forwards;
+}
+
+@keyframes background-pade {
+  20% {
+    background: rgba(192, 255, 174, 0.8);
+  }
+  100% {
+    background: white;
+  }
+}
+
+.fraction_minus {
+  padding-left: 16px;
+  padding-top: 12px;
+  width: auto;
+
+  display: inline;
+  animation: background-fade 0.4s forwards;
+
+}
+
+@keyframes background-fade {
+  20% {
+    background: rgba(255, 152, 152, 0.8);
+  }
+  100% {
+    background: white;
+  }
+}
+
+
+.table_string {
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.table_string:hover {
+  color: crimson;
+}
+
+.table_string_plus {
+  cursor: pointer;
+  font-size: 13px;
+
+  display: inline;
+  animation: background-pade 0.4s forwards;
+}
+
+.table_string_plus:hover {
+  color: crimson;
+}
+
+@keyframes background-pade {
+  20% {
+    background: rgba(192, 255, 174, 0.8);
+  }
+  100% {
+    background: white;
+  }
+}
+
+.table_string_minus {
+  cursor: pointer;
+  font-size: 13px;
+
+  display: inline;
+  animation: background-fade 0.4s forwards;
+}
+
+.table_string_minus:hover {
+  color: crimson;
+}
+
+@keyframes background-fade {
+  20% {
+    background: rgba(255, 152, 152, 0.8);
+  }
+  100% {
+    background: white;
+  }
+}
+
+.table {
+  padding: 8px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-color: rgba(240, 240, 240);
+  @include adaptive("xxsm") {
+    border-right-width: 0;
+  }
+}
+
+.switch_button {
+  cursor: pointer;
+  font-size: 13px;
+  background-color: rgba(67, 158, 126, 1);
+  padding: 4px;
+  color: white;
+  border-radius: 3px;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: 12px;
+  @include adaptive("xxsm") {
+    max-width: 1260px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+  }
+}
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,8 @@
+@import "@styles/mixins.scss";
+
+  
+    @include adaptive("xsm"){
+        .adaptive {
+            flex-direction: column;
+        }
+    }

@@ -1,0 +1,36 @@
+.loader {
+    position: relative;
+    font-size: 11px;
+    animation: escaleY 1s infinite ease-in-out;
+    @apply bg-primaryGreen-main text-primaryGreen-main;
+    
+    width: 6px;
+    height: 50px;
+    animation-delay: -0.16s;
+  }
+  .loader:before,
+  .loader:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 2em;
+    @apply bg-primaryGreen-main;
+    width: 6px;
+    height: 50px;
+    animation: escaleY 1s infinite ease-in-out;
+  }
+  .loader:before {
+    left: -2em;
+    animation-delay: -0.32s;
+  }
+  
+  @keyframes escaleY {
+    0%, 80%, 100% {
+      box-shadow: 0 0;
+      height: 30px;
+    }
+    40% {
+      box-shadow: 0 -2em;
+      height: 40px;
+    }
+  }

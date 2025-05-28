@@ -1,0 +1,113 @@
+@import "@styles/mixins.scss";
+
+.banner {
+  &_stats {
+    width: 50%;
+
+    @include adaptive("xsm"){
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    @include adaptive("xxsm"){
+      margin-top: 30px;
+    }
+  }
+}
+
+.top_banner {
+  @include adaptive("xsm"){
+    width: 100%;
+  }
+
+  &_buttons {
+    @include adaptive("xxsm"){
+      flex-direction: column;
+    }
+  }
+}
+
+.jumping_arrow {
+  animation: MoveUpDown 1.2s ease-in-out infinite;
+  @include adaptive("xsm"){
+    display: none;
+  }
+}
+
+@keyframes MoveUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.bottom_banner_stats {
+  @include adaptive("xsm"){
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.question {
+  @include adaptive("xxsm"){
+    flex-direction: column;
+    margin-top: 60px;
+  }
+
+  &_left {
+    @include adaptive("xxsm"){
+      flex-direction: column;
+    }
+  }
+}
+
+.container {
+  @media only screen and (max-width: 701px) {
+    gap: 20px;
+    flex-direction: column-reverse;
+
+    & > div {
+      min-width: 100%;
+    }
+  }
+}
+
+.right {
+  @media only screen and (max-width: 701px) {
+    max-width: 100%;
+  }
+}
+
+.left_logist_offers {
+  @media only screen and (max-width: 701px) {
+    display: none;
+  }
+}
+
+.right_logist_offers {
+  display: none;
+
+  @media only screen and (max-width: 701px) {
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+.description {
+  @media only screen and (max-width: 376px) {
+    flex-direction: column;
+  }
+}
+
+.file {
+  div {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}

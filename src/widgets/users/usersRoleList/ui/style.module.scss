@@ -1,0 +1,39 @@
+@import "@styles/mixins.scss";
+
+.table_view {
+  @include adaptive("sm") {
+    display: none;
+  }
+}
+
+.card_view {
+  display: none;
+
+  @include adaptive("sm") {
+    display: block;
+  }
+
+  &_block {
+    display: none;
+    @include adaptive("sm") {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -20px;
+    }
+    margin-bottom: 20px;
+    @include adaptive("xxsm") {
+      margin-left: 0;
+    }
+  }
+
+  &_card {
+    width: calc(100% / 2 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @include adaptive("xxsm") {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+}

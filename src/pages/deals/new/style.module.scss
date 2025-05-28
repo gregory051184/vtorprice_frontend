@@ -1,0 +1,6 @@
+.header {
+  @media only screen and (max-width: 501px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

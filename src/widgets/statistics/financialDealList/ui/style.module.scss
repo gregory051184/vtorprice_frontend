@@ -1,0 +1,13 @@
+@import "@styles/mixins.scss";
+
+.head {
+  td {
+    @apply text-grey-40;
+  }
+}
+
+.table_view {
+  margin-top: 14px;
+  @include adaptive("sm"){
+  }
+}

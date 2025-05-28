@@ -1,0 +1,27 @@
+@import "@styles/mixins.scss";
+
+
+
+@include adaptive("xsm"){
+    .tables {
+        display: block;
+    }
+    .tableCell {
+        margin-top: -8px;
+    }
+}
+@include adaptive("xxsm"){
+    .companyHolder { 
+        flex-direction: column;
+        align-items: start;
+        gap: 12px;
+    }
+}
+
+.paper {
+    padding: 0 !important;
+}
+
+.tableTd {
+    padding: 16px 0 !important;
+}

@@ -1,0 +1,27 @@
+@import "@styles/mixins.scss";
+
+.select {
+  @include adaptive("xmd"){
+   flex-direction: column;
+  }
+}
+
+.container {
+  @include adaptive("xmd"){
+    width: auto;
+    font-size: 10px;
+  }
+}
+
+.separator {
+  display: inline;
+  margin: 0 24px;
+  color: white;
+}
+
+.button {
+  display: inline;
+  padding-left: 10px;
+  padding-right: 10px;
+  //min-width: 10px;
+}

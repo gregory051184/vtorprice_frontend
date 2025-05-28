@@ -1,0 +1,110 @@
+
+@import '@styles/mixins.scss';
+
+.images {
+  display: flex;
+  margin-left: -20px;
+  margin-top: -20px;
+
+  @include adaptive("xsm"){
+    flex-wrap: wrap;
+  }
+
+  &_image {
+    width: calc(100% / 5 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @include adaptive("xsm"){
+      width: calc(100% / 2 - 20px);
+    }
+  }
+}
+
+
+.block {
+  @include adaptive("xsm"){
+    flex-direction: column;
+    gap: 20px;
+    &_input {
+      width: 100%;
+    }
+    &_nds {
+      @include adaptive("xxsm"){
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  }
+}
+
+
+.footer {
+  @include adaptive("xsm"){
+    align-items: flex-start;
+  }
+
+  &_price {
+    @include adaptive("xxsm"){
+      flex-direction: column;
+    }
+  }
+}
+
+.footer {
+
+}
+
+.company_proposal_row {
+  margin-top: 20px;
+  justify-content: center;
+  width: 600px;
+  height: 800px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: rgb(193, 198, 199, 0.3);
+}
+
+.company_proposal_row_mobile {
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: rgb(193, 198, 199, 0.3);
+}
+
+
+.application_proposal_info {
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 600px;
+  height: 800px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: rgb(193, 198, 199, 0.3);
+}
+
+.application_proposal_info_mobile {
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: rgb(193, 198, 199, 0.3);
+}
+
+.alert_message {
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: rgb(193, 198, 199, 0.3);
+  text-align: center;
+  margin-top: 50px;
+  margin-left: 34px;
+  width: 20vw;
+}

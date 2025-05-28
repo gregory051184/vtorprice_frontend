@@ -1,0 +1,14 @@
+@import "@styles/mixins.scss";
+
+
+@include adaptive("xxsm"){
+    .tables {
+        flex-direction: column;
+        width: 100%;
+        gap: 30px;
+    }
+    .table {
+        width: 100%;
+        margin-top: 15px;
+    }
+}

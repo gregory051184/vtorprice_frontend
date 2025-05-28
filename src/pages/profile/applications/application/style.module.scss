@@ -1,0 +1,14 @@
+.back {
+  @media only screen and (max-width: 1023px) {
+    position: absolute;
+    top: 103px;
+  }
+}
+
+.title {
+  margin-top: 16px;
+
+  @media only screen and (max-width: 1023px) {
+    margin-top: 0;
+  }
+}

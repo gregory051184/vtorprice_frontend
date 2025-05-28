@@ -1,0 +1,20 @@
+@import "@styles/mixins.scss";
+
+.box {
+  @include adaptive("xsm") {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.tab {
+  @include adaptive("xsm") {
+    width: 100%;
+  }
+}
+
+.dataPickerAdaptive {
+  @include adaptive("xxsm") {
+    width: 100%;
+  }
+}

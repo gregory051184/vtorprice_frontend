@@ -1,0 +1,1 @@
+export * as applicationsForOffersModel from './model'

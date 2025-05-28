@@ -1,0 +1,7 @@
+@import "@styles/mixins.scss";
+
+.subtitle {
+  @include adaptive("xsm") {
+    text-align: center;
+  }
+}

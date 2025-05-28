@@ -1,0 +1,18 @@
+@import "@styles/mixins.scss";
+
+.box {
+  margin-top: 48px;
+  min-width: 300px;
+  @include adaptive("sm") {
+    text-align: center;
+    width: 100%;
+    margin-top: 0;
+    flex-grow: 1;
+  }
+  @include adaptive("xsm") {
+    text-align: left;
+    width: 100%;
+    margin-top: 0;
+    flex-grow: 1;
+  }
+}

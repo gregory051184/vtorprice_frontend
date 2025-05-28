@@ -1,0 +1,37 @@
+@import "@box/app/styles/mixins.scss";
+
+.advantages {
+  margin-left: -32px;
+  margin-top: -32px;
+  @include adaptive("xxsm"){
+    margin-left: 0;
+  }
+  &_card {
+    width: calc(100% / 4 - 32px);
+    margin-left: 32px;
+    margin-top: 32px;
+
+    @include adaptive("xsm"){
+      width: calc(100% / 2 - 32px);
+
+    }
+
+    @include adaptive("xxsm"){
+      width: 100%;
+      margin-left: 0;
+      display: none;
+    }
+  }
+}
+
+.slider {
+  display: none;
+
+  &_slide {
+    padding: 28px 25px;
+    border-radius: 10px;
+  }
+  @include adaptive("xxsm"){
+    display: block;
+  }
+}

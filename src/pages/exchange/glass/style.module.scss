@@ -1,0 +1,69 @@
+.tabs {
+  display: none;
+
+  @media only screen and (max-width: 601px) {
+    @apply border-b border-b-grey-20;
+
+    display: flex;
+    margin: 30px -20px 0 -20px;
+    padding: 0 20px;
+  }
+}
+
+.tab {
+  @apply text-grey-40;
+
+  position: relative;
+  padding-bottom: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+
+  &_active {
+    @apply text-green-main;
+
+    font-weight: 700;
+
+    &:after {
+      @apply bg-green-main;
+
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      width: 100%;
+      height: 2px;
+      left: 0;
+    }
+  }
+}
+
+.list {
+  display: none;
+
+  @media only screen and (max-width: 601px) {
+    display: flex;
+  }
+}
+
+.description {
+  padding: 10px !important;
+
+  p {
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+  }
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+
+  @media only screen and (max-width: 430px) {
+    flex-direction: column-reverse;
+
+    p {
+      margin-top: 24px;
+    }
+  }
+}

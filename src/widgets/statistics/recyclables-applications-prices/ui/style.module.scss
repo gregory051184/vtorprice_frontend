@@ -1,0 +1,31 @@
+@import "@styles/mixins.scss";
+
+
+@include adaptive("sm") {
+  .card_view {
+    @apply grid-cols-3;
+  }
+
+}
+
+@include adaptive("xsm") {
+  .adaptiveHidden {
+    display: none;
+  }
+
+}
+
+@include adaptive("xxsm") {
+  .card_view {
+    @apply grid-cols-1;
+  }
+}
+
+.chart_div {
+  border-width: 1px;
+  border-radius: 5px;
+  height: auto;
+  padding: 10px 10px 10px 10px;
+  margin-top: 40px;
+  width: auto;
+}

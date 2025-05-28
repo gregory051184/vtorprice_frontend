@@ -1,0 +1,93 @@
+.wrapper {
+  padding: 10px 14px;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  gap: 16px;
+  @apply border border-white;
+  overflow: hidden;
+
+  transition: .4s border;
+
+  &_default {
+    padding: 15px 16px;
+  }
+
+  &_disabled_view {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 2;
+    top: 0;
+    left: 0;
+  }
+
+  &_disabled &_disabled_view{
+    display: block;
+  }
+
+  &_disabled {
+    border: 1px solid white !important;
+  }
+
+  &_stroke {
+    @apply  border border-grey-20;
+    background: transparent;
+    box-shadow: none;
+    input {
+      background: transparent;
+
+    }
+  }
+}
+
+.placeholder {
+  position: absolute;
+  bottom: 10px;
+  transition: .2s;
+  z-index: 1;
+}
+
+.input:focus ~ .placeholder, .input_active ~ .placeholder, .input:not(:placeholder-shown) ~ .placeholder {
+  bottom: 30px;
+
+  p {
+    font-size: 10px
+  }
+}
+
+.wrapper:has(.input:focus), .wrapper:has(.input_active) {
+  @apply border-primaryGreen-main
+}
+
+.wrapper_error {
+  @apply border-red-dark
+}
+
+.icon {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input {
+  width: 100%;
+
+  &:disabled {
+    background: transparent;
+  }
+}
+
+.editable {
+  padding-top: 14px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &_default {
+    padding-top: 0;
+  }
+}

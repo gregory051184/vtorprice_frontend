@@ -1,0 +1,79 @@
+@import "@styles/mixins.scss";
+
+
+.table {
+  border-collapse: separate !important;
+  border-spacing: 0 15px;
+  margin-top: 20px;
+  tbody {
+    tr {
+      td {
+        @apply border-y border-t-grey-20 border-b-grey-20;
+      }
+      td:first-child {
+        border-left-style:solid;
+        @apply border-l border-l-grey-20;
+        border-radius: 15px 0 0 15px;
+        padding-left: 15px;
+      }
+
+      td:last-child {
+        border-right-style:solid;
+        @apply border-r border-r-grey-20;
+        border-radius: 0 15px 15px 0;
+        padding-right: 15px;
+      }
+    }
+  }
+  thead {
+    td:first-child {
+      padding-left: 15px;
+    }
+
+    td:last-child{
+      padding-right: 15px;
+    }
+  }
+}
+
+.table_view {
+  @include adaptive("sm"){
+    display: none;
+  }
+}
+
+.card_view {
+  display: none;
+
+  @include adaptive("sm"){
+    display: block;
+    margin-top: 20px;
+  }
+
+  &_block {
+    display: none;
+    @include adaptive("sm"){
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -20px;
+      margin-top: -20px;
+    }
+    margin-bottom: 20px;
+    @media only screen and (max-width: 601px) {
+      margin-left: 0;
+    }
+  }
+
+
+  &_card {
+    width: calc(100% / 2 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @media only screen and (max-width: 601px){
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+}

@@ -1,0 +1,33 @@
+@import "@box/app/styles/mixins.scss";
+
+.arrow {
+  width: 60px;
+  height: 60px;
+  @apply rounded-full border-2 border-primaryGreen-main shrink-0 flex items-center justify-center cursor-pointer;
+
+  &:first-child {
+    transform: rotate(180deg);
+  }
+
+  &_desktop {
+    @include adaptive("xxsm"){
+      display: none;
+    }
+  }
+}
+
+.slider {
+  @include adaptive("xxsm"){
+   display: block;
+  }
+}
+
+.mobile_arrows {
+  display: none;
+  @include adaptive("xxsm"){
+    display: flex;
+    margin-top: 40px;
+    justify-content: center;
+    gap: 30px;
+  }
+}

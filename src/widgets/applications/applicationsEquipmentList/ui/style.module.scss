@@ -1,0 +1,48 @@
+@import "@styles/mixins.scss";
+
+.head {
+  td {
+    @apply text-grey-40;
+  }
+}
+
+.table_view {
+  margin-top: 38px;
+  @include adaptive("sm") {
+    display: none;
+  }
+}
+
+.card_view {
+  display: none;
+  margin-top: 28px;
+
+  @include adaptive("sm") {
+    display: block;
+  }
+
+  &_block {
+    display: none;
+    @include adaptive("sm") {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -20px;
+      margin-top: -20px;
+    }
+    margin-bottom: 20px;
+    @media only screen and (max-width: 630px) {
+      margin-left: 0;
+    }
+  }
+
+  &_card {
+    width: calc(100% / 2 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @media only screen and (max-width: 630px) {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+}

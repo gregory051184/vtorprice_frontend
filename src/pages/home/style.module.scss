@@ -1,0 +1,139 @@
+@import "@styles/mixins.scss";
+
+.banner {
+  &_stats {
+    width: 50%;
+
+    @include adaptive("xsm") {
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    @include adaptive("xxsm") {
+      margin-top: 30px;
+    }
+  }
+}
+
+.top_banner {
+  @include adaptive("xsm") {
+    width: 100%;
+  }
+
+  &_buttons {
+    @include adaptive("xxsm") {
+      flex-direction: column;
+    }
+  }
+}
+
+.jumping_arrow {
+  animation: MoveUpDown 1.2s ease-in-out infinite;
+  @include adaptive("xsm") {
+    display: none;
+  }
+}
+
+@keyframes MoveUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.bottom_banner_stats {
+  @include adaptive("xsm") {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.question {
+  @include adaptive("xxsm") {
+    flex-direction: column;
+    margin-top: 60px;
+  }
+
+  &_left {
+    @include adaptive("xxsm") {
+      flex-direction: column;
+    }
+  }
+}
+
+.adaptiveHideXXSM {
+  @include adaptive("xxsm") {
+    display: none;
+  }
+}
+
+.adaptiveShowXXSM {
+  @include adaptive("xxsm") {
+    display: block;
+  }
+}
+
+.search {
+  @include adaptive("xsm"){
+    max-width: unset;
+  }
+}
+
+.sample {
+  color: white;
+  cursor: pointer;
+}
+
+.block_left {
+  width: 30vw;
+  height: 100%;
+  //background-color: rgba(37, 37, 37, 0.6);
+  border-right-width: 2px;
+  border-color: rgba(37, 37, 37, 0.6); //white;
+}
+
+.block_right {
+  width: 30vw;
+  height: 100%;
+  //background-color: rgba(37, 37, 37, 0.6);
+}
+
+.filter_panel {
+  background: rgb(37, 37, 37, 1);
+  width: 100%;
+  height: 1100px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 20px 20px 20px;
+  margin-top: 20px;
+  border-radius: 20px;
+  display: inline-flex;
+  @include adaptive("xxsm") {
+    display: block;
+  }
+}
+
+.context_menu_in_filter_panel {
+  display: inline-flex;
+  background: white;
+  padding: 12px 12px 12px 12px;
+  width: 680px;
+  border-radius: 10px;
+  @include adaptive("xxsm") {
+    display: block;
+    width: 100%;
+  }
+}
+
+.context_menu_item_in_filter_panel {
+  color: black;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+

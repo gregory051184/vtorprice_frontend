@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "variables";
+@import "mixins";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $main-font !important;
+  scroll-padding-top: 100px;
+}
+
+body {
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+
+button, input {
+  font-family: $main-font !important;
+
+}
+
+button {
+  display: block;
+}
+
+h1 {
+  @apply text-4xl font-medium text-black
+}
+
+h2 {
+  @apply text-3xl font-medium text-black
+}
+
+h3 {
+  @apply text-2xl font-medium text-black
+}
+
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 5px;
+  border-radius: 100px;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    @apply bg-white border border-grey-20 border-solid rounded-full
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.swiper-slide {
+  height: auto !important;
+}
+
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.info_banner {
+  @include adaptive("xsm"){
+    @apply flex-col;
+    margin: 80px 0;
+  }
+
+  &_title {
+    @apply text-3xl font-medium sm:text-4xl sm:leading-snug;
+  }
+}
+
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+
+.zoom_enter {
+  transform: translate(-50%, -50%) scale(.8);
+}
+
+.zoom_enter_active {
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 200ms;
+}
+
+.zoom_exit {
+  transform: translate(-50%, -50%) scale(1);
+}
+.zoom_exit_active {
+  transform: translate(-50%, -50%) scale(.8);
+  transition: transform 200ms;
+}
+
+.swiper-pagination-bullet {
+  @apply bg-grey-20 w-[6px] h-[6px] rounded-full;
+
+  &-active {
+    @apply bg-primaryGreen-main
+  }
+}

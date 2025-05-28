@@ -1,0 +1,67 @@
+@import "@styles/mixins.scss";
+
+.banner {
+  &_stats {
+    width: 50%;
+
+    @include adaptive("xsm"){
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    @include adaptive("xxsm"){
+      margin-top: 30px;
+    }
+  }
+}
+
+.top_banner {
+  @include adaptive("xsm"){
+    width: 100%;
+  }
+
+  &_buttons {
+    @include adaptive("xxsm"){
+      flex-direction: column;
+    }
+  }
+}
+
+.jumping_arrow {
+  animation: MoveUpDown 1.2s ease-in-out infinite;
+  @include adaptive("xsm"){
+    display: none;
+  }
+}
+
+@keyframes MoveUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.bottom_banner_stats {
+  @include adaptive("xsm"){
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.question {
+  @include adaptive("xxsm"){
+    flex-direction: column;
+    margin-top: 60px;
+  }
+
+  &_left {
+    @include adaptive("xxsm"){
+      flex-direction: column;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.card {
+  width: calc(100% / 2 - 8px);
+
+  & > *:not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  @media only screen and (max-width: 601px) {
+    width: 100%;
+  }
+}
+
+.title {
+  @apply text-[10px] text-grey-40 font-medium
+}
+
+.block {
+  @apply flex flex-col;
+}
+
+.value {
+  @apply text-[14px] text-black font-medium;
+}
+
+.row {
+  @apply pb-[16px] border-b border-grey-20 flex justify-between gap-[10px] items-center
+}

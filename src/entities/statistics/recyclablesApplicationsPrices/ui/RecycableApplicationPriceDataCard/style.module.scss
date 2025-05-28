@@ -1,0 +1,10 @@
+@import "@styles/mixins.scss";
+
+
+@include adaptive("xxsm"){
+    .adaptive {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+}

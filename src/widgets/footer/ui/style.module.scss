@@ -1,0 +1,52 @@
+@import "@box/app/styles/mixins.scss";
+
+.links {
+  column-count: 2;
+  column-gap: 50px;
+  a {
+    display: block;
+    margin-bottom: 10px;
+  }
+  @include adaptive("sm"){
+    column-count: 1;
+  }
+
+  @include adaptive("xsm"){
+    width: 100%;
+  }
+
+  @include adaptive("xsm"){
+    column-count: 2;
+    margin-top: 26px;
+  }
+}
+
+.footer {
+  &_left {
+    &_icons {
+      @include adaptive("xsm") {
+          justify-content: start;
+      }
+    }
+
+    @include adaptive("xsm"){
+      flex-direction: column-reverse;
+      gap: 20px;
+      justify-content: start;
+    }
+
+    @include adaptive("xxsm"){
+      width: 100%;
+    }
+  }
+
+  &_right {
+    @include adaptive("xxsm"){
+      width: 100%;
+    }
+  }
+
+  @include adaptive("xxsm"){
+    flex-direction: column-reverse;
+  }
+}

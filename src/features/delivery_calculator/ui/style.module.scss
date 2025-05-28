@@ -1,0 +1,70 @@
+@import "@box/app/styles/mixins.scss";
+
+.counter {
+  padding: 20px 24px;
+  border-radius: 20px;
+
+  @include adaptive("sm"){
+    flex-direction: column;
+  }
+
+  &_selects {
+    @include adaptive("sm"){
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    @include adaptive("sm"){
+      flex-direction: column;
+    }
+
+    &_select {
+      @include adaptive("sm"){
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+@include adaptive("sm"){
+  .adaptivePriceCalc {
+   align-items: start;
+  }
+  .adaptiveCalcFilters {
+   width: 100%;
+  }
+  .adaptiveCalcTitle {
+    margin-top: 6px;
+  }
+  .adaptiveCalcButtonHolder {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@include adaptive("xxsm"){
+  .adaptiveCalcFilters {
+      flex-direction:column ;
+      gap: 10px;
+      width: 100%;
+  }
+
+  .filters {
+      width: 100%;
+  }
+
+  .rotate{
+      transform: rotate(90deg);
+  }
+
+  .adaptiveCalcButtonHolder {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .adaptiveCalcButton {
+    margin-left: 0;
+    width: 100%;
+  }
+}

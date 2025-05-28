@@ -1,0 +1,56 @@
+.header {
+  @media only screen and (max-width: 444px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.title {
+  @media only screen and (max-width: 444px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.fields {
+  @media only screen and (max-width: 745px) {
+    flex-direction: column;
+    gap: 17px;
+  }
+}
+
+.weight {
+  @media only screen and (max-width: 745px) {
+    @apply border-b border-b-grey-20;
+  }
+}
+
+.buttons_container {
+  @media only screen and (max-width: 745px) {
+    flex-direction: column;
+  }
+}
+
+.buttons {
+  @media only screen and (max-width: 745px) {
+    flex-direction: column-reverse;
+  }
+}
+
+.favorite {
+  width: max-content;
+  @media only screen and (max-width: 745px) {
+    padding: 0;
+  }
+}
+
+.rec_img {
+  @media only screen and (max-width: 420px) {
+    width: 100%;
+    height: auto;
+  }
+}

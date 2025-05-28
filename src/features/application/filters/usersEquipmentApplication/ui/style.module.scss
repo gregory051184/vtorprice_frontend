@@ -1,0 +1,13 @@
+.filters {
+  @media only screen and (max-width: 430px) {
+    flex-direction: column;
+
+    button {
+      div {
+        div {
+          justify-content: flex-start;
+        }
+      }
+    }
+  }
+}

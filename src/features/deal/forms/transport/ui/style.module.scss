@@ -1,0 +1,7 @@
+.buttons {
+  button {
+    @media only screen and (max-width: 404px) {
+      width: 100% !important;
+    }
+  }
+}

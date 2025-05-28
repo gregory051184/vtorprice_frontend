@@ -1,0 +1,32 @@
+@import "@styles/mixins.scss";
+
+.field {
+  @include adaptive("xsm"){
+    width: 100% !important;
+    margin-left: 0;
+  }
+}
+
+
+
+.field_city {
+  @include adaptive("sm"){
+    width: calc(100% - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+}
+
+.filter {
+  @include adaptive("xsm"){
+    flex-direction: column;
+    margin-left: 0;
+    gap: 20px;
+  }
+}
+
+.filter_head {
+  @include adaptive("xsm"){
+    flex-direction: column-reverse;
+  }
+}

@@ -1,0 +1,19 @@
+@import "@styles/mixins.scss";
+
+  
+.recVolumeHolder{
+      
+    @include adaptive("sm"){
+        margin-bottom: 90px;
+        
+    }
+    @include adaptive("xxsm"){
+        margin-bottom: 230px;
+        
+    }
+
+}
+
+
+
+  

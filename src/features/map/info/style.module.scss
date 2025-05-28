@@ -1,0 +1,17 @@
+@import "@styles/mixins.scss";
+
+.closeIcon{
+  cursor: pointer;
+  @include adaptive("xsm"){
+    display: none;
+  }
+}
+
+.listOfApplication{
+  flex-direction: column;
+  overflow-y: auto;
+  @include adaptive("xsm"){
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}

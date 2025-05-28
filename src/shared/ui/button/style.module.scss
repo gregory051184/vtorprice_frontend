@@ -1,0 +1,135 @@
+.button {
+  padding: 15px 32px;
+  outline: none;
+  @apply border border-solid;
+  cursor: pointer;
+  transition: .2s;
+
+  p {
+    @apply text-white m-0 font-semibold text-base
+  }
+
+  &_light {
+    @apply bg-secondaryGreen-light border-secondaryGreen-light;
+
+    p {
+      @apply text-primaryGreen-main;
+    }
+
+    &:hover {
+      p {
+        @apply text-primaryGreen-light;
+      }
+    }
+
+    &_loading {
+      @apply bg-secondaryGreen-main border-secondaryGreen-main;
+      &:hover{
+        @apply bg-secondaryGreen-main border-secondaryGreen-main;
+
+      }
+    }
+  }
+
+  &_fill {
+    @apply bg-primaryGreen-main border-primaryGreen-main;
+
+    &:hover {
+      @apply bg-primaryGreen-light border-primaryGreen-light;
+    }
+
+    &_loading {
+      @apply bg-primaryGreen-dark border-primaryGreen-dark;
+      &:hover{
+        @apply bg-primaryGreen-dark border-primaryGreen-dark;
+
+      }
+    }
+  }
+
+  &:disabled {
+    @apply bg-grey-20 border-grey-20;
+    p {
+      @apply text-white;
+    }
+  }
+
+  &_stroke {
+    background: none;
+    @apply border-primaryGreen-light ;
+    p {
+      @apply text-primaryGreen-main;
+    }
+    svg {
+      @apply fill-primaryGreen-main;
+    }
+
+    &:hover {
+      @apply border-primaryGreen-main ;
+
+      p {
+        @apply text-primaryGreen-light;
+      }
+
+      svg {
+        @apply fill-primaryGreen-light
+      }
+    }
+
+    &:disabled {
+      @apply border-grey-20 bg-white;
+
+      p {
+        @apply text-grey-30;
+      }
+    }
+
+    &_loading {
+      @apply border-primaryGreen-main;
+      &:hover{
+        @apply border-primaryGreen-main;
+
+      }
+    }
+  }
+
+  &_notFilled {
+    @apply border;
+    border-color: transparent;
+    background: none;
+    p {
+      @apply text-primaryGreen-main;
+    }
+    svg {
+      @apply fill-primaryGreen-main;
+    }
+
+    &:hover {
+      p {
+        @apply text-primaryGreen-light;
+      }
+
+      svg {
+        @apply fill-primaryGreen-light
+      }
+    }
+
+    &:disabled {
+      p {
+        @apply text-grey-30;
+      }
+    }
+  }
+
+  &_mini {
+    padding: 10px 12px;
+
+    p {
+      @apply text-sm font-medium
+    }
+  }
+  &_micro {
+    padding: 4px 4px;
+  }
+
+}

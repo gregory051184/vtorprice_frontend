@@ -1,0 +1,23 @@
+@import "@styles/mixins.scss";
+
+.card {
+  @include adaptive("xsm"){
+    &_isHiddenForAdaptive {
+        display: none;
+    }
+    &_adaptive {
+        display: flex;
+        flex-direction: column;
+        background-color: #F5F7F7;
+        width: 100%;
+        border-radius: 10px;
+    }
+
+  }
+
+  @include adaptive("xxsm"){
+    &_adaptive {
+        margin-top: 16px;
+    }
+  }
+}

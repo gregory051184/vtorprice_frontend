@@ -1,0 +1,30 @@
+image: node:latest
+
+stages:
+  - stage
+
+cache:
+  paths:
+    - node_modules/
+
+Prod:
+  stage: stage
+  only:
+    - main
+  script:
+    - cp $PROD_ENV .env.local
+    - docker compose build frontend
+    - docker compose up -d frontend
+  tags:
+    - frontend-stage
+
+Stage:
+  stage: stage
+  only:
+    - stage
+  script:
+    - cp $STAGE_ENV .env.local
+    - docker compose build frontend_stage
+    - docker compose up -d frontend_stage
+  tags:
+    - frontend-stage

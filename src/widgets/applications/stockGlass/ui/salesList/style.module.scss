@@ -1,0 +1,24 @@
+.block {
+  @media only screen and (max-width: 601px) {
+    display: none;
+  }
+}
+
+.mobile_block {
+  display: none;
+
+  @media only screen and (max-width: 601px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

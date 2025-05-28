@@ -1,0 +1,215 @@
+@import "@styles/mixins.scss";
+
+.block {
+
+    &_title {
+        @apply text-xl font-medium;
+    }
+
+    &_content {
+        @apply mt-[26px];
+        @include adaptive("xxsm"){
+            width: calc(100vw - 30%);
+        }
+    }
+}
+
+.button_left {
+    position: relative;
+    display: inline;
+}
+
+.buttons_right {
+    position: relative;
+    margin-left: 50px;
+    display: inline;
+}
+
+.table {
+    width:100%;
+    td {
+        padding: 20px 50px 20px 0;
+    }
+
+    tr {
+        @apply border-b border-b-grey-20
+    }
+
+    &_description {
+        column-span: 3
+    }
+
+    tr:last-child {
+        border: none
+    }
+}
+
+.field {
+    &_label {
+        @apply font-normal text-xs text-grey-40;
+    }
+
+    &_text {
+        @apply text-base font-normal text-black;
+    }
+}
+
+.card_view {
+  &_block {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -20px;
+    margin-bottom: 20px;
+    @include adaptive("xsm"){
+       @apply grid grid-cols-3 gap-4;
+
+    }
+    @include adaptive("xxsm"){
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -20px;
+      margin-bottom: 20px;
+      margin-left: 0;
+    }
+  }
+
+
+  &_card {
+    width: calc(100% / 5 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @include adaptive("xsm"){
+      width: 91%;
+    }
+    @include adaptive("xxsm"){
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+}
+
+.myTable {
+    @include adaptive("xsm"){
+        width: 100%;
+        flex-direction: column;
+        &_borders {
+            padding-right: 0;
+            width: 100%;
+            border-right: none;
+            @apply border-b border-b-grey-20;
+        }
+        &_elems:last-child {
+            margin-bottom: 12px;
+        }
+        &_elems2:last-child {
+            margin-bottom: 25px;
+        }
+        &_down {
+            @apply grid grid-cols-3 gap-4;
+            &_elems3 {
+                margin-top: 0;
+            }
+            &_border2 {
+                border-bottom: none;
+                @apply border-r border-r-grey-20;
+            }
+        }
+        &_littleMargin {
+            margin-left: 6px;
+        }
+    }
+
+    @include adaptive("xxsm"){
+        &_down {
+            display: block;
+            flex-grow: 1;
+            &_border2 {
+                
+                border-right: none;
+                border-bottom: 1px solid grey;
+                @apply border-b border-b-grey-20;
+            }
+        }
+        &_littleMargin {
+            margin-left: 0;
+            margin-top: 26px;
+        }
+        &_down:last-child {
+            margin-bottom: 4px;
+        }
+    }
+}
+
+.companyAvatar {
+    @include adaptive("xsm"){
+        display: none;
+    } 
+}
+
+.buttons {
+    @include adaptive("xxsm"){
+        flex-direction: column;
+        &_toFavarite {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 16px;
+        }  
+    }
+}
+
+.sellAndBuy {
+    @include adaptive("xsm"){
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    @include adaptive("xxsm"){
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+.underheader {
+    &_avatar {
+        @include adaptive("xsm"){
+            display: block;
+        }
+        @include adaptive("xxsm"){
+            display: none;
+        }
+    }
+
+    &_badge {
+        @include adaptive("xsm"){
+            margin-top: 8px;
+        }
+    }
+}
+
+.navAdaptive {
+    @include adaptive("xsm"){
+        margin-top: -10px;
+    }
+    @include adaptive("xxsm"){
+        margin-top: 20px;
+        display: flex;
+        justify-content: start;
+    }
+}
+
+.ratingAdaptive {
+    @include adaptive("xsm"){
+        margin-bottom: 40px;
+    }
+    @include adaptive("xxsm"){
+        margin-bottom: 0px;
+    }
+}
+
+
+
+  

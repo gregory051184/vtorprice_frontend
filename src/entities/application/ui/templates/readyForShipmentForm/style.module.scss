@@ -1,0 +1,55 @@
+@import "@styles/mixins.scss";
+
+.images {
+  display: flex;
+  margin-left: -20px;
+  margin-top: -20px;
+
+  @include adaptive("xsm"){
+    flex-wrap: wrap;
+  }
+
+  &_image {
+    width: calc(100% / 5 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @include adaptive("xsm"){
+      width: calc(100% / 2 - 20px);
+    }
+  }
+}
+
+
+.block {
+  @include adaptive("xsm"){
+    flex-direction: column;
+    gap: 20px;
+    &_input {
+      width: 100%;
+    }
+    &_nds {
+      @include adaptive("xxsm"){
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  }
+}
+
+
+.footer {
+  @include adaptive("xsm"){
+    align-items: flex-start;
+  }
+
+  &_price {
+    @include adaptive("xxsm"){
+      flex-direction: column;
+    }
+  }
+}
+
+.footer {
+
+}

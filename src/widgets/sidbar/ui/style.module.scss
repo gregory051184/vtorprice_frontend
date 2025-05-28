@@ -1,0 +1,23 @@
+.tab_active {
+    p{
+        @apply text-primaryGreen-main;
+    }
+
+    svg {
+        @apply fill-primaryGreen-main
+    }
+}
+
+.tab_inactive{
+    p{
+        @apply text-black;
+    }
+
+    svg {
+        @apply fill-grey-30
+    }
+}
+
+.notification_text_color {
+    color: white !important;
+}

@@ -1,0 +1,14 @@
+@import "@styles/mixins.scss";
+
+.block {
+  @include adaptive("xsm"){
+    width: 100%;
+    flex-direction: column;
+  }
+
+  &_select {
+    @include adaptive("xsm"){
+      width: 100%;
+    }
+  }
+}

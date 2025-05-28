@@ -1,0 +1,25 @@
+@import "@styles/mixins.scss";
+.layout {
+  @include adaptive("sm"){
+    flex-direction: column;
+    gap: 0;
+    padding-top: 0;
+  }
+}
+
+.button {
+  display: none;
+  @include adaptive("sm"){
+    display: flex;
+    margin: 16px auto;
+  }
+}
+
+.sidebar {
+  &_inner {
+    @include adaptive("sm"){
+      position: static;
+      padding-bottom: 20px;
+    }
+  }
+}

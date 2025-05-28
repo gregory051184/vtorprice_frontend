@@ -1,0 +1,7 @@
+@import "@styles/mixins.scss";
+
+@include adaptive("xxsm") {
+  .adaptive {
+    margin-top: -160px;
+  }
+}

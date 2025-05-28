@@ -1,0 +1,43 @@
+@import "@styles/mixins.scss";
+
+.steps {
+  margin-left: -40px;
+  margin-top: -40px;
+
+  @include adaptive("xxsm"){
+    flex-direction: column;
+  }
+
+  &_dash {
+    height: 1px;
+  }
+
+  &_step {
+    width: calc(100% / 4 - 40px);
+    margin-left: 40px;
+    margin-top: 40px;
+    @include adaptive("sm"){
+      width: calc(100% / 3 - 40px);
+    }
+    @include adaptive("xsm"){
+      width: calc(100% / 2 - 40px);
+    }
+    @include adaptive("xxsm"){
+      width: calc(100% - 40px);
+    }
+
+    //&_head {
+    //  @include adaptive("xxsm"){
+    //    flex-direction: column;
+    //    flex-grow: 1;
+    //  }
+    //}
+  }
+
+  &_bubble {
+    width: 60px;
+    height: 60px;
+
+  }
+
+}

@@ -1,0 +1,7 @@
+@import "@styles/mixins.scss";
+
+.buttons {
+  @include adaptive("xsm"){
+    flex-direction: column;
+  }
+}

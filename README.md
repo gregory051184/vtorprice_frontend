@@ -1,1 +1,1 @@
-# vtorprice_frontend_052825
+# vtorprice_frontend

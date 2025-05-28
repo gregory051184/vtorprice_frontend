@@ -1,0 +1,17 @@
+{
+    "presets": ["next/babel"],
+    "plugins": [["effector/babel-plugin", {
+        "reactSsr": true,
+        "factories": [
+          "@box/shared/effector-form-controller",
+          "@box/shared/lib/createLoaderStore",
+          "@box/features/settings/company_activity_types/lib",
+          "@box/features/settings/recyclables_types/lib",
+          "@box/shared/effector-forms",
+          "@box/shared/lib/factories",
+          "@box/entities/application/lib/factories",
+          "@box/entities/logistics-applications/lib/factories",
+          "@box/shared/lib/helpers"
+         ]
+      }]]
+}

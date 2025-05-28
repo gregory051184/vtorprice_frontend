@@ -1,0 +1,39 @@
+.rightSideTitleMenuForMainPage {
+  font-size: 16px;
+  line-height: 24px;
+  margin-left: 3px;
+  font-weight: 500;
+}
+
+.rightSideTextMenuForMainPage {
+  font-size: 13px;
+  margin-top: 3px;
+  color: grey;
+}
+
+.rightSideDivMenuForMainPage {
+  cursor: pointer;
+  margin-top: 12px;
+  padding: 4px;
+  border-width: 1px;
+  border-radius: 3px;
+  border-color:  rgb(168, 173, 173, 0.4);
+}
+
+.rightSideDivMenuForMainPage:hover {
+  color: crimson;
+  border-color: crimson;
+}
+
+.switch_button {
+  cursor: pointer;
+  font-size: 13px;
+  background-color: rgba(67, 158, 126, 1);
+  padding: 4px;
+  color: white;
+  border-radius: 3px;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+

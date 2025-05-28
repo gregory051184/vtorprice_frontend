@@ -1,0 +1,34 @@
+@import "@styles/mixins.scss";
+
+.block {
+  @media only screen and (max-width: 501px) {
+    flex-direction: column;
+  }
+}
+
+.blockV2 {
+  @media only screen and (max-width: 1060px) {
+    flex-direction: column;
+  }
+}
+
+.nds {
+  @media only screen and (max-width: 501px){
+    flex-direction: column;
+    align-items: flex-start;
+
+    & > * {
+      width: 100%;
+    }
+  }
+}
+
+.sitySelect {
+  width: 49%;
+  @media only screen and (max-width: 620px) {
+    width: auto !important;
+  }
+  @include adaptive("xxsm"){
+    width: 100%;
+  }
+}

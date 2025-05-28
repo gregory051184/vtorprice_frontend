@@ -1,0 +1,48 @@
+@import "@box/app/styles/mixins.scss";
+
+.header {
+  height: 80px;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 800;
+
+  &_links {
+    @include adaptive("md"){
+      display: none;
+    }
+  }
+}
+
+.burger {
+  display: none;
+  @include adaptive("md"){
+    display: block;
+  }
+}
+
+.menu {
+  height: 0;
+  position: absolute;
+  top: 81px;
+  background: white;
+  width: 100%;
+  transition: height .2s;
+  overflow-y: auto;
+
+  &_opened {
+    @include adaptive("md"){
+      height: calc(var(--vh, 1vh) * 100 - 81px);
+    }
+  }
+
+  &_container {
+    padding: 0 52px;
+    margin-top: 40px;
+  }
+}
+
+.offer_slider {
+  background-color: rgba(123, 123, 123);//rgba(37, 37, 37, 0.6);
+  width: 100%;
+}

@@ -1,0 +1,19 @@
+@import "@styles/mixins.scss";
+
+    @include adaptive("xxsm"){
+        .adaptive {
+            flex-direction: column;
+            width: 100%;
+        }
+        .adaptiveFilter {
+            margin-top: -10px;
+        }
+        
+    }
+
+    @include adaptive("xsm"){ 
+        .adaptiveMT {
+            margin-top: 10px;
+        }
+    }
+ 

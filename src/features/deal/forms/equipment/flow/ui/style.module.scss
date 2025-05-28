@@ -1,0 +1,45 @@
+@import "@styles/mixins.scss";
+
+.tab {
+  min-width: 142px;
+
+  @include adaptive("xxsm"){
+    width: 100%;
+  }
+
+  > div {
+    @include adaptive("xxsm"){
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+  }
+}
+
+.buttons {
+  button {
+    @media only screen and (max-width: 404px) {
+      width: 100% !important;
+    }
+  }
+}
+
+.block {
+  @media only screen and (max-width: 1100px) {
+    flex-direction: column;
+  }
+  @media only screen and (max-width: 1023px) {
+    flex-direction: row;
+  }
+  @media only screen and (max-width: 810px) {
+    flex-direction: column;
+  }
+}
+
+.tabs {
+  @media only screen and (max-width: 701px) {
+    width: 100%;
+
+    > div {
+      flex-direction: column;
+    }
+  }
+}

@@ -1,0 +1,67 @@
+@import "@styles/mixins.scss";
+
+.mapBox {
+  position: relative;
+  
+  width: 100%;
+  @include adaptive("xxsm") {
+    position: sticky;
+  }
+  .map {
+    height: 707px;
+    width: 100%;
+    @include adaptive("xsm") {
+      height: 505px;
+    }
+    @include adaptive("xxsm") {
+      position: flex;
+      height: 400px;
+    }
+  }
+}
+
+.infoBox {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  @include adaptive("xsm") {
+    position: static;
+  }
+}
+
+.filterBox {
+  position: absolute;
+  top: 32px;
+  left: 100px;
+  @include adaptive("sm") {
+    left: 11px;
+  }
+  @include adaptive("xsm") {
+    position: static;
+  }
+}
+
+.applicationInfoBox {
+  position: absolute;
+  width: 33.33333%;
+  height: 100%;
+  top: 0px;
+  left: 66.66666%;
+  @include adaptive("xsm") {
+    position: static;
+    width: 100%;
+  }
+}
+
+.specialMap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+
+.canvass {
+  z-index: 2 !important;
+}

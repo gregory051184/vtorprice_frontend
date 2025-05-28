@@ -1,0 +1,76 @@
+@import "@styles/mixins.scss";
+
+.images {
+  display: flex;
+  margin-left: -20px;
+  margin-top: -20px;
+
+  @include adaptive("xsm"){
+    flex-wrap: wrap;
+  }
+
+  &_image {
+    width: calc(100% / 5 - 20px);
+    margin-left: 20px;
+    margin-top: 20px;
+
+    @include adaptive("xsm"){
+      width: calc(100% / 2 - 20px);
+    }
+  }
+}
+
+
+.block {
+  @include adaptive("xsm"){
+    flex-direction: column-reverse;
+    gap: 20px;
+    &_input {
+      width: 100%;
+    }
+    &_nds {
+      @media only screen and (max-width: 514px) {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  }
+}
+
+
+.footer {
+  @include adaptive("xsm"){
+    align-items: flex-start;
+  }
+
+  &_price {
+    @include adaptive("xxsm"){
+      flex-direction: column;
+    }
+  }
+}
+
+.tab {
+  @include adaptive("xsm"){
+    width: 100%;
+  }
+
+  > div {
+    @include adaptive("xsm"){
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+  }
+}
+
+.bottom {
+  display: flex;
+  gap: 24px;
+
+  button {
+    width: 100%;
+  }
+
+  @include adaptive("xsm"){
+    flex-direction: column;
+  }
+}
