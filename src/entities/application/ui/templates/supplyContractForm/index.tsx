@@ -73,7 +73,7 @@ export const SupplyContractFormTemplate: React.FC<ISupplyContractForm> = ({
           value={fields.dealType.value}
         />
         <TabSelect
-            label="Тип сырья"
+            label="Тип продукции"
             values={applicationRecyclableStatusSelectValues}
             onChange={fields.applicationRecyclableStatus.onChange}
             value={fields.applicationRecyclableStatus.value}

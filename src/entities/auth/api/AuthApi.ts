@@ -3,6 +3,7 @@ import {$authHost, $host} from "@box/shared/api";
 import {IAuthUser} from "@box/entities/auth";
 import {IUser} from "@box/entities/user";
 import {IChecking} from "@box/entities/company/ui/rows/companyRow/types";
+import {ICity} from "@box/entities/city/model";
 
 type AuthorizeParams = {
     userId: number | string;
@@ -57,6 +58,11 @@ class AuthApi {
             code,
         });
     };
+
+    getOnlyManagers(): Promise<
+        AxiosResponse<Array<IUser>>> {
+        return $authHost.get("/users/managers");
+    }
 
     getAuthUser(access_token?: string): Promise<AxiosResponse<IAuthUser>> {
         if (access_token) {
@@ -127,7 +133,7 @@ class AuthApi {
     };
 
     getCompanyStaff(companyId: number): Promise<AxiosResponse<Array<IUser>>> {
-        return $authHost.get(`/users/company_staff/`, {params:{id: companyId}})
+        return $authHost.get(`/users/company_staff/`, {params: {id: companyId}})
     }
 }
 

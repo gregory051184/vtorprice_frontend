@@ -10,14 +10,13 @@ import {ApplicationsStats} from "@box/widgets/statistics/applications-stats/ui";
 import {RecyclablesVolumeStats} from "@box/widgets/statistics/recyclables-volume-stats/ui";
 import {CompaniesStats} from "@box/widgets/statistics/companies-stats/ui";
 import {RecyclableApplicationPrices} from "@box/widgets/statistics/recyclables-applications-prices";
-import {
-    SubRecyclablesCompaniesChart
-} from "@box/widgets/statistics/recyclables-applications-prices/ui/subRecyclablesCompaniesChart";
 import {useState} from "react";
 import {
     MainRecyclableBarChart
 } from "@box/widgets/statistics/recyclables-applications-prices/ui/mainRecyclableBarChart";
-
+import {
+    RecyclablesCircleMainStatisticsCart
+} from "@box/widgets/statistics/recyclables-applications-prices/ui/recyclablesCircleMainStatisticsCart";
 
 
 export const Statistics = () => {
@@ -35,20 +34,24 @@ export const Statistics = () => {
             <Container className="pt-[0px]">
                 <div>
                     <BackButton className='mb-[10px] text-sm'/>
-                    <div className="flex items-center gap-6">
+                    <div className="inline-flex items-center gap-6 mb-10">
                         <h1 className="font-normal text-2xl">Статистика</h1>
                         <div className="ml-[25vw]">
                             <Button mode='light'
                                     onClick={() => setTransformToBar(!transformToBar)}>
-                                {!transformToBar ? 'Поменять отображение статистики на столбцовые диаграммы' :
-                                    'Поменять отображение статистики на радиальные диаграммы'}</Button>
+                                {!transformToBar ? 'Поменять отображение статистики на радиальные диаграммы' :
+                                    'Поменять отображение статистики на столбцовые диаграммы'}</Button>
                         </div>
                     </div>
                 </div>
 
-                {!transformToBar ?
+                {/*!transformToBar ?
                     <SubRecyclablesCompaniesChart></SubRecyclablesCompaniesChart> :
                     <MainRecyclableBarChart></MainRecyclableBarChart>
+                */}
+                {
+                    !transformToBar ? <MainRecyclableBarChart></MainRecyclableBarChart> :
+                        <RecyclablesCircleMainStatisticsCart/>
                 }
                 <RecyclableApplicationPrices/>
                 <div className="mt-32">

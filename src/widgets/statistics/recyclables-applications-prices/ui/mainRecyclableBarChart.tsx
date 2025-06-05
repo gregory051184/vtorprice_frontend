@@ -49,7 +49,6 @@ interface IUniversal {
 
 
 export const MainRecyclableBarChart = () => {
-    //НОВОЕ
     const recyclables = useStore($recyclablesApplicationsPrices);
     const recyclablesCategory = useStore($recyclablesCategory);
     const [subCategory, setSubCategory] = useState<IUniversal>({name: '', id: 0, value: 0});

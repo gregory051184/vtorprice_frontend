@@ -1,15 +1,24 @@
 import {TStatus} from '@box/types';
 import {recyclableModel} from '@box/entities/recyclable';
 import {ICity, ICityShortForAll} from '../../city/model/types';
+import {IUser} from "@box/entities/user";
 
+
+// export interface IActivityForShort {
+//     id: number;
+//     label: string;
+// }
+//
+// export interface IRecColTypesForShort {
+//     recColTypes: Array<IActivityForShort>;
+// }
 
 export interface ICompanyShortForAll {
     id: number;
     name: string;
-    inn: string;
-
+    //inn: string;
     isFavorite: boolean;
-
+    activityTypes: Array<IActivityType>,
     city: ICityShortForAll
 }
 
@@ -134,6 +143,8 @@ export interface ICompany {
     appOffersCount?: number
     lastAppDate?: string,
     buyAppsByThisRecyclable?: number,
+
+    manager?: IUser,
 
     bic?: string;
     paymentAccount?: string;

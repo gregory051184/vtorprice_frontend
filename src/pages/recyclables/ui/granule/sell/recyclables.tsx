@@ -16,7 +16,12 @@ import {
     FullListOfApplicationsForMainPage
 } from "@box/widgets/applications/applicationsListForMainPage/ui/fullListOfApplicationsForMainPage";
 import {MainMenuSidePanel} from "@box/widgets/mainMenuSidePanel";
-import {applicationRecyclableStatusSelectValues, dealTypeSelectValues, TimeframeTypes} from "@box/entities/application";
+import {
+    applicationRecyclableStatusSelectValues,
+    companyActivityTypesSelectValues,
+    dealTypeSelectValues,
+    TimeframeTypes
+} from "@box/entities/application";
 import {
     applicationsWithPeriodWithoutPagesGate
 } from "@box/widgets/applications/applicationsAllWithoutPagesList/model/store";
@@ -114,7 +119,6 @@ export const RecyclablesGranuleSellByCategory = () => {
         return result
     }
 
-
     const filteredRecyclableCategory = (): Array<RecyclableTotalVolumeType> => {
         const result = []
         for (let i = 0; i < recyclables.length; i++) {
@@ -127,7 +131,6 @@ export const RecyclablesGranuleSellByCategory = () => {
         }
         return result.sort((a, b) => b.totalVolume - a.totalVolume);
     };
-
 
     const changeShowFormHandler = () => {
         setShowForm(!showForm)
@@ -170,9 +173,19 @@ export const RecyclablesGranuleSellByCategory = () => {
                             <Select
                                 inputProps={{mode: "stroke"}}
                                 placeholder={'Период'}
+                                className="w-full"
                                 onSelect={f.fields.period_tab.onChange}
                                 data={TimeframeTypes}
                                 value={f.fields.period_tab.value}
+                            />
+                            <Select
+                                className="w-full"
+                                withClearButton
+                                inputProps={{mode: 'stroke'}}
+                                value={f.fields.company_activity_types.value}
+                                placeholder="Тип компании"
+                                onSelect={f.fields.company_activity_types.onChange}
+                                data={companyActivityTypesSelectValues}
                             />
                         </div>
                     </div>
@@ -259,7 +272,6 @@ export const RecyclablesGranuleSellByCategory = () => {
             </AppShell>
         )
     }
-
     return (
         <AppShell
             header={<Header/>}
@@ -273,14 +285,23 @@ export const RecyclablesGranuleSellByCategory = () => {
                 <BackButton/>
                 <div className="inline-flex mt-6">
                     <h1>{recyclables.length > 0 ? `${recyclables.map(rec => rec?.category?.name)[0]} продажа` : 'Гранула продажа'}</h1>
-                    <div className={'w-auto ml-36'}>
+                    <div className={'w-auto ml-36 inline-flex'}>
                         <Select
                             inputProps={{mode: "stroke"}}
                             placeholder={'Период'}
-                            className="w-200"
+                            className="w-130"
                             onSelect={f.fields.period_tab.onChange}
                             data={TimeframeTypes}
                             value={f.fields.period_tab.value}
+                        />
+                        <Select
+                            className="w-130 ml-5"
+                            withClearButton
+                            inputProps={{mode: 'stroke'}}
+                            value={f.fields.company_activity_types.value}
+                            placeholder="Тип компании"
+                            onSelect={f.fields.company_activity_types.onChange}
+                            data={companyActivityTypesSelectValues}
                         />
                     </div>
                 </div>
@@ -299,7 +320,7 @@ export const RecyclablesGranuleSellByCategory = () => {
                             }
                             {item.totalVolume > 0 &&
                                 <p className={s.category_main_page_name}>
-                                    {item?.totalVolume}
+                                {item?.totalVolume}
                                 </p>}
                         </span>
                                 </div>

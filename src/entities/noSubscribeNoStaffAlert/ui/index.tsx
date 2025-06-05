@@ -17,11 +17,11 @@ export const NoSubscribeNoStaffAlert = () => {
     const [visible, setVisible] = useState<boolean>(false);
 
     const examStaffHandler = () => {
-        if (authStore.user && authStore.user.company.staff.includes(authStore.user.id)) {
+        if (authStore?.user && authStore?.user?.company?.staff.includes(authStore.user.id)) {
             if (subscribe) {
-                const currentSubscribeList = subscribe?.subscribe.staffCount
-                const currentStaffList = authStore.user.company.staff.length
-                const staff = authStore.user.company.staff
+                const currentSubscribeList = subscribe?.subscribe?.staffCount
+                const currentStaffList = authStore?.user?.company?.staff.length
+                const staff = authStore?.user?.company?.staff
                 const result = currentSubscribeList - currentStaffList
                 if (result < 0) {
                     const shortStaffList = staff.slice(0, (result * (-1)))

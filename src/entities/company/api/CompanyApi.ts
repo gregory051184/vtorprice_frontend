@@ -75,6 +75,7 @@ type UpdateCompanyParams = {
     payment_account?: string | null
     staff?: Array<number>,
     suspend_staff?: Array<number>,
+    manager?: string
 };
 
 type UpdateCompanyStaffParams = {

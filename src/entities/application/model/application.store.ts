@@ -6,7 +6,7 @@ import {
     applicationModel,
 } from "@box/entities/application";
 import {createLoaderStore} from "@box/shared/lib/helpers";
-import Router, {SingletonRouter} from 'next/router';
+import Router from 'next/router';
 import {notificationModel} from '@box/entities/notification';
 import {createGate} from "effector-react";
 import {createPagination} from "@box/shared/lib/factories";
@@ -30,8 +30,15 @@ const getApplicationFx = createEffect<
 const getAllApplicationsFx = createEffect<
     Parameters<typeof applicationApi.getAllApplications>[0], IRecyclableApplicationShortForAll, AxiosError>({
         handler: async (params) => {
-            //Для передачи категории
             const router = Router
+            //ДЛЯ ПЕРЕКЛЮЧЕНИЯ НА ОТХОДЫ ИЛИ ГРАНУЛУ ПРИ ПЕРЕХОДЕ НА СТРАНИЦУ ИМЕННО С ОХОДАМИ ИЛИ С ГРАНУЛОЙ
+            if (router.asPath.split('/').includes("wastes")) {
+                params["application_recyclable_status"] = 1
+            }
+            if (router.asPath.split('/').includes("granule")) {
+                params["application_recyclable_status"] = 2
+            }
+            //Для передачи категории
             if (+router.asPath.split('/')[router.asPath.split('/').length - 1] > 0 &&
                 (+router.asPath.split('/').length === 4 || +router.asPath.split('/').length === 6)) {
                 params['category'] = router.asPath.split('/')[router.asPath.split('/').length - 1];

@@ -20,7 +20,6 @@ type CompanyCardForCompaniesMainFilterPageType = {
 export const CompanyCardForCompaniesMainFilterPage: React.FC<CompanyCardForCompaniesMainFilterPageType> = ({
                                                                                                                company
                                                                                                            }) => {
-    // const updateInFavorite = useUnit(companyModel.updateCompanyInFavoriteEvent);
     const favouriteCompanies = useStore($favoritesCompaniesList);
     const [favoriteCompany, setFavoriteCompany] = useState<number>(0);
     const updateInFavorite = useUnit(updateCompanyInFavoriteFx);

@@ -15,7 +15,7 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper";
 import s from "@box/widgets/recyclableCategories/ui/styles.module.scss";
 import {
-    applicationRecyclableStatusSelectValues,
+    applicationRecyclableStatusSelectValues, companyActivityTypesSelectValues,
     dealTypeSelectValues, TimeframeTypes
 } from "@box/entities/application";
 import {NewLandingStats} from "@box/widgets/landing/landingStats/ui/newLandingStats";
@@ -116,10 +116,19 @@ export const RecyclablesWasteBuy = () => {
                             <Select
                                 inputProps={{mode: "stroke"}}
                                 placeholder={'Период'}
-                                className="w-200"
+                                className="w-full"
                                 onSelect={f.fields.period_tab.onChange}
                                 data={TimeframeTypes}
                                 value={f.fields.period_tab.value}
+                            />
+                            <Select
+                                className="w-full"
+                                withClearButton
+                                inputProps={{mode: 'stroke'}}
+                                value={f.fields.company_activity_types.value}
+                                placeholder="Тип компании"
+                                onSelect={f.fields.company_activity_types.onChange}
+                                data={companyActivityTypesSelectValues}
                             />
                         </div>
                     </div>
@@ -179,15 +188,24 @@ export const RecyclablesWasteBuy = () => {
                 <BackButton/>
                 <div className="inline-flex mt-6">
                     <h1>Отходы покупка</h1>
-                    <div className={'w-auto ml-36'}>
-                        <Select
-                            inputProps={{mode: "stroke"}}
-                            placeholder={'Период'}
-                            className="w-200"
-                            onSelect={f.fields.period_tab.onChange}
-                            data={TimeframeTypes}
-                            value={f.fields.period_tab.value}
-                        />
+                    <div className={'w-auto ml-36 inline-flex'}>
+                            <Select
+                                inputProps={{mode: "stroke"}}
+                                placeholder={'Период'}
+                                className="w-130"
+                                onSelect={f.fields.period_tab.onChange}
+                                data={TimeframeTypes}
+                                value={f.fields.period_tab.value}
+                            />
+                            <Select
+                                className="w-130 ml-5"
+                                withClearButton
+                                inputProps={{mode: 'stroke'}}
+                                value={f.fields.company_activity_types.value}
+                                placeholder="Тип компании"
+                                onSelect={f.fields.company_activity_types.onChange}
+                                data={companyActivityTypesSelectValues}
+                            />
                     </div>
                 </div>
                 <div className='inline-flex w-full mt-6'>

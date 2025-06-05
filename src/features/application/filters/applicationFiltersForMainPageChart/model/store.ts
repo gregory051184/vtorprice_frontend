@@ -2,7 +2,7 @@ import {createForm} from "@box/shared/effector-forms";
 import {ISelectValue, ITabSelectValue} from "@box/shared/ui";
 import {createEvent} from "effector";
 import {
-    applicationRecyclableStatusSelectValues,
+    applicationRecyclableStatusSelectValues, companyActivityTypesSelectValues,
     TimeframeTypes,
     urgencyTypeSelectValues
 } from "@box/entities/application";
@@ -18,6 +18,9 @@ const applicationFiltersForMainPageChart = createForm({
         application_recyclable_status_tab: {
             init: applicationRecyclableStatusSelectValues[0] as ISelectValue | null,
         },
+        company_activity_types: {
+            init: null as ITabSelectValue | null,
+        }
     }
 })
 

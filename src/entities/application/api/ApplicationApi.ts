@@ -94,7 +94,8 @@ export type GetAllApplicationsWithoutPagesParams = {
     category?: string,
     sub_category?: string,
     deal_type?: number,
-    application_recyclable_status?: number
+    application_recyclable_status?: number,
+    company_activity_types?: number
 }
 
 
@@ -130,7 +131,7 @@ class ApplicationApi {
         });
     }
 
-    getApplicationForPurchaseAndSales(params: GetApplicationsForPurchaseAndSalesParams): Promise<AxiosResponse<Array<IRecyclableApplication>>>{
+    getApplicationForPurchaseAndSales(params: GetApplicationsForPurchaseAndSalesParams): Promise<AxiosResponse<Array<IRecyclableApplication>>> {
         return $authHost.get('/recyclables_applications/', {
             params,
         });

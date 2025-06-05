@@ -16,7 +16,12 @@ import {
     FullListOfApplicationsForMainPage
 } from "@box/widgets/applications/applicationsListForMainPage/ui/fullListOfApplicationsForMainPage";
 import {MainMenuSidePanel} from "@box/widgets/mainMenuSidePanel";
-import {applicationRecyclableStatusSelectValues, dealTypeSelectValues, TimeframeTypes} from "@box/entities/application";
+import {
+    applicationRecyclableStatusSelectValues,
+    companyActivityTypesSelectValues,
+    dealTypeSelectValues,
+    TimeframeTypes
+} from "@box/entities/application";
 import {useForm} from "@box/shared/effector-forms";
 import {applicationFiltersForMainPageChart} from "@box/features/application/filters/applicationFiltersForMainPageChart";
 import {
@@ -170,9 +175,19 @@ export const RecyclablesGranuleBuyByCategory = () => {
                             <Select
                                 inputProps={{mode: "stroke"}}
                                 placeholder={'Период'}
+                                className="w-full"
                                 onSelect={f.fields.period_tab.onChange}
                                 data={TimeframeTypes}
                                 value={f.fields.period_tab.value}
+                            />
+                            <Select
+                                className="w-full"
+                                withClearButton
+                                inputProps={{mode: 'stroke'}}
+                                value={f.fields.company_activity_types.value}
+                                placeholder="Тип компании"
+                                onSelect={f.fields.company_activity_types.onChange}
+                                data={companyActivityTypesSelectValues}
                             />
                         </div>
                     </div>
@@ -273,14 +288,23 @@ export const RecyclablesGranuleBuyByCategory = () => {
                 <BackButton/>
                 <div className="inline-flex mt-6">
                     <h1>{recyclables.length > 0 ? `${recyclables.map(rec => rec?.category?.name)[0]} покупка` : 'Гранула покупка'}</h1>
-                    <div className={'w-auto ml-36'}>
+                    <div className={'w-auto ml-36 inline-flex'}>
                         <Select
                             inputProps={{mode: "stroke"}}
                             placeholder={'Период'}
-                            className="w-200"
+                            className="w-130"
                             onSelect={f.fields.period_tab.onChange}
                             data={TimeframeTypes}
                             value={f.fields.period_tab.value}
+                        />
+                        <Select
+                            className="w-130 ml-5"
+                            withClearButton
+                            inputProps={{mode: 'stroke'}}
+                            value={f.fields.company_activity_types.value}
+                            placeholder="Тип компании"
+                            onSelect={f.fields.company_activity_types.onChange}
+                            data={companyActivityTypesSelectValues}
                         />
                     </div>
                 </div>

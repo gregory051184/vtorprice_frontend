@@ -11,6 +11,8 @@ const getApplicationsForRecyclablePageFx = attach({
     },
     mapParams: (_, {filters}) => ({
         period: filters.period_tab?.value,
+        company_activity_types: filters.company_activity_types?.value,
+        application_recyclable_status: filters.application_recyclable_status_tab?.value,
 
     }),
     effect: applicationModel.getAllApplicationsFx

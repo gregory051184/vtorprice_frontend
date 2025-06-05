@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
 
   if (
     pathname.startsWith('/_next')
-    || pathname.startsWith('/api')
+    || pathname.startsWith('/managersSelect')
     || pathname.startsWith('/static')
     || PUBLIC_FILE.test(pathname)
     || process.env.NEXT_PUBLIC_MODE === 'OFFLINE_DEVELOPMENT'
@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
   //     if (!ACCESS_TOKEN) {
   //       return;
   //     }
-  //     const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/`, {
+  //     const resp = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/managersSelect/users/`, {
   //       headers: {
   //         Authorization: `JWT ${ACCESS_TOKEN}`,
   //       },

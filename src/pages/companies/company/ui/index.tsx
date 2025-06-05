@@ -222,7 +222,7 @@ export const Company: React.FC = () => {
                                             <h3 className={s.block_title}>Покупает</h3>
                                             <div className={s.block_content}>
                                                 <RecyclablesCircleGraphics
-                                                    recyclables={company.recyclables.filter((el) => el.action.id === 1)}
+                                                    recyclables={applications.filter(app => app.urgencyType.id === 2 && app.dealType.id === 1)/*company.recyclables.filter((el) => el.action.id === 1)*/}
                                                 />
                                             </div>
                                         </div>
@@ -230,7 +230,7 @@ export const Company: React.FC = () => {
                                             <h3 className={s.block_title}>Продает</h3>
                                             <div className={s.block_content}>
                                                 <RecyclablesCircleGraphics
-                                                    recyclables={company.recyclables.filter((el) => el.action.id === 2)}
+                                                    recyclables={applications.filter(app => app.urgencyType.id === 2 && app.dealType.id === 2)/*company.recyclables.filter((el) => el.action.id === 2)*/}
                                                 />
                                             </div>
                                         </div>

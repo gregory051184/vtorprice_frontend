@@ -1,8 +1,7 @@
-import {IRecyclableCategory, IRecyclableShortForAll} from "@box/entities/recyclable/model";
 import React, {useEffect, useState} from "react";
 import {useGate, useStore} from "effector-react";
 import {
-    $allApplicationsWithoutPages, IRecyclableApplicationShortForAll
+    $allApplicationsWithoutPages
 } from "@box/entities/application/model";
 import {
     applicationsWithPeriodWithoutPagesGate
@@ -23,23 +22,12 @@ import {recyclablesSelectApi} from "@box/entities/company";
 import {useForm} from "@box/shared/effector-forms";
 import {filters} from "@box/features/company/filters/companies/model";
 import {citySelectApi} from "@box/entities/city";
+import {
+    CompaniesWithFractionsType,
+    RecyclableCategoriesForStatisticsType,
+    RecyclableColorType, VolumesType
+} from "@box/widgets/statistics/statisticsBasedOnRecyclableApplications";
 
-
-export type CompaniesWithFractionsType = {
-    company: ICompanyShortForAll,
-    fractions: IRecyclableShortForAll[]
-    applications: IRecyclableApplicationShortForAll[]
-}
-
-type RecyclableColorType = {
-    recyclableCategory: IRecyclableCategory,
-    totalVolume: number,
-    percents: string,
-}
-
-type RecyclableCategoriesForStatisticsType = {
-    categories: IRecyclableCategory[],
-}
 
 export const RecyclableCategoriesForStatistics: React.FC<RecyclableCategoriesForStatisticsType> = ({
                                                                                                        categories,
@@ -55,9 +43,27 @@ export const RecyclableCategoriesForStatistics: React.FC<RecyclableCategoriesFor
 
     const {fields} = useForm(filters);
 
-    const recyclableCategoryVolume = (categoryId: number): number => {
-        const filtered_apps = applications.filter(app => app.recyclables.category.id === categoryId);
-        return +(filtered_apps.map(app => app.totalWeight).reduce((sum, a) => sum + a, 0) / 1000).toFixed();
+    const recyclableCategoryVolume = (categoryId: number): VolumesType => {
+        const filtered_apps = applications
+            .filter(app => app.recyclables.category.id === categoryId);
+
+        const filtered_buy = applications
+            .filter(app => app.recyclables.category.id === categoryId && app?.dealType?.id === BuyOrSellDeals.BUY);
+        const filtered_sell = (applications
+            .filter(app => app.recyclables.category.id === categoryId && app?.dealType?.id === BuyOrSellDeals.SELL));
+
+        return {
+            totalVolume: +(filtered_apps
+                .map(app => app.totalWeight)
+                .reduce((sum, a) => sum + a, 0) / 1000)
+                .toFixed(),
+            buyVolume: +(filtered_buy.map(app => app.totalWeight)
+                .reduce((sum, a) => sum + a, 0) / 1000)
+                .toFixed(),
+            sellVolume: +(filtered_sell.map(app => app.totalWeight)
+                .reduce((sum, a) => sum + a, 0) / 1000)
+                .toFixed(),
+        };
     };
 
     const uniqCompanies = (categoryId: number) => {
@@ -98,21 +104,29 @@ export const RecyclableCategoriesForStatistics: React.FC<RecyclableCategoriesFor
                     .filter(app => app.recyclables.category.id === recCat.id && app?.dealType?.id === dealType)
                     .map(app => app.totalWeight)
                     .reduce((sum, a) => sum + a, 0) / 1000 : 0;
-                const percents = allVolume > 0 ? `${((allVolume / totalVolume) * 100).toFixed(2)}%` : '--'
+                const percents = allVolume > 0 ? `${((allVolume / totalVolume.totalVolume) * 100).toFixed(2)}%` : '--'
                 result.push({
                     recyclableCategory: recCat,
-                    totalVolume: totalVolume,
+                    totalVolume: {
+                        totalVolume: totalVolume.totalVolume,
+                        buyVolume: totalVolume.buyVolume,
+                        sellVolume: totalVolume.sellVolume,
+                    },
                     percents: percents
                 })
             } else {
                 result.push({
                     recyclableCategory: recCat,
-                    totalVolume: totalVolume,
+                    totalVolume: {
+                        totalVolume: totalVolume.totalVolume,
+                        buyVolume: totalVolume.buyVolume,
+                        sellVolume: totalVolume.sellVolume,
+                    },
                     percents: '--'
                 })
             }
         }
-        return result.sort((a, b) => b.totalVolume - a.totalVolume);
+        return result.sort((a, b) => b.totalVolume.totalVolume - a.totalVolume.totalVolume);
     }
 
 
@@ -188,8 +202,18 @@ export const RecyclableCategoriesForStatistics: React.FC<RecyclableCategoriesFor
                                     "bg-black text-white p-2 rounded-[10px]" : "")}>
                                 {recyclableCategory?.recyclableCategory?.name}
                             </td>
-                            <td className="ml-24 text-lg mt-[3px] w-28">
-                                {`${recyclableCategory?.totalVolume} т`}
+
+
+                            <td className="ml-6 text-lg mt-[3px] w-36">
+                                {`Покупка ${recyclableCategory?.totalVolume.buyVolume}т`}
+                            </td>
+                            <td className="ml-4 text-lg mt-[3px] w-36">
+                                {`Продажа ${recyclableCategory?.totalVolume.sellVolume}т`}
+                            </td>
+
+
+                            <td className="ml-4 text-lg mt-[3px] w-36">
+                                {`Общий ${recyclableCategory?.totalVolume.totalVolume}т`}
                             </td>
                             <td
                                 onClick={() => {
@@ -198,10 +222,10 @@ export const RecyclableCategoriesForStatistics: React.FC<RecyclableCategoriesFor
                                     setCurrentCategory(0)
                                 }}
                                 className={classNames(s.category_title_statistics, recyclableCategory?.recyclableCategory?.id === currentCompaniesCategory ?
-                                    "bg-black text-white p-2 rounded-[10px] ml-24 w-44" : "ml-24 w-44")}>
+                                    "bg-black text-white p-2 rounded-[10px] ml-16 w-44" : "ml-6 w-40")}>
                                 {`Компаний - ${uniqCompanies(recyclableCategory?.recyclableCategory?.id)?.length}`}
                             </td>
-                            <td className="ml-24 text-lg mt-[3px] w-48">
+                            <td className="ml-6 text-lg mt-[3px] w-48">
                                 {`Контрактов на поставку - ${applicationsCount(recyclableCategory?.recyclableCategory?.id)}`}
                             </td>
                         </tr>

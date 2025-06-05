@@ -13,6 +13,7 @@ import s from './styles.module.scss'
 import 'swiper/css';
 import {$allApplicationsWithoutPages} from "@box/entities/application/model";
 import {
+    applicationRecyclableStatusSelectValues,
     appRecStatusSelectSellBuyValues, TimeframeTypes
 } from "@box/entities/application";
 import {MainMenuSidePanel} from "@box/widgets/mainMenuSidePanel";
@@ -86,10 +87,18 @@ export const RecyclableCategoriesListForMainPage = () => {
                     <Select
                         inputProps={{mode: "stroke"}}
                         placeholder={'Период'}
-                        className="w-200"
+                        className="w-full"
                         onSelect={f.fields.period_tab.onChange}
                         data={TimeframeTypes}
                         value={f.fields.period_tab.value}
+                    />
+                    <Select
+                        inputProps={{mode: "stroke"}}
+                        placeholder={'Тип продукции'}
+                        className="w-full"
+                        onSelect={f.fields.application_recyclable_status_tab.onChange}
+                        data={applicationRecyclableStatusSelectValues}
+                        value={f.fields.application_recyclable_status_tab.value}
                     />
                 </div>
 
@@ -145,14 +154,22 @@ export const RecyclableCategoriesListForMainPage = () => {
             </div>
             <div className="inline-flex mt-6">
                 <h1>{`Категории`}</h1>
-                <div className='w-auto ml-36'>
+                <div className='w-auto ml-36 inline-flex'>
                     <Select
                         inputProps={{mode: "stroke"}}
                         placeholder={'Период'}
-                        className="w-200"
+                        className="w-130"
                         onSelect={f.fields.period_tab.onChange}
                         data={TimeframeTypes}
                         value={f.fields.period_tab.value}
+                    />
+                    <Select
+                        inputProps={{mode: "stroke"}}
+                        placeholder={'Тип продукции'}
+                        className="w-130 ml-5"
+                        onSelect={f.fields.application_recyclable_status_tab.onChange}
+                        data={applicationRecyclableStatusSelectValues}
+                        value={f.fields.application_recyclable_status_tab.value}
                     />
                 </div>
             </div>

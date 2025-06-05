@@ -1,4 +1,4 @@
-import {Avatar} from '@box/entities/user';
+import {Avatar, managerSelectApi} from '@box/entities/user';
 import {useField, useForm} from '@box/shared/effector-form-controller/hooks';
 import {AsyncSelect, BaseInput, Checkbox, FileButton} from '@box/shared/ui';
 import {IWithClass} from '@box/types';
@@ -25,11 +25,12 @@ import {
     headFullNameField,
     phoneField,
     cityField,
-    onLoadPageEvent
+    onLoadPageEvent, managerField
 } from '../model';
 import {TGeoSelectValues} from "@box/shared/ui/select/geo-select/types";
 import dynamic from "next/dynamic";
 import {citySelectApi} from '@box/entities/city';
+import {$allUsers} from "@box/widgets/users/usersRoleList/model";
 
 const DynamicGeoSelect = dynamic(
     () => import('@box/shared/ui').then(module => module.GeoSelect),
@@ -40,7 +41,6 @@ export const CompanyInfoFormManagement: React.FC<IWithClass> = ({
                                                                     className,
                                                                 }) => {
     const onPageLoad = useEvent(onLoadPageEvent)
-
     const formRef = useRef(null);
     const name = useField(nameField);
     const inn = useField(innField);
@@ -57,6 +57,7 @@ export const CompanyInfoFormManagement: React.FC<IWithClass> = ({
     const head_full_name = useField(headFullNameField);
     const phone = useField(phoneField);
     const city = useField(cityField);
+    const manager = useField(managerField)
 
     const avatarUrl = useMemo(() => {
         const avatarValue = avatar.store.$value;
@@ -163,6 +164,18 @@ export const CompanyInfoFormManagement: React.FC<IWithClass> = ({
                                placeholder="БИК"/>
                 </div>
             </div>
+            <p className="text-sm mb-[26px] mt-[16px] text-grey-60">Назначить менеджера:</p>
+            <div className="gap-[16px]">
+                <AsyncSelect
+                    withClearButton
+                    className={classNames('', s.sitySelect)}
+                    placeholder="Прикреплённый менеджер"
+                    value={manager.store.$value}
+                    loadData={managerSelectApi}
+                    onSelect={manager.onChange}
+                    error={!!manager.store.$error}
+                />
+            </div>
         </form>
-    );
+);
 };

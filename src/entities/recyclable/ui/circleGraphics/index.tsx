@@ -7,9 +7,9 @@ export const RecyclablesCircleGraphics: React.FC<IRecyclableCircleGraphics> = ({
   recyclables
 }) => {
   const graphicsData = recyclables
-    .sort((a, b) => a.monthlyVolume - b.monthlyVolume).map((recyclable) => ({
+    .sort((a, b) => a.volume/*monthlyVolume*/ - b.volume/*monthlyVolume*/).map((recyclable) => ({
       name: recyclable.recyclables.name,
-      value: recyclable.monthlyVolume
+      value: recyclable.volume//monthlyVolume
     }));
 
   return (

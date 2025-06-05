@@ -12,24 +12,34 @@ import {
 import {useScreenSize} from "@box/shared/hooks";
 import {
     forMainPageGate, forMainPagePagination,
-
 } from "@box/widgets/applications/applicationsListForMainPage/model";
 
 
-export const FullListOfApplicationsForMainPage= () => {
-    const apps =  useStore($applicationsForMain);
+
+export const FullListOfApplicationsForMainPage = () => {
+    const applications = useStore($applicationsForMain);
     const [showDeletedApplications, setShowDeletedApplications] = useState<boolean>(false);
     const [screenSize, satisfies] = useScreenSize();
     const isLaptop = screenSize === 'sm' || screenSize === 'xsm';
     const isMobile = screenSize === 'xxsm';
-
-    useEffect(() => {
-    }, [apps]);
+    // const router = useRouter();
+    //
+    // const filteredApps = (type: any, apps?: IRecyclableApplication[]) => {
+    //     if (type === "buy") {
+    //         return !apps ? applications.filter(app => app?.dealType?.id === BuyOrSellDeals.BUY) :
+    //             apps.filter(app => app?.dealType?.id === BuyOrSellDeals.BUY)
+    //     }
+    //     if (type === "sell") {
+    //         return !apps ? applications.filter(app => app?.dealType?.id === BuyOrSellDeals.SELL) :
+    //             apps.filter(app => app?.dealType?.id === BuyOrSellDeals.SELL)
+    //     }
+    //     return !apps ? applications : apps
+    // }
 
     useGate(forMainPageGate);
 
     useEffect(() => {
-    }, [apps]);
+    }, [applications]);
     return (
         <Container>
             <div
@@ -49,7 +59,7 @@ export const FullListOfApplicationsForMainPage= () => {
 
                     <div className="inline-flex">
                         <div className='flex h-auto flex-wrap'>
-                            {apps.filter(app => !app.isDeleted || +app?.status?.id < +applicationStatusSelectValues[2]?.id)
+                            {applications.filter(app => !app.isDeleted || +app?.status?.id < +applicationStatusSelectValues[2]?.id)
                                 //@ts-ignore
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                                 .map(application => (
@@ -71,7 +81,7 @@ export const FullListOfApplicationsForMainPage= () => {
                     </Tip>
                     <div className="inline-flex">
                         <div className='flex h-auto flex-wrap'>
-                            {apps.filter(app => app?.isDeleted || +app?.status?.id >= +applicationStatusSelectValues[2]?.id)
+                            {applications.filter(app => app?.isDeleted || +app?.status?.id >= +applicationStatusSelectValues[2]?.id)
                                 //@ts-ignore
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                                 .map(application => (

@@ -3,7 +3,7 @@ import {Footer} from "@box/widgets/footer";
 import Head from "next/head";
 import React, {useEffect} from "react";
 import {AppShell} from "@box/layouts";
-import {BackButton, Container, Select} from "@box/shared/ui";
+import {BackButton, Button, Container, Select} from "@box/shared/ui";
 import {useGate, useStore} from "effector-react";
 import {$recyclable} from "@box/entities/recyclable/model";
 import {
@@ -20,12 +20,18 @@ import {
 import {
     FullListOfApplicationsForMainPage
 } from "@box/widgets/applications/applicationsListForMainPage/ui/fullListOfApplicationsForMainPage";
-import {TimeframeTypes} from "@box/entities/application";
+import {
+    applicationRecyclableStatusSelectValues,
+    companyActivityTypesSelectValues,
+    TimeframeTypes
+} from "@box/entities/application";
 import {useForm} from "@box/shared/effector-forms";
 import {applicationFiltersForMainPageChart} from "@box/features/application/filters/applicationFiltersForMainPageChart";
 import {
     applicationsWithPeriodWithoutPagesGate
 } from "@box/widgets/applications/applicationsAllWithoutPagesList/model/store";
+import {CompaniesCircleGraphics} from "@box/entities/company";
+import {CompaniesFilteredByRecyclableTable} from "@box/widgets/companies";
 
 interface ISubCategoriesForChart {
     name: string,
@@ -38,8 +44,10 @@ interface ISubCategoriesForChart {
 export const ApplicationsAndCompaniesByRecyclable = () => {
     const applications = useStore($allApplicationsWithoutPages);
     const recyclable = useStore($recyclable);
-    //const apps = useStore($applications);
     const router = useRouter();
+
+    const [showAllCompanies, setShowAllCompanies] = React.useState(false);
+    const [showAllCompaniesWithCities, setShowAllCompaniesWithCities] = React.useState(false);
 
     const filteredRecFixed = (type: any) => {
         if (type === "buy") {
@@ -52,9 +60,9 @@ export const ApplicationsAndCompaniesByRecyclable = () => {
                 .filter(app => app?.dealType?.id === BuyOrSellDeals.SELL && app?.recyclables?.id === recyclable?.id)
                 .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt)?.getTime())
         }
-            return applications
-                .filter(app => app?.recyclables?.id === recyclable?.id)
-                .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt)?.getTime())
+        return applications
+            .filter(app => app?.recyclables?.id === recyclable?.id)
+            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt)?.getTime())
 
     }
 
@@ -90,10 +98,44 @@ export const ApplicationsAndCompaniesByRecyclable = () => {
         return `${(filtered_apps_volume / filtered_apps * 100).toFixed(2)} %`
     }
 
+    const lastCompanyWithLastPrice = (companyId: number, type: string) => {
+        const lastPrice = filteredApps(type)
+            .filter(app => app?.company?.id === companyId && app?.recyclables?.id === recyclable?.id)
+            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            .map(app => app.price)[0]
+        const company = filteredApps(type)
+            .filter(app => app?.company?.id === companyId && app?.recyclables?.id === recyclable?.id)[0]?.company
+        return {
+            company: company,
+            lastPrice: lastPrice,
+        }
+    }
+
     const companyApplicationsVolume = (companyId: number) => {
         //@ts-ignore
         const filtered_apps = filteredApps(router.query['type']).filter(app => app?.company?.id === companyId && app?.recyclables?.id === recyclable?.id);
         return (filtered_apps.map(app => app.totalWeight).reduce((sum, a) => sum + a, 0) / 1000).toFixed();
+    }
+
+    //ЭТО ДЛЯ ПОСТРОЕНИЯ ГРАФИКОВ КОМПАНИЙ
+    const forCompaniesGraphicsAndList = (type: string) => {
+        const clearIdsList: Array<number> = []
+        const companiesIds = filteredApps(type)
+            .filter(app => app?.recyclables.id === recyclable?.id)
+            .map(app => app?.company?.id)
+        for (let i = 0; i < companiesIds.length; i++) {
+            if (!clearIdsList.includes(companiesIds[i])) {
+                clearIdsList.push(companiesIds[i])
+            }
+        }
+        const companiesList = clearIdsList.map(companyId => ({
+            company: lastCompanyWithLastPrice(companyId, type).company,
+            lastPrice: lastCompanyWithLastPrice(companyId, type).lastPrice,
+            volume: companyApplicationsVolume(companyId)
+        }))
+            .filter(company => +company.volume > 0)
+            .sort((a, b) => +b.volume - +a.volume);
+        return companiesList;
     }
 
     const companies = (apps: IRecyclableApplicationShortForAll[]/*IRecyclableApplication[]*/, subCategoryId: number) => {
@@ -260,19 +302,36 @@ export const ApplicationsAndCompaniesByRecyclable = () => {
             <Container>
                 <BackButton/>
                 <div className="inline-flex mt-6">
-                    <h1 className='mt-6'>{recyclable?.name}</h1>
-                    <div className={'w-auto ml-36'}>
+                    <h2 className='mt-6'>{router.query['type'] === 'buy' ? `${recyclable?.name} покупка` : `${recyclable?.name} продажа`}</h2>
+                    <div className={'w-auto ml-5 inline-flex'}>
                         <Select
                             inputProps={{mode: "stroke"}}
                             placeholder={'Период'}
-                            className="w-200"
+                            className="w-100"
                             onSelect={f.fields.period_tab.onChange}
                             data={TimeframeTypes}
                             value={f.fields.period_tab.value}
                         />
+                        <Select
+                            className="w-100 ml-5"
+                            withClearButton
+                            inputProps={{mode: 'stroke'}}
+                            value={f.fields.company_activity_types.value}
+                            placeholder="Тип компании"
+                            onSelect={f.fields.company_activity_types.onChange}
+                            data={companyActivityTypesSelectValues}
+                        />
+                        <Select
+                            inputProps={{mode: "stroke"}}
+                            placeholder={'Тип продукции'}
+                            className="w-100 ml-5"
+                            onSelect={f.fields.application_recyclable_status_tab.onChange}
+                            data={applicationRecyclableStatusSelectValues}
+                            value={f.fields.application_recyclable_status_tab.value}
+                        />
                     </div>
                 </div>
-                <div className="mt-6">
+                <div className="mt-8">
                     {<div className='inline-flex flex-wrap ml-12'>
                         <div>
                             <h3>Пос. цена</h3>
@@ -283,7 +342,7 @@ export const ApplicationsAndCompaniesByRecyclable = () => {
                             </p>
                         </div>
                         <div className='ml-12'>
-                            <h3>Объявлений</h3>
+                            <h3>Контрактов</h3>
                             <p className="mt-2">
                                 {
                                     filteredApps(router.query['type']).filter(app => app?.recyclables?.id === recyclable?.id).length
@@ -318,76 +377,106 @@ export const ApplicationsAndCompaniesByRecyclable = () => {
                         <div className='ml-12'>
                             <h3>Объём</h3>
                             <p className="mt-2">
-                                {`${filteredApps(router.query['type'])
+                                {`${(filteredApps(router.query['type'])
                                     .filter(app => app.recyclables?.id === recyclable?.id)
                                     .map(app => app?.price * app?.volume)
-                                    .reduce((sum, v) => sum + v, 0)} т`}
+                                    .reduce((sum, v) => sum + v, 0) / 1000).toFixed()} т`}
                             </p>
                         </div>
                     </div>}
                 </div>
-                <div className='mt-7'>
-                    <RecyclablesChartsForRecyclableCategoryPage applications={
-                        filteredRecFixed(router.query['type'])}></RecyclablesChartsForRecyclableCategoryPage>
-                </div>
-                <div className='mt-7'>
-                    <h3>{`Компании с объявлениями по покупке ${recyclable?.name}`}</h3>
-                    {
-                        //@ts-ignore
-                        companies(filteredRecFixed(), recyclable?.id).map(item => (
-                            <div
-                                className={s.companies_list}
-                                key={item?.companies[0]?.company?.city?.id}>
-                                {<div>
-                                    <h3 className='font-bold'>
-                                        {item?.name}
-                                    </h3>
-                                    {item?.companies.map(companies => (
-                                        (companies && companies?.length) ?
-                                            <div className='w-44 p-1 mt-3 inline-flex flex-wrap'>
-                                                {companies[0]?.company?.city?.name.length > 0 &&
-                                                    <div>
-                                                        <div className="font-bold">
-                                                            <h4>
-                                                                <div
-                                                                    title={companies[0]?.company?.city?.name}
-                                                                    className="w-[172px] overflow-ellipsis whitespace-nowrap overflow-hidden">
-                                                                    {companies[0]?.company?.city?.name}
-                                                                </div>
-                                                            </h4>
-
-                                                        </div>
-                                                        <div className="inline-flex font-bold mt-1">
-                                                            <h4>
-                                                                {
-                                                                    //@ts-ignore
-                                                                    `${cityRecyclableCategoryVolume(recyclable?.id, companies[0]?.company?.city?.id)} т`}
-                                                            </h4>
-                                                            <h4 className="ml-2">
-                                                                {
-                                                                    //@ts-ignore
-                                                                    cityRecyclablePercentInCategory(recyclable?.id, companies[0]?.company?.city?.id)}
-                                                            </h4>
-                                                        </div>
-                                                    </div>}
-                                                {companies.length > 0 &&
-                                                    //@ts-ignore
-                                                    companies.map(elem => (
-                                                        <div>
-                                                            <div
-                                                                onClick={() => router.push(`/companies/${elem?.company?.id}`)}
-                                                                className={s.company_title}>
-                                                                <p>{elem?.company?.name}</p>
-                                                                <p>{`${elem?.totalVolume} т`}</p>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                            </div> :
-                                            null))}
-                                </div>}
+                {filteredRecFixed(router.query['type']).length > 0 &&
+                    <div className='mt-8'>
+                        <div>
+                            <h3>{router.query['type'] === 'buy' ? `График изменения цены покупки` : `График изменения цены  продажи`}</h3>
+                            <div className='mt-7'>
+                                <RecyclablesChartsForRecyclableCategoryPage applications={
+                                    filteredRecFixed(router.query['type'])}></RecyclablesChartsForRecyclableCategoryPage>
                             </div>
-                        ))}
-                </div>
+                        </div>
+
+                        <div>
+                            <h3 className='mt-8'>{router.query['type'] === 'buy' ? `Диаграмма объёмов(тонн) компаний по покупке` : `Диаграмма объёмов(тонн) компаний по продаже`}</h3>
+                            <CompaniesCircleGraphics companies={
+                                //@ts-ignore
+                                forCompaniesGraphicsAndList(router?.query['type'])}/>
+                        </div>
+                        <div className="mt-8">
+                            <CompaniesFilteredByRecyclableTable companies={
+                                //@ts-ignore
+                                showAllCompanies ? forCompaniesGraphicsAndList(router?.query['type']) : forCompaniesGraphicsAndList(router?.query['type']).slice(0, 4)}/>
+                            <Button
+                                onClick={() => setShowAllCompanies(!showAllCompanies)}
+                                type="micro" fullWidth
+                                mode="light">{!showAllCompanies ? "Показать все компании" : "Скрыть компании"}
+                            </Button>
+                        </div>
+                        <div className='mt-10'>
+                            <h3>{`Компании с контрактами на поставку по покупке ${recyclable?.name}, сортированные по городам`}</h3>
+                            {showAllCompaniesWithCities &&
+                                //@ts-ignore
+                                companies(filteredRecFixed(), recyclable?.id).map(item => (
+                                    <div
+                                        className={s.companies_list}
+                                        key={item?.companies[0]?.company?.city?.id}>
+                                        {<div>
+                                            <h3 className='font-bold'>
+                                                {item?.name}
+                                            </h3>
+                                            {item?.companies.map(companies => (
+                                                (companies && companies?.length) ?
+                                                    <div className='w-44 p-1 mt-3 inline-flex flex-wrap'>
+                                                        {companies[0]?.company?.city?.name.length > 0 &&
+                                                            <div>
+                                                                <div className="font-bold">
+                                                                    <h4>
+                                                                        <div
+                                                                            title={companies[0]?.company?.city?.name}
+                                                                            className="w-[172px] overflow-ellipsis whitespace-nowrap overflow-hidden">
+                                                                            {companies[0]?.company?.city?.name}
+                                                                        </div>
+                                                                    </h4>
+
+                                                                </div>
+                                                                <div className="inline-flex font-bold mt-1">
+                                                                    <h4>
+                                                                        {
+                                                                            //@ts-ignore
+                                                                            `${cityRecyclableCategoryVolume(recyclable?.id, companies[0]?.company?.city?.id)} т`}
+                                                                    </h4>
+                                                                    <h4 className="ml-2">
+                                                                        {
+                                                                            //@ts-ignore
+                                                                            cityRecyclablePercentInCategory(recyclable?.id, companies[0]?.company?.city?.id)}
+                                                                    </h4>
+                                                                </div>
+                                                            </div>}
+                                                        {companies.length > 0 &&
+                                                            //@ts-ignore
+                                                            companies.map(elem => (
+                                                                <div>
+                                                                    <div
+                                                                        onClick={() => router.push(`/companies/${elem?.company?.id}`)}
+                                                                        className={s.company_title}>
+                                                                        <p>{elem?.company?.name}</p>
+                                                                        <p>{`${elem?.totalVolume} т`}</p>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                    </div> :
+                                                    null))}
+                                        </div>}
+                                    </div>
+                                ))}
+                            <Button
+                                className="mt-6"
+                                onClick={() => setShowAllCompaniesWithCities(!showAllCompaniesWithCities)}
+                                type="micro" fullWidth
+                                mode="light">{!showAllCompanies ? "Показать компании сортированные по городам" : "Скрыть компании"}
+                            </Button>
+                        </div>
+                    </div>
+                }
                 <div className='mt-10'>
                     <h3>{
                         //@ts-ignore

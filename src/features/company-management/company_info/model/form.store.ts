@@ -13,6 +13,8 @@ import {ISelectValue} from '@box/shared/ui';
 import {ICity} from '@box/entities/city/model';
 import { notificationModel } from '@box/entities/notification';
 import {ICompany} from "@box/entities/company/model";
+import {IAuthUser} from "@box/entities/auth";
+import {IUser} from "@box/entities/user";
 
 const onLoadPageEvent = createEvent();
 
@@ -198,6 +200,26 @@ sample({
     target: cityField.$value,
 });
 
+const managerField = createField<ISelectValue<IUser> | null>({
+    initialValue: null,
+    //validateFn: (val) => validationPipe(val, isNotNull()),
+})
+
+sample({
+    source: $company,
+    clock: onLoadPageEvent,
+    fn: (company) => {
+        const selectValue: ISelectValue = {
+            //@ts-ignore
+            id: company?.manager?.id || 0,
+            label: `${company?.manager?.lastName} ${company?.manager?.firstName} ${company?.manager?.middleName}` || "",
+            value: company?.manager || null
+        }
+        return selectValue
+    },
+    target: managerField.$value,
+});
+
 const companyInfoFormManagement = createForm(
     nameField,
     innField,
@@ -211,7 +233,8 @@ const companyInfoFormManagement = createForm(
     bankNameField,
     headFullNameField,
     phoneField,
-    cityField
+    cityField,
+    managerField
 );
 
 const updateCompanyInfoFx = createEffect<{
@@ -228,7 +251,8 @@ const updateCompanyInfoFx = createEffect<{
     bank_name: string,
     head_full_name: string,
     phone: string,
-    city: number | string
+    city: number | string,
+    manager: string,
 }, unknown, AxiosError>({
     handler: async (fields) => {
         companyApi.setCompany(fields)
@@ -270,6 +294,7 @@ sample({
         head_full_name: headFullNameField.$value,
         phone: phoneField.$value,
         city: cityField.$value.map((val) => val?.id || 0),
+        manager: managerField.$value.map((val) => val?.id || 0),
     }),
     target: updateCompanyInfoFx,
 });
@@ -292,5 +317,6 @@ export {
     headFullNameField,
     phoneField,
     cityField,
+    managerField,
     patchCompanyStaffFX
 };

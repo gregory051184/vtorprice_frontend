@@ -29,7 +29,7 @@ export const MyCompanyRow: React.FC<ICompanyRow> = ({company}) => {
                     <Button
                         type="micro"
                         mode="light"
-                        onClick={() => router.push(`/companies//${company.id}`)}>
+                        onClick={() => router.push(`/companies/${company.id}`)}>
                         Карточка</Button>
                     <Button
                         className="mt-3"

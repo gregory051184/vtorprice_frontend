@@ -17,20 +17,41 @@ const getAllApplicationsWithPaginationFx = createEffect<
         handler: async (params) => {
             //Для передачи категории
             const router = Router
-            if (+router.asPath.split('/')[router.asPath.split('/').length - 1] > 0 &&
-                (+router.asPath.split('/').length === 6 || +router.asPath.split('/').length === 4)) {
-                params['category'] = router.asPath.split('/')[router.asPath.split('/').length - 1];
+            if (router.asPath.split('?')[1]) {
+                if (+router.asPath.split('?')[0].split('/')[router.asPath.split('?')[0].split('/').length - 1] > 0 &&
+                    (+router.asPath.split('?')[0].split('/').length === 4 || +router.asPath.split('?')[0].split('/').length === 6)) {
+                    params['category'] = router.asPath.split('?')[0].split('/')[router.asPath.split('?')[0].split('/').length - 1];
+                }
+                //Для передачи субкатегории
+                if (+router.asPath.split('?')[0].split('/')[router.asPath.split('?')[0].split('/').length - 1] > 0 &&
+                    (+router.asPath.split('?')[0].split('/').length === 5 || +router.asPath.split('?')[0].split('/').length === 7)) {
+                    params['sub_category'] = router.asPath.split('?')[0].split('/')[router.asPath.split('?')[0].split('/').length - 1];
+                }
+            } else {
+                if (+router.asPath.split('/')[router.asPath.split('/').length - 1] > 0 &&
+                    (+router.asPath.split('/').length === 4 || +router.asPath.split('/').length === 6)) {
+                    params['category'] = router.asPath.split('/')[router.asPath.split('/').length - 1];
+                }
+                //Для передачи субкатегории
+                if (+router.asPath.split('/')[router.asPath.split('/').length - 1] > 0 &&
+                    (+router.asPath.split('/').length === 5 || +router.asPath.split('/').length === 7)) {
+                    params['sub_category'] = router.asPath.split('/')[router.asPath.split('/').length - 1];
+                }
             }
-            //Для передачи субкатегории
-            if (+router.asPath.split('/')[router.asPath.split('/').length - 1] > 0 &&
-                (+router.asPath.split('/').length === 7 || +router.asPath.split('/').length === 5)) {
-                params['sub_category'] = router.asPath.split('/')[router.asPath.split('/').length - 1];
-            }
-            if (+router.asPath.split('/').includes('buy')) {
-                params['deal_type'] = BuyOrSellDeals.BUY
-            }
-            if (+router.asPath.split('/').includes('sell')) {
-                params['deal_type'] = BuyOrSellDeals.SELL
+            if (router.query['type']) {
+                if (router.query['type'] === 'buy') {
+                    params['deal_type'] = BuyOrSellDeals.BUY
+                }
+                if (router.query['type'] === 'sell') {
+                    params['deal_type'] = BuyOrSellDeals.SELL
+                }
+            } else {
+                if (router.asPath.split('/').includes('buy')) {
+                    params['deal_type'] = BuyOrSellDeals.BUY
+                }
+                if (router.asPath.split('/').includes('sell')) {
+                    params['deal_type'] = BuyOrSellDeals.SELL
+                }
             }
             if (+router.asPath.split('/').includes('wastes')) {
                 params['application_recyclable_status'] = 1

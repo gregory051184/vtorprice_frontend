@@ -30,24 +30,26 @@ import {
 } from "recharts";
 import ReactECharts from "echarts-for-react";
 import {mainMenuApplicationFilters} from "@box/features/application/filters/mainMenuApplicationsFilters/model/store";
+import {VolumesType} from "@box/widgets/statistics/statisticsBasedOnRecyclableApplications";
+import {IUniversal, RecyclableColorType, StockMarketRecyclableTablesType} from "@box/widgets/recyclable";
 
 
-type RecyclableColorType = {
-    recyclableCategory: IRecyclableCategory,
-    totalVolume: number,
-    percents: string,
-}
-
-interface IUniversal {
-    name: string,
-    id: number,
-    value: number
-}
-
-type StockMarketRecyclableTablesType = {
-    applications: Array<IRecyclableApplicationShortForAll>;
-    recyclableCategories: IRecyclableCategory[];
-}
+// type RecyclableColorType = {
+//     recyclableCategory: IRecyclableCategory,
+//     totalVolume: number,
+//     percents: string,
+// }
+//
+// interface IUniversal {
+//     name: string,
+//     id: number,
+//     value: number
+// }
+//
+// type StockMarketRecyclableTablesType = {
+//     applications: Array<IRecyclableApplicationShortForAll>;
+//     recyclableCategories: IRecyclableCategory[];
+// }
 
 export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesType> = ({
                                                                                            applications,
@@ -75,9 +77,33 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
     const {fields} = useForm(mainMenuApplicationFilters);
     const router = useRouter();
 
-    const recyclableCategoryVolume = (categoryId: number): number => {
-        const filtered_apps = applications.filter(app => app.recyclables.category.id === categoryId);
-        return +(filtered_apps.map(app => app.totalWeight).reduce((sum, a) => sum + a, 0) / 1000).toFixed();
+    // const recyclableCategoryVolume = (categoryId: number): number => {
+    //     const filtered_apps = applications.filter(app => app.recyclables.category.id === categoryId);
+    //     return +(filtered_apps.map(app => app.totalWeight).reduce((sum, a) => sum + a, 0) / 1000).toFixed();
+    // };
+
+
+    const recyclableCategoryVolume = (categoryId: number): VolumesType => {
+        const filtered_apps = applications
+            .filter(app => app.recyclables.category.id === categoryId);
+
+        const filtered_buy = applications
+            .filter(app => app.recyclables.category.id === categoryId && app?.dealType?.id === BuyOrSellDeals.BUY);
+        const filtered_sell = (applications
+            .filter(app => app.recyclables.category.id === categoryId && app?.dealType?.id === BuyOrSellDeals.SELL));
+
+        return {
+            totalVolume: +(filtered_apps
+                .map(app => app.totalWeight)
+                .reduce((sum, a) => sum + a, 0) / 1000)
+                .toFixed(),
+            buyVolume: +(filtered_buy.map(app => app.totalWeight)
+                .reduce((sum, a) => sum + a, 0) / 1000)
+                .toFixed(),
+            sellVolume: +(filtered_sell.map(app => app.totalWeight)
+                .reduce((sum, a) => sum + a, 0) / 1000)
+                .toFixed(),
+        };
     };
 
     /*const showFractionsHandler = (categoryId: number) => {
@@ -235,21 +261,29 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                     .filter(app => app.recyclables.category.id === recCat.id && app?.dealType?.id === dealType)
                     .map(app => app.totalWeight)
                     .reduce((sum, a) => sum + a, 0) / 1000 : 0;
-                const percents = allVolume > 0 ? `${((allVolume / totalVolume) * 100).toFixed(2)}%` : '--'
+                const percents = allVolume > 0 ? `${((allVolume / totalVolume.totalVolume) * 100).toFixed(2)}%` : '--'
                 result.push({
                     recyclableCategory: recCat,
-                    totalVolume: totalVolume,
+                    totalVolume: {
+                        totalVolume: totalVolume.totalVolume,
+                        buyVolume: totalVolume.buyVolume,
+                        sellVolume: totalVolume.sellVolume,
+                    },
                     percents: percents
                 })
             } else {
                 result.push({
                     recyclableCategory: recCat,
-                    totalVolume: totalVolume,
+                    totalVolume: {
+                        totalVolume: totalVolume.totalVolume,
+                        buyVolume: totalVolume.buyVolume,
+                        sellVolume: totalVolume.sellVolume,
+                    },
                     percents: '--'
                 })
             }
         }
-        return result.sort((a, b) => b.totalVolume - a.totalVolume);
+        return result.sort((a, b) => b.totalVolume.totalVolume - a.totalVolume.totalVolume);
 
         /*result
             .sort((a, b) => a.recyclableCategory.name
@@ -407,7 +441,7 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                                                     className={s.category_title}>{recyclableCategory?.recyclableCategory?.name}
                                                 </p>
                                                 <p className="ml-6 text-sm mt-[3px]">
-                                                    {`${recyclableCategory?.totalVolume} т`}
+                                                    {`${recyclableCategory?.totalVolume.totalVolume} т`}
                                                 </p>
                                             </div>
                                             <div>
@@ -489,7 +523,7 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                                                 {`${recyclableCategory?.recyclableCategory?.name} Покупка`}
                                             </p>
                                             <p className="text-sm mt-[3px] ml-4">
-                                                {`${recyclableCategory?.totalVolume} т`}
+                                                {`${recyclableCategory?.totalVolume.buyVolume} т`}
                                             </p>
                                             <p className="ml-4 text-sm mt-[3px]">
                                                 {`${recyclableCategory?.percents}`}
@@ -575,7 +609,7 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                                                 {`${recyclableCategory?.recyclableCategory?.name} Продажа`}
                                             </p>
                                             <p className="text-sm mt-[3px] ml-4">
-                                                {`${recyclableCategory?.totalVolume} т`}
+                                                {`${recyclableCategory?.totalVolume.sellVolume} т`}
                                             </p>
                                             <p className="ml-4 text-sm mt-[3px]">
                                                 {`${recyclableCategory?.percents}`}
@@ -737,7 +771,7 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                                             className={s.category_title}>{recyclableCategory?.recyclableCategory?.name}
                                         </p>
                                         <p className="ml-6 text-sm mt-[3px]">
-                                            {`${recyclableCategory?.totalVolume} т`}
+                                            {`${recyclableCategory?.totalVolume.totalVolume} т`}
                                         </p>
                                     </div>
                                     <div>
@@ -806,7 +840,7 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                                     key={recyclableCategory?.recyclableCategory?.id}>
                                     <div className="inline-flex">
                                         <p className="text-sm mt-[3px]">
-                                            {`${recyclableCategory?.totalVolume} т`}
+                                            {`${recyclableCategory?.totalVolume.buyVolume} т`}
                                         </p>
                                         <p className="ml-4 text-sm mt-[3px]">
                                             {`${recyclableCategory?.percents}`}
@@ -880,7 +914,7 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                                     key={recyclableCategory?.recyclableCategory?.id}>
                                     <div className="inline-flex">
                                         <p className="text-sm mt-[3px]">
-                                            {`${recyclableCategory?.totalVolume}т`}
+                                            {`${recyclableCategory?.totalVolume.sellVolume} т`}
                                         </p>
                                         <p className="ml-4 text-sm mt-[3px]">
                                             {`${recyclableCategory?.percents}`}

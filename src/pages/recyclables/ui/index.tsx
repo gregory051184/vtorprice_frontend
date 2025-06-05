@@ -16,7 +16,11 @@ import {
     FullListOfApplicationsForMainPage
 } from "@box/widgets/applications/applicationsListForMainPage/ui/fullListOfApplicationsForMainPage";
 import {MainMenuSidePanel} from "@box/widgets/mainMenuSidePanel";
-import {TimeframeTypes} from "@box/entities/application";
+import {
+    applicationRecyclableStatusSelectValues,
+    companyActivityTypesSelectValues,
+    TimeframeTypes
+} from "@box/entities/application";
 import {useForm} from "@box/shared/effector-forms";
 import {applicationFiltersForMainPageChart} from "@box/features/application/filters/applicationFiltersForMainPageChart";
 import {
@@ -149,14 +153,31 @@ export const RecyclablesByCategory = () => {
                 <BackButton/>
                 <div className="inline-flex mt-6">
                     <h1>{recyclables.map(rec => rec?.category?.name)[0]}</h1>
-                    <div className={'w-auto ml-36'}>
+                    <div className={'w-auto ml-32 inline-flex'}>
                         <Select
                             inputProps={{mode: "stroke"}}
                             placeholder={'Период'}
-                            className="w-200"
+                            className="w-100"
                             onSelect={f.fields.period_tab.onChange}
                             data={TimeframeTypes}
                             value={f.fields.period_tab.value}
+                        />
+                        <Select
+                            className="w-100 ml-5"
+                            withClearButton
+                            inputProps={{mode: 'stroke'}}
+                            value={f.fields.company_activity_types.value}
+                            placeholder="Тип компании"
+                            onSelect={f.fields.company_activity_types.onChange}
+                            data={companyActivityTypesSelectValues}
+                        />
+                        <Select
+                            inputProps={{mode: "stroke"}}
+                            placeholder={'Тип продукции'}
+                            className="w-100 ml-5"
+                            onSelect={f.fields.application_recyclable_status_tab.onChange}
+                            data={applicationRecyclableStatusSelectValues}
+                            value={f.fields.application_recyclable_status_tab.value}
                         />
                     </div>
                 </div>
