@@ -29,10 +29,8 @@ import {useForm} from "@box/shared/effector-forms";
 import {applicationFiltersForMainPageChart} from "@box/features/application/filters/applicationFiltersForMainPageChart";
 import {FormsModals} from "@box/widgets/formsModals";
 import {gate} from "@box/widgets/applications/applicationsListForMainPage";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Pagination} from "swiper";
-import classNames from "classnames";
 import {useScreenSize} from "@box/shared/hooks";
+import {RecyclableSwiper} from "@box/widgets/recyclable";
 
 
 type RecyclableTotalVolumeType = {
@@ -181,7 +179,7 @@ export const RecyclablesWasteSellByCategory = () => {
                                 value={f.fields.period_tab.value}
                             />
                             <Select
-                                className="w-full"
+                                className="w-full mt-6"
                                 withClearButton
                                 inputProps={{mode: 'stroke'}}
                                 value={f.fields.company_activity_types.value}
@@ -191,7 +189,8 @@ export const RecyclablesWasteSellByCategory = () => {
                             />
                         </div>
                     </div>
-                    <div className="mt-6">
+                    <RecyclableSwiper recyclables={filteredRecyclableCategory}/>
+                    {/*<div className="mt-6">
                         <Swiper
                             slidesPerView={1}
                             spaceBetween={15}
@@ -222,7 +221,7 @@ export const RecyclablesWasteSellByCategory = () => {
                             )}
                         </Swiper>
                         <div className='swiper-pagination flex mt-[22px] justify-center gap-[15px]'></div>
-                    </div>
+                    </div>*/}
                     <div className='mt-7'>
                         <h3>{recyclables.length > 0 ? `Компании с объявлениями по отходам ${recyclables.map(rec => rec?.category?.name)[0]} продажа` : ''}</h3>
                         {recyclables.length > 0 && filteredCompaniesByCityAndCategoryId(recyclables.map(rec => rec?.category?.id)[0]).map(item => (

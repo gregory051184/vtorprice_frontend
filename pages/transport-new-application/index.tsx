@@ -1,5 +1,6 @@
+import { TransportNewApplication } from '@box/pages/profile/transport-new-application';
 import React from 'react';
-import { TransportNewApplication } from '../../src/pages/profile/transport-new-application';
+
 
 const Index = () => (
   <TransportNewApplication />

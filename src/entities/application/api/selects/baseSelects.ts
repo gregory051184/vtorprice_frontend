@@ -1,4 +1,5 @@
 import {ITabSelectValue} from '@box/shared/ui';
+import {IApplicationRecyclableStatus} from "@box/entities/company/model";
 
 export const dealTypeSelectValues: Array<ITabSelectValue<number>> = [
     {
@@ -30,7 +31,7 @@ export const urgencyTypeSelectValues: Array<ITabSelectValue<number>> = [
 export const applicationStatusSelectValues: Array<ITabSelectValue<number>> = [
     {
         id: 1,
-        label: 'На проверка',
+        label: 'На проверке',
         value: 1,
     },
     {
@@ -46,6 +47,29 @@ export const applicationStatusSelectValues: Array<ITabSelectValue<number>> = [
     {
         id: 4,
         label: 'Отклонена',
+        value: 4,
+    },
+];
+
+export const invoiceStatusSelectValues: Array<ITabSelectValue<number>> = [
+    {
+        id: 1,
+        label: 'Ожидает оплаты',
+        value: 1,
+    },
+    {
+        id: 2,
+        label: 'Оплачен',
+        value: 2,
+    },
+    {
+        id: 3,
+        label: 'Отменен',
+        value: 3,
+    },
+    {
+        id: 4,
+        label: 'Возврат',
         value: 4,
     },
 ];
@@ -168,6 +192,19 @@ export const yesOrNo: Array<ITabSelectValue<number>> = [
     },
 ];
 
+export const stokForCompaniesRecyclables: Array<ITabSelectValue<number>> = [
+    {
+        id: 1,
+        label: 'Не на стопе',
+        value: 1,
+    },
+    {
+        id: 2,
+        label: 'На стопе',
+        value: 2,
+    }
+];
+
 export const isCompanyIsJurOrIp: Array<ITabSelectValue<number>> = [
     {
         id: 1,
@@ -240,6 +277,7 @@ export const applicationRecyclableStatusSelectValues: Array<ITabSelectValue<numb
         value: 2
     },
 ];
+
 
 export const appRecStatusSelectSellBuyValues: Array<ITabSelectValue<number>> = [
     {

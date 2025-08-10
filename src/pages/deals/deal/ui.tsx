@@ -261,7 +261,7 @@ export const Deal = () => {
                                                 )}
                                             <Paper className={s.paper}>
                                                 <DealFlowForm
-                                                    disabled={deal.status.id === DealStatus.LOGIST_ASSIGNMENT}
+                                                    disabled={deal.status.id === DealStatus.LOGIST_ASSIGNMENT || deal.status.id === DealStatus.CLOSED}
                                                     whoDelivers={deal.whoDelivers.id}
                                                     isSupplier={isSupplier}
                                                     isBuyer={isBuyer}

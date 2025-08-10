@@ -1,16 +1,22 @@
 import { createForm } from "@box/shared/effector-forms";
 
 import { PERIOD, selectValues } from "@box/entities/statistics/api/selects";
-import { ITabSelectValue } from "@box/shared/ui";
+import {ISelectValue, ITabSelectValue} from "@box/shared/ui";
 import { DateRangePickerValue } from "@mantine/dates";
 
 const filters = createForm({
   fields: {
-    period: {
-      init: selectValues[0] as ITabSelectValue<PERIOD>,
+    search: {
+      init: ''
     },
-    createdAt: {
+    period: {
+      init: selectValues[1] as ITabSelectValue<PERIOD>,
+    },
+    created_at: {
       init: [null, null] as DateRangePickerValue,
+    },
+    status: {
+      init: null as ISelectValue<number> | null,
     },
   },
 });

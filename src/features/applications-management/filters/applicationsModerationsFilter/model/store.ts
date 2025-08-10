@@ -34,8 +34,11 @@ const applicationManagementTableFilters = createForm({
     city: {
       init: null as ISelectValue | null
     },
-    status: {
+    is_deleted: {
       init: groupTypes[0] as ITabSelectValue | null
+    },
+    status: {
+      init: null as ISelectValue | null
     },
     company: {
       init: null as ISelectValue | null
@@ -76,8 +79,11 @@ const equipmentApplicationsManagementTableFilters = createForm({
     city: {
       init: null as ISelectValue | null
     },
-    status: {
+    is_deleted: {
       init: groupTypes[0] as ITabSelectValue | null
+    },
+    status: {
+      init: null as ISelectValue | null
     },
     company: {
       init: null as ISelectValue | null

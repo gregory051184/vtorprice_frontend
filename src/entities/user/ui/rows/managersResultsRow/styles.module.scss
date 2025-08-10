@@ -1,0 +1,22 @@
+.row {
+  //display: inline-flex;
+  cursor: pointer;
+  //height: 120px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(168 173 173 / var(--tw-bg-opacity));
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+.result {
+  word-break: normal;
+  padding-left: 16px;
+  padding-top: 16px;
+}
+
+.all {
+  width: 400px;
+  height: auto;
+  padding-left: 16px;
+  padding-top: 16px;
+}

@@ -2,12 +2,12 @@ export const headers = [
     {
       key: 1,
       label: 'Дата создания',
-      ordering: 'createdAt'
+      ordering: 'created_at'
     },
     {
         key: 2,
         label: 'Статус',
-        ordering: 'status'
+        //ordering: 'status'
     },
     {
       key: 3,
@@ -36,7 +36,7 @@ export const headersEquipment = [
     {
         key: 2,
         label: 'Статус',
-        ordering: 'status'
+        //ordering: 'status'
     },
     {
         key: 3,

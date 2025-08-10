@@ -3,8 +3,9 @@ import {companyApi, companyModel} from '@box/entities/company';
 import {ICompany} from '@box/entities/company/model';
 import {createList} from '@box/shared/lib/factories';
 import {AxiosError} from 'axios';
-import {createEffect, createStore} from 'effector';
-import {patchCompanyStaffFX} from "@box/features/company-management/company_info";
+import {createEffect, createStore, sample} from 'effector';
+import Router from "next/router";
+import {createGate} from "effector-react";
 
 const getCompanyFx = createEffect<number, companyModel.ICompany, AxiosError>({
     handler: async (id) => {
@@ -13,6 +14,9 @@ const getCompanyFx = createEffect<number, companyModel.ICompany, AxiosError>({
     }
 });
 
+
+const gate = createGate();
+
 const getApplicationsFx = createEffect<
     Parameters<typeof applicationApi.getApplications>[0]
     , {
@@ -20,8 +24,11 @@ const getApplicationsFx = createEffect<
     page?: number
 }, AxiosError>({
     handler: async (params) => {
+        //Для того чтобы в карточку компании поступали все контракты, а не только 7 шт
+        if (/\/companies\/\d/.test(Router.asPath)) {
+            params.size = 1000
+        }
         const {data} = await applicationApi.getApplications(params);
-
         return {
             data,
             page: params.page
@@ -29,8 +36,26 @@ const getApplicationsFx = createEffect<
     }
 });
 
+const getCompanyReadyForShipmentApplicationsFx = createEffect<
+    Parameters<typeof applicationApi.getCompanyReadyForShipmentApplications>[0]
+    , {
+    data: Awaited<ReturnType<typeof applicationApi.getCompanyReadyForShipmentApplications>>['data'],
+    page?: number
+}, AxiosError>({
+    handler: async (params) => {
+        const companyId = +Router.asPath.split('/')[2];
+        params.size = 1000
+        params.company = companyId;
+        const {data} = await applicationApi.getCompanyReadyForShipmentApplications(params);
+        return {
+            data,
+            page: params.page,
+        };
+    }
+});
+
 const $applicationsCount = createStore(0)
-    .on(getApplicationsFx.doneData, (_, applictions) => applictions.data.count);
+    .on(getApplicationsFx.doneData, (_, applications) => applications.data.count);
 
 const changeInFavoriteFx = createEffect<
     Parameters<typeof companyApi.updataCompanyInFavorite>[0], ICompany, AxiosError>({
@@ -43,6 +68,19 @@ const changeInFavoriteFx = createEffect<
 const $company = createStore<companyModel.ICompany | null>(null)
     .on(getCompanyFx.doneData, (_, data) => data)
     .on(changeInFavoriteFx.doneData, (_, data) => data)
+
+const $companyReadyForShipmentApplications = createStore<Array<applicationModel.IRecyclableApplication>>([])
+    .on(getCompanyReadyForShipmentApplicationsFx.doneData, (state, data) => {
+        if (data.page && data.page > 1) {
+            return [
+                ...state,
+                //ДОБАВИЛ ФИЛЬТРЫ
+                ...data.data
+            ];
+        }
+        return data.data
+    });
+
 
 const $companyApplications = createStore<Array<applicationModel.IRecyclableApplication>>([])
     .on(getApplicationsFx.doneData, (state, data) => {
@@ -65,6 +103,12 @@ const {pagination: applicationsPagination, effect: fetchApplications} = createLi
     fetchFilter: $company.map((el) => el !== null)
 });
 
+sample({
+    //@ts-ignore
+    clock: gate.open,
+    target: getCompanyReadyForShipmentApplicationsFx
+})
+
 export {
     $company,
     getCompanyFx,
@@ -72,5 +116,7 @@ export {
     $companyApplications,
     applicationsPagination,
     $applicationsCount,
-    fetchApplications
+    fetchApplications,
+    $companyReadyForShipmentApplications,
+    gate
 };

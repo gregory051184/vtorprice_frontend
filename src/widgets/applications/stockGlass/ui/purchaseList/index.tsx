@@ -18,7 +18,8 @@ export const StockGlassPurchaseList: React.FC<IWithClass & { show?: boolean }> =
     const sortedApplications = applications.result
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() );
     //const lastSaleInfo = useLastSaleInfo(applications.result[0], applications.result[1]);
-    const lastSaleInfo = useLastSaleInfo(sortedApplications[sortedApplications.length - 1], sortedApplications[0]);
+    //const lastSaleInfo = useLastSaleInfo(sortedApplications[sortedApplications.length - 1], sortedApplications[0]);
+    const lastSaleInfo = useLastSaleInfo(sortedApplications[0], sortedApplications[sortedApplications.length - 1]);
     useGate(purchase.list.gate);
     return (
         <div className={className}>

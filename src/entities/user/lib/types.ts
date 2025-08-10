@@ -1,0 +1,19 @@
+export enum userActionTypes {
+    CREATE = 1,
+    UPDATE = 2,
+    DELETE = 3,
+    LOGIN = 4,
+    LOGOUT = 5,
+}
+
+export enum modelsActions {
+    COMPANY = 1,
+    READY_FOR_SHIPMENT_APPLICATION = 2,
+    SUPPLY_CONTRACT_APPLICATION = 3,
+    EQUIPMENT_APPLICATION = 4,
+    RECYCLABLES_DEAL = 5,
+    EQUIPMENT_DEAL = 6,
+    PROPOSAL_FOR_APPLICATION = 7,
+    PROPOSAL_FOR_EQUIPMENT = 8,
+    CONTRACTOR = 9,
+}

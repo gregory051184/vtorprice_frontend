@@ -51,22 +51,22 @@ export const CompaniesListFiltersSearch: React.FC<IWithClass> = ({
     );
 };
 
-export const CompaniesListFilters = () => {
+export const  CompaniesListFilters = () => {
     const {fields} = useForm(filters);
     const allAdvantages = useStore($allAdvantages);
-    useEffect(() => {
-        // Сброс значений полей при монтировании элемента
-
-        fields.activity_types__rec_col_types.onChange(null);
-        fields.activity_types__advantages.onChange([]);
-        fields.recyclables__recyclables.onChange(null);
-        fields.status.onChange({
-            id: 11,
-            label: 'Не обязательно',
-            value: null,
-        });
-        fields.city.onChange(null);
-    }, []);
+    // useEffect(() => {
+    //     // Сброс значений полей при монтировании элемента
+    //
+    //     fields.activity_types__rec_col_types.onChange(null);
+    //     fields.activity_types__advantages.onChange([]);
+    //     fields.recyclables__recyclables.onChange(null);
+    //     fields.status.onChange({
+    //         id: 13,
+    //         label: 'Все компании',
+    //         value: null,
+    //     });
+    //     fields.city.onChange(null);
+    // }, []);
     return (
         <div>
             <div className={classNames('flex items-center gap-[20px]', s.filter)}>
@@ -105,7 +105,7 @@ export const CompaniesListFilters = () => {
                     value={fields.status.value}
                     inputProps={{mode: 'stroke'}}
                     className={classNames(s.field, 'w-[210px] shrink-0')}
-                    placeholder="Верифицированная компания"
+                    placeholder="Статус компании"
                     data={companyStatusSelectValues}
                 />
             </div>

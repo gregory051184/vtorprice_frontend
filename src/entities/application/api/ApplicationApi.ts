@@ -1,10 +1,11 @@
 import {AxiosResponse} from 'axios';
 import {$authHost, $host} from '@box/shared/api';
 import {Paginationable} from '@types';
-import {IRecyclableApplication, IRecyclableApplicationShortForAll} from '../model';
+import {IRecyclableApplication, ISupplyContractsPrice} from '../model';
 
 type CreateApplicationParams = {
     images?: Array<File | string>,
+    is_deleted?: boolean,
     deal_type: IRecyclableApplication['dealType']['id'],
     urgency_type: IRecyclableApplication['urgencyType']['id'],
     application_recyclable_status?: IRecyclableApplication['applicationRecyclableStatus']['id'],
@@ -31,6 +32,7 @@ type GetApplicationsParams = {
     no_page?: boolean,
     exclude: number,
     search: string,
+    is_deleted?: boolean,
     deal_type: IRecyclableApplication['dealType']['id'],
     //СДЕЛАЛ urgency_type необязательным
     urgency_type?: IRecyclableApplication['urgencyType']['id'],
@@ -69,7 +71,7 @@ type GetApplicationsParams = {
     owner_has_companies?: number | string,
     is_jur_or_ip?: number | string,
     company_rating?: number | string,
-
+    size?: number,
     city__region__district?: number,
     city__region?: number,
 };
@@ -96,6 +98,11 @@ export type GetAllApplicationsWithoutPagesParams = {
     deal_type?: number,
     application_recyclable_status?: number,
     company_activity_types?: number
+}
+
+export type GetMedianContractsPriceParams = {
+    deal_type: number,
+    recyclables: number
 }
 
 
@@ -130,6 +137,13 @@ class ApplicationApi {
             params,
         });
     }
+    //Для получения заявок готов к отгрузке только для карточки компании
+    getCompanyReadyForShipmentApplications(params: Partial<GetApplicationsParams>): Promise<AxiosResponse<Array<IRecyclableApplication>
+    & Paginationable>> {
+        return $authHost.get('/recyclables_applications/ready_for_shipment', {
+            params,
+        });
+    }
 
     getApplicationForPurchaseAndSales(params: GetApplicationsForPurchaseAndSalesParams): Promise<AxiosResponse<Array<IRecyclableApplication>>> {
         return $authHost.get('/recyclables_applications/', {
@@ -137,9 +151,12 @@ class ApplicationApi {
         });
     }
 
-
     getAllApplications(params: GetAllApplicationsWithoutPagesParams): Promise<AxiosResponse> {
         return $authHost.get('/all_recyclables_applications/', {params});
+    }
+
+    getMedianContractsPrice(params: GetMedianContractsPriceParams): Promise<AxiosResponse<Array<ISupplyContractsPrice>>> {
+        return $authHost.get('/recyclables_applications/supply_contracts_recyclable_prices_for_median_price/', {params});
     }
 
     getAllApplicationsWithPagination(params: Partial<GetAllApplicationsWithoutPagesParams>): Promise<AxiosResponse<{
@@ -157,9 +174,7 @@ class ApplicationApi {
         });
     }
 
-    getAllCompanyApplications(params: Partial<GetApplicationsParams>): Promise<AxiosResponse<{
-        results: Array<IRecyclableApplication>
-    } & Paginationable>> {
+    getAllCompanyApplications(params: Partial<GetApplicationsParams>): Promise<AxiosResponse<Array<IRecyclableApplication>>> {
         return $host.get(`/recyclables_applications/company_apps/`, {
             params,
         });

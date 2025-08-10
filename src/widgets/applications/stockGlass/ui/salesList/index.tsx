@@ -6,7 +6,7 @@ import {useLastSaleInfo} from '../../hooks';
 import {StockGlassApplicationListTemplate} from '../template';
 import {sales} from '../../model';
 import s from './style.module.scss';
-import {Pagination, Tip} from "@box/shared/ui";
+import {Pagination} from "@box/shared/ui";
 import {Card} from "@box/widgets/applications/stockGlass/ui/card";
 import Empty from "@assets/icons/32_empty.svg";
 
@@ -18,7 +18,9 @@ export const StockGlassSalesList: React.FC<IWithClass & { show?: boolean }> = ({
     const sortedApplications = applications.result
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() );
     //const lastSaleInfo = useLastSaleInfo(applications.result[0], applications.result[1]);
-    const lastSaleInfo = useLastSaleInfo(sortedApplications[sortedApplications.length - 1], sortedApplications[0]);
+    //const lastSaleInfo = useLastSaleInfo(sortedApplications[sortedApplications.length - 1], sortedApplications[0]);
+    const lastSaleInfo = useLastSaleInfo(sortedApplications[0], sortedApplications[sortedApplications.length - 1]);
+
     useGate(sales.list.gate);
     return (
         <div className={className}>

@@ -9,8 +9,7 @@ import {
     urgencyTypeSelectValues
 } from '@box/entities/application';
 import {companyModel} from '@box/entities/company';
-import {IRegion} from "@box/entities/region/model";
-import {IDistrict} from "@box/entities/district";
+
 
 const mainMenuApplicationFilters = createForm({
     fields: {

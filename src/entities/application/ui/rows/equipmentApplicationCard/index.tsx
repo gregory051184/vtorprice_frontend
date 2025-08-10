@@ -14,7 +14,7 @@ export const EquipmentApplicationCard: React.FC<IApplicationCard> = ({
 }) => {
   const authStore = useStore($authStore);
   return(
-  <Link href={`/equipment-applications/${application.id}`} className={classNames('p-[16px] bg-grey-10 rounded-[10px]', className)}>
+  <Link href={`/equip-apps/${application.id}`} className={classNames('p-[16px] bg-grey-10 rounded-[10px]', className)}>
     <div className="flex gap-[10px]">
       <Avatar className="shrink-0" size="sm" url={application?.images[1] || null} />
       <div>

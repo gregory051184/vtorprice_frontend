@@ -11,6 +11,9 @@ import Dealer from "@assets/icons/24_dealer.svg";
 import Analytics from "@assets/icons/24_analytics.svg";
 import Logistic from "@assets/icons/24_logistic.svg";
 import Cont from "@assets/icons/24_contractors.svg";
+
+import GenerateProposal from "@assets/icons/Generate_proposal.svg";
+
 import {ROLE} from "@box/types";
 import {ReactNode} from "react";
 
@@ -42,11 +45,11 @@ export const tabs: Record<
     }>
 > = {
     [ROLE.ADMIN]: [
-        {
-            label: "Модерация заявок",
-            icon: <App/>,
-            href: "/applications-verification",
-        },
+        // {
+        //     label: "Модерация заявок",
+        //     icon: <App/>,
+        //     href: "/applications-verification",
+        // },
         {
             label: "Все компании",
             icon: <Org/>,
@@ -58,7 +61,7 @@ export const tabs: Record<
             href: "/profile/applications-management",
         },
         {
-            label: "Верификация компаний",
+            label: "Cтатус и верификация",
             icon: <Cont/>,
             href: "/companies-verification",
         },
@@ -69,11 +72,7 @@ export const tabs: Record<
         },
         {
             label: "Генерировать предложения",
-            icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                    d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"
-                    fill="#e9e8ed"></path>
-            </svg>,
+            icon: <GenerateProposal/>,
             href: "/profile/generate-list-of-offers",
         },
         {
@@ -185,11 +184,18 @@ export const tabs: Record<
             icon: <App/>,
             href: "/applications-verification",
         },
-        {
+        /*{
             label: "Мои компании",
             icon: <Org/>,
             href: "/profile/my-company",
+        },*/
+
+        {
+            label: "Мои компании и верификация",
+            icon: <Cont/>,
+            href: "/companies-verification",
         },
+
         {
             label: "Заявки моих компаний",
             icon: <App/>,
@@ -197,11 +203,12 @@ export const tabs: Record<
         },
         {
             label: "Генерировать предложения",
-            icon: <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none">
+            icon: <GenerateProposal/>,
+            /*<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none">
                 <path
                     d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"
                 ></path>
-            </svg>,
+            </svg>,*/
             href: "/profile/generate-list-of-offers",
         },
         {

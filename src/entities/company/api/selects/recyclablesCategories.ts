@@ -4,7 +4,7 @@ import { ISelectValue } from '@box/shared/ui';
 // eslint-disable-next-line no-unused-vars
 export const recyclablesCategoriesSelectApi = async (_: string): Promise<Array<ISelectValue>> => {
   try {
-    const { data } = await companyApi.getRecyclablesCategories();
+    const { data } = await companyApi.getRecyclablesCategories({size: 1000});
     return data.results.map((el) => ({
       id: el.id,
       label: el.name,
@@ -24,7 +24,7 @@ export const recyclablesCategoriesSelectApi = async (_: string): Promise<Array<I
 
 export const equipmentCategoriesSelectApi = async (_: string): Promise<Array<ISelectValue>> => {
   try {
-    const { data } = await companyApi.getEquipmentCategories();
+    const { data } = await companyApi.getEquipmentCategories({size: 1000});
     return data.results.map((el) => ({
       id: el.id,
       label: el.name,

@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { IColorStatus } from "./types";
+import {IColorStatus} from "./types";
 
 type IColorSchemaStatus = {
   logist: { [key: string]: string };

@@ -36,7 +36,6 @@ export const RecyclableCategoriesListForMainPage = () => {
     const recyclableCategories = useStore($recyclablesCategory);
     const applications = useStore($allApplicationsWithoutPages);
 
-    //const {fields} = useForm(mainMenuApplicationFilters)
     const f = useForm(applicationFiltersForMainPageChart)
     const [showForm, setShowForm] = useState<boolean>(false);
     const [showCategories, setShowCategories] = useState<boolean>(false);
@@ -95,7 +94,7 @@ export const RecyclableCategoriesListForMainPage = () => {
                     <Select
                         inputProps={{mode: "stroke"}}
                         placeholder={'Тип продукции'}
-                        className="w-full"
+                        className="w-full mt-6"
                         onSelect={f.fields.application_recyclable_status_tab.onChange}
                         data={applicationRecyclableStatusSelectValues}
                         value={f.fields.application_recyclable_status_tab.value}

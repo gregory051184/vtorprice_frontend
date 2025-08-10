@@ -1,9 +1,9 @@
 import {AxiosResponse} from "axios";
 import {$authHost, $host} from "@box/shared/api";
 import {IAuthUser} from "@box/entities/auth";
-import {IUser} from "@box/entities/user";
+import {IManagersActions, IUser} from "@box/entities/user";
 import {IChecking} from "@box/entities/company/ui/rows/companyRow/types";
-import {ICity} from "@box/entities/city/model";
+
 
 type AuthorizeParams = {
     userId: number | string;
@@ -46,6 +46,15 @@ export type UserCreateParams = {
     position: string;
 }
 
+type GetOnlyManagersParams = {
+    size: number;
+}
+
+type GetManagersActionsParams = {
+    created_at__lte?: string,
+    created_at__gte?: string,
+}
+
 class AuthApi {
     authorize({userId, code}: AuthorizeParams): Promise<
         AxiosResponse<{
@@ -59,9 +68,14 @@ class AuthApi {
         });
     };
 
-    getOnlyManagers(): Promise<
+    getOnlyManagers(params: GetOnlyManagersParams): Promise<
         AxiosResponse<Array<IUser>>> {
-        return $authHost.get("/users/managers");
+        return $authHost.get("/users/managers", {params});
+    }
+
+    getOnlyManagersActions(params: GetManagersActionsParams): Promise<
+        AxiosResponse<Array<IManagersActions>>> {
+        return $authHost.get('/users_actions/managers_and_admins', {params});
     }
 
     getAuthUser(access_token?: string): Promise<AxiosResponse<IAuthUser>> {

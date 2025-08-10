@@ -120,6 +120,7 @@ export interface IEquipmentApplication {
     address: string;
     latitude: number;
     longitude: number;
+    description: string;
     status: TStatus;
     dealType: {
         id: 1 | 2 | number,
@@ -170,4 +171,8 @@ export interface IEquipmentCategory {
     treeId: number,
     equipments: Array<IEquipment>,
     subcategories: Array<any>,
+}
+
+export interface ISupplyContractsPrice {
+    price: number;
 }

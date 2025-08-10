@@ -20,7 +20,7 @@ export const EquipmentApplicationRow: React.FC<IApplicationsFavoriteRow> = ({
     <Table.Row
       className="cursor-pointer"
       onClick={() => {
-        router.push(`/equipment-applications/${application.id}`);
+        router.push(`/equip-apps/${application.id}`);
       }}
     >
       <Table.Cell className="max-w-[300px] min-w-[200px]">

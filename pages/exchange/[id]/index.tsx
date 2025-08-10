@@ -3,8 +3,10 @@ import { StockGlass } from '@box/pages/exchange';
 import { withServerSideAuth } from '@box/providers';
 import { allSettled } from 'effector';
 import { recyclableModel } from '@box/entities/recyclable';
+import {ExchangeFractionPage} from "@box/pages/exchange/glass/exchangeFractionPage";
 
-const Index = () => <StockGlass />;
+
+const Index = () => <ExchangeFractionPage/> //<StockGlass />;
 
 export const getServerSideProps = withServerSideAuth.getServerSideProps(async ({
   scope,

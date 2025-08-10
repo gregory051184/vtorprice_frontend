@@ -7,4 +7,7 @@ export * as companiesStatsModel from './companiesStats/model';
 export * as applicationsStatsModel from './applicationsStats/model';
 export * as exchangeVolumeModel from './exchangeVolume/model';
 export * as recyclablesApplicationsPricesModel from './recyclablesApplicationsPrices/model';
-export * from './recyclablesVolumeStats'
+export * from './recyclablesVolumeStats';
+
+
+

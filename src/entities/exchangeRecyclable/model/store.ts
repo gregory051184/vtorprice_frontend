@@ -1,8 +1,13 @@
-import {createEffect, createStore} from 'effector';
-import {AxiosError} from 'axios';
+import {attach, createEffect, createStore, sample} from 'effector';
+import {AxiosError, AxiosResponse} from 'axios';
 import {createLoaderStore} from '@box/shared/lib/helpers';
 import {IExchangeRecyclable} from './types';
 import {exchangeRecyclableApi} from '../api';
+import {createGate} from "effector-react";
+import { exchangeRecyclablesListFiltersModel } from '@box/features/recyclable';
+
+
+const gate = createGate();
 
 const getExchangeRecyclablesFx = createEffect<
     Parameters<typeof exchangeRecyclableApi.getExchangeRecyclables>[0],
@@ -27,7 +32,21 @@ const getExchangeRecyclablesFx = createEffect<
     }
 });
 
+const getExchangeRecyclablesByParamsFx = createEffect<() => Promise<AxiosResponse<Array<IExchangeRecyclable>>>>({
+    //@ts-ignore
+    handler: async (params) => {
+        const {data} = await exchangeRecyclableApi.getExchangeRecyclablesByCategory(params)
+        return data
+    }
+})
+
 const exchangeRecyclablesLoading = createLoaderStore(false, getExchangeRecyclablesFx);
+
+// @ts-ignore
+// eslint-disable-next-line
+const $exchangeRecyclablesByCategory = createStore<Array<IExchangeRecyclable>>([])
+    //.on(getExchangeRecyclablesByCategoryFx.doneData, (state, data) => data)
+    .on(getExchangeRecyclablesByParamsFx.doneData, (state, data) => data)
 
 const $exchangeRecyclables = createStore<Array<IExchangeRecyclable>>([])
     .on(getExchangeRecyclablesFx.doneData, (state, data) => {
@@ -41,7 +60,6 @@ const $exchangeRecyclables = createStore<Array<IExchangeRecyclable>>([])
             for (let i = 0; i < final.length; i++) {
                 state.push(final[i])
             }
-
 
             if (data.ordering === 'category') {
                 state.sort(function (a, b) {
@@ -76,14 +94,14 @@ const $exchangeRecyclables = createStore<Array<IExchangeRecyclable>>([])
             if (data.ordering === 'salesApplicationsCount') {
                 state.sort(function (a, b) {
                     //@ts-ignore
-                    return a.salesApplicationsCount  - b.salesApplicationsCount ;
+                    return a.salesApplicationsCount - b.salesApplicationsCount;
                 });
                 return state
             }
             if (data.ordering === '-salesApplicationsCount') {
                 state.sort(function (a, b) {
                     //@ts-ignore
-                    return b.salesApplicationsCount - a.salesApplicationsCount ;
+                    return b.salesApplicationsCount - a.salesApplicationsCount;
                 });
                 return state
             }
@@ -174,8 +192,36 @@ const $exchangeRecyclables = createStore<Array<IExchangeRecyclable>>([])
         return data.data.results
     });
 
+
+
+const getExchangeRecyclablesByCategory = attach({
+    source: {
+        filters: exchangeRecyclablesListFiltersModel.filters.$values,
+    },
+    mapParams: (_, { filters}) => ({
+        urgency_type: filters.urgency_type?.value,
+        category: filters.category?.value,
+        applications__city__region__district: filters.district?.value.id,
+        applications__city__region: filters.region?.value.id,
+    }),
+    effect: getExchangeRecyclablesByParamsFx
+});
+
+sample({
+    clock: [
+        gate.open,
+        exchangeRecyclablesListFiltersModel.filters.$values
+    ],
+    source: exchangeRecyclablesListFiltersModel.filters.$values,
+    target: getExchangeRecyclablesByCategory
+})
+
+
 export {
     getExchangeRecyclablesFx,
     $exchangeRecyclables,
-    exchangeRecyclablesLoading
+    exchangeRecyclablesLoading,
+    $exchangeRecyclablesByCategory,
+    gate,
+    //getExchangeRecyclablesByCategoryFx
 };

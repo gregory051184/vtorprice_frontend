@@ -1,2 +1,2 @@
-export * from './usersRoleList'
-export * from './roleCards'
+export * from './usersRoleList';
+export * from './roleCards';

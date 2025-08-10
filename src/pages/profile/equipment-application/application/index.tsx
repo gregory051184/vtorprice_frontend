@@ -27,7 +27,7 @@ export const UsersEquipmentApplication = () => {
                 Редактирование заявки
               </h1>
               <Paper className="mt-[30px]">
-                <UpdateEquipmentForm />
+                <UpdateEquipmentForm/>
               </Paper>
             </div>
           )}

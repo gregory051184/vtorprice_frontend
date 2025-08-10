@@ -27,9 +27,11 @@ const createSupplyContractApplicationFx = createEffect<{
   city: number,
 }, void, AxiosError>({
   handler: async (data) => {
+    const list = ['гранула', 'гранулы', "дробленка", "флекс"]
+    const applicationRecyclableStatus = list.some(v => data.recyclableType?.label.toLowerCase().includes(v)) ? 2 : 1
     await $authHost.post('/recyclables_applications/', {
       deal_type: data.dealType.value,
-      application_recyclable_status: data.applicationRecyclableStatus.value,
+      application_recyclable_status: applicationRecyclableStatus,//data.applicationRecyclableStatus.value,
       urgency_type: 2,
       with_nds: data.withNds,
       //ЗАМЕНИЛ

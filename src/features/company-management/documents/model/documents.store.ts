@@ -31,7 +31,7 @@ const deleteDocumentApi = async (id: number) => {
 
 const uploadDocumentApi = async ({ type, file }: { type: TRequiredDoctype | null, file: File}) => {
   const { data } = await $authHost.post('/company_documents/', {
-    file,
+    file: file,
     ...(type && { doc_type: type }),
     // @ts-ignore
     comment: file.name,

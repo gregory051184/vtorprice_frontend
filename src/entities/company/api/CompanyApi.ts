@@ -8,7 +8,7 @@ import {
 import {$authHost, $host} from '@box/shared/api';
 import {AxiosResponse} from 'axios';
 import {Paginationable} from '@types';
-import {param} from "ts-interface-checker";
+
 
 type GetCompanyTypeAdvantagesParams = number;
 type CreateCompanyParams = ICompany;
@@ -23,7 +23,8 @@ type GetCompaniesParams = {
     ordering?: string | null,
     activity_types?: string,
     activity_types__rec_col_types?: string,
-    recyclables__recyclables?: string,
+    //recyclables__recyclables?: string,
+    recyclables_applications__recyclables?: string,
     status?: number,
     is_favorite?: boolean,
     city?: number,
@@ -44,6 +45,10 @@ type GetCompaniesParams = {
     is_jur_or_ip?: number,
     company_failed_deals?: number,
     company_has_applications?: number,
+
+    recyclables_applications__urgency_type?: number,
+    exist_company_recyclables?: number
+
 };
 
 type GetCompaniesRecColTypesParams = {
@@ -66,8 +71,8 @@ type SetCompanyOwnerParams = number | string;
 
 type UpdateCompanyParams = {
     id: number,
-    name: string,
-    inn: string,
+    name?: string,
+    inn?: string,
     image?: File | string | null,
     address?: string,
     description?: string,
@@ -75,7 +80,8 @@ type UpdateCompanyParams = {
     payment_account?: string | null
     staff?: Array<number>,
     suspend_staff?: Array<number>,
-    manager?: string
+    manager?: string,
+    email?: string,
 };
 
 type UpdateCompanyStaffParams = {
@@ -83,6 +89,15 @@ type UpdateCompanyStaffParams = {
     staff?: Array<number>,
     suspend_staff?: Array<number>,
 };
+
+type UpdateCompanyStatusParams = {
+    id: number,
+    status: string,
+};
+
+type GetCategoriesParams = {
+    size: number
+}
 
 
 class CompanyApi {
@@ -139,7 +154,7 @@ class CompanyApi {
     }
 
     getCompanyRecyclables(data: GetCompanyRecyclablesParams): Promise<AxiosResponse<Array<ICompanyRecyclable['recyclables']>
-    >>{
+    >> {
         return $host.get('/recyclables/', {
             params: {
                 search: data.search
@@ -187,21 +202,14 @@ class CompanyApi {
         });
     }
 
-    getRecyclablesCategories(): Promise<AxiosResponse<{
-        results: Array<{
-            id: number,
-            name: string,
-            subcategories: Array<{
-                id: number,
-                name: string,
-                subcategories: any
-            }>
-        }>
-    }>> {
-        return $host.get('/recyclables_categories/');
+    patchCompanyStatus(data: UpdateCompanyStatusParams): Promise<AxiosResponse<ICompany>> {
+        const {id, ...params} = data;
+        return $authHost.patch(`/companies/${id}/`, {
+            ...params
+        });
     }
 
-    getEquipmentCategories(): Promise<AxiosResponse<{
+    getRecyclablesCategories(params: GetCategoriesParams): Promise<AxiosResponse<{
         results: Array<{
             id: number,
             name: string,
@@ -212,7 +220,21 @@ class CompanyApi {
             }>
         }>
     }>> {
-        return $host.get('/equipment_categories/');
+        return $host.get('/recyclables_categories/', {params});
+    }
+
+    getEquipmentCategories(params: GetCategoriesParams): Promise<AxiosResponse<{
+        results: Array<{
+            id: number,
+            name: string,
+            subcategories: Array<{
+                id: number,
+                name: string,
+                subcategories: any
+            }>
+        }>
+    }>> {
+        return $host.get('/equipment_categories/', {params});
     }
 
 }

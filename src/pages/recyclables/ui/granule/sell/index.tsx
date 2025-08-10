@@ -35,6 +35,7 @@ import {
 import {FormsModals} from "@box/widgets/formsModals";
 import {gate} from "@box/widgets/applications/applicationsListForMainPage";
 import classNames from "classnames";
+import {RecyclablesCategorySwiper} from "@box/widgets/recyclable";
 
 type RecyclableColorType = {
     recyclableCategory: IRecyclableCategory,
@@ -123,7 +124,7 @@ export const RecyclablesGranuleSell = () => {
                                 value={f.fields.period_tab.value}
                             />
                             <Select
-                                className="w-full"
+                                className="w-full mt-6"
                                 withClearButton
                                 inputProps={{mode: 'stroke'}}
                                 value={f.fields.company_activity_types.value}
@@ -133,7 +134,8 @@ export const RecyclablesGranuleSell = () => {
                             />
                         </div>
                     </div>
-                    <div className="mt-6">
+                    <RecyclablesCategorySwiper categories={filtered_recyclableCategory}/>
+                    {/*<div className="mt-6">
                         <Swiper
                             slidesPerView={1}
                             spaceBetween={15}
@@ -164,7 +166,7 @@ export const RecyclablesGranuleSell = () => {
                             )}
                         </Swiper>
                         <div className='swiper-pagination flex mt-[22px] justify-center gap-[15px]'></div>
-                    </div>
+                    </div>*/}
                     <div
                         onClick={() => router.push('/profile/favorites')}
                         className={s.switch_button}>

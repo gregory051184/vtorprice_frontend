@@ -1,3 +1,3 @@
 export * from './readyForShipmentForm';
 export * from './supplyContractForm';
-export * from './equipmentForm';
+export * from './equipmentForm/OLD';

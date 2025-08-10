@@ -1,9 +1,25 @@
 import { invoicePaymentsApi } from "@box/entities/statistics/api/invoicePaymentsApi";
 import { AxiosError } from "axios";
-import { createEffect, createEvent, createStore } from "effector";
+import {createEffect, createEvent, createStore, sample} from "effector";
+import {$authHost} from "@box/shared/api";
 
-const deleteFile = createEvent();
+
+const deletePaymentOrderApi = async (id: number) => {
+  await $authHost.delete(`/payment_orders/${id}`);
+  return id;
+};
+
+const deleteFile = createEvent<number>();
 const addFile = createEvent<File | null>();
+
+const deleteRequiredDocumentFx = createEffect<
+    number
+    , number, AxiosError>({
+  handler: async (id) => {
+    await deletePaymentOrderApi(id);
+    return id;
+  },
+});
 
 const $document = createStore<File | null>(null)
   .on(addFile, (_, payload) => payload)
@@ -29,7 +45,7 @@ const sendMonthOrderFx = createEffect<
 });
 
 const sendPaymentOrderFx = createEffect<
-  { id: number; document: File; total: number },
+  { id: number; document: File; total: number; invoice_payment?: number; name?: string},
   {
     data: Awaited<
       ReturnType<typeof invoicePaymentsApi.postPaymentOrder>
@@ -37,11 +53,13 @@ const sendPaymentOrderFx = createEffect<
   },
   AxiosError
 >({
-  handler: async ({ id, document, total }) => {
+  handler: async ({ id, document, total, invoice_payment, name }) => {
     const { data } = await invoicePaymentsApi.postPaymentOrder({
       id,
       document,
       total,
+      invoice_payment,
+      name
     });
 
     return {
@@ -49,5 +67,10 @@ const sendPaymentOrderFx = createEffect<
     };
   },
 });
+
+sample({
+  clock: deleteFile,
+  target: deleteRequiredDocumentFx
+})
 
 export { $document, deleteFile, addFile, sendMonthOrderFx, sendPaymentOrderFx };

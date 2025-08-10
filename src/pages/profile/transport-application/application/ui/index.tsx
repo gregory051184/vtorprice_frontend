@@ -48,7 +48,9 @@ export const LogistTransportApplication = () => {
         {application && (
           <div className="mt-[20px]">
             <h1 className="text-3xl mb-5">Предложение по логистике</h1>
-            {user?.role.id === ROLE.COMPANY_ADMIN && offer && (
+            {
+              //@ts-ignore
+              (user?.role.id === ROLE.COMPANY_ADMIN || user?.role.id <= ROLE.MANAGER) && offer && (
               <SubmitTransportApplicationOfferForm offer={offer} />
             )}
             {user?.role.id === ROLE.LOGIST && (

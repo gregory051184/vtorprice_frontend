@@ -1,4 +1,4 @@
-import React, { FormEventHandler } from 'react';
+import React, {FormEventHandler, useEffect} from 'react';
 import { useForm } from '@box/shared/effector-forms';
 import classNames from 'classnames';
 import {
@@ -15,6 +15,7 @@ import { companySelectApi } from "@box/entities/company";
 import { useStore } from "effector-react";
 import { $authStore } from "@box/entities/auth";
 import { $totalPrice } from "@box/features/delivery_calculator/model";
+import {useRouter} from "next/router";
 
 const DynamicGeoSelect = dynamic(
   () => import('@box/shared/ui').then(module => module.GeoSelect),
@@ -26,6 +27,7 @@ export const CreateTransportApplicationTemplate: React.FC<ICreateTransportApplic
   form,
   buttonText = 'Отправить заявку'
 }) => {
+  const router = useRouter();
   const {
     fields, submit, isValid,
     hasError
@@ -107,7 +109,7 @@ export const CreateTransportApplicationTemplate: React.FC<ICreateTransportApplic
         />
         <BaseInput type="text" error={hasError('phone')} className={classNames("grow", s.input)} placeholder="Номер телефона" required value={fields.phone.value} onChange={(val) => fields.phone.onChange(VMasker.toPattern(val, '(999)999-99-99'))} />
       </div>
-      
+
       <div className={classNames('flex gap-[16px]', s.block)}>
         <DynamicGeoSelect
           inputValue={fields.loadingAddress.value}
@@ -154,7 +156,10 @@ export const CreateTransportApplicationTemplate: React.FC<ICreateTransportApplic
         <BaseInput className="grow" placeholder="Комментарий" value={fields.comment.value} onChange={fields.comment.onChange} />
       </div>
       <div className={classNames('mt-[4px] flex gap-[24px] items-center ', s.block, s.footer)}>
-        <Button disabled={!isValid} className={classNames('w-1/2', s.block_input)} htmlType="submit">
+        <Button
+            disabled={!isValid}
+            className={classNames('w-1/2', s.block_input)}
+            htmlType="submit">
           {buttonText}
         </Button>
         {!!totalPrice &&

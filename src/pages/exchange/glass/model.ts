@@ -37,14 +37,16 @@ const selectValues: Array<ITabSelectValue<PERIOD>> = [
 
 const getGraphDataFx = createEffect<{
   period?: PERIOD,
-  id: number
+  id: number,
+  deal_type?: number
 }, GraphData>({
-  handler: async ({ id, period }) => {
+  handler: async ({ id, period, deal_type }) => {
     const router = Router
     const { data } = await $host.get(`/exchange_recyclables/${id}/graph/`, {
       params: {
-        period: period || PERIOD.WEEK,
-        urgency_type: router.query.type ? router.query.type : ""
+        period: period || PERIOD.ALL,
+        urgency_type: router.query.type ? router.query.type : "",
+        deal_type: deal_type || ""
       }
     });
     return data;
@@ -52,10 +54,11 @@ const getGraphDataFx = createEffect<{
 });
 
 const setPeriod = createEvent<ITabSelectValue<PERIOD>>();
-const $period = createStore<ITabSelectValue<PERIOD>>(selectValues[0])
+const $period = createStore<ITabSelectValue<PERIOD>>(selectValues[3])
   .on(setPeriod, (_, data) => data);
 
-const $graphData = createStore<GraphData>([]).on(getGraphDataFx.doneData, (_, data) => data);
+const $graphData = createStore<GraphData>([])
+    .on(getGraphDataFx.doneData, (_, data) => data);
 
 export {
   getGraphDataFx,

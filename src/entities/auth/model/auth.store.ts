@@ -23,32 +23,31 @@ const logoutEvent = createEffect({
 
 const getMeFx = createEffect<void, IAuthUser, AxiosError>({
     handler: async () => {
-        const res: AxiosResponse = await $authHost.get('/users/');
+            const res: AxiosResponse = await $authHost.get('/users/');
+            const wrong_data: any = res.data
+            res.data['first_name'] = wrong_data['firstName']
+            res.data['last_name'] = wrong_data['lastName']
+            res.data['middle_name'] = wrong_data['middleName']
+            return res.data;
+        }
 
-        const wrong_data: any = res.data
-        res.data['first_name'] = wrong_data['firstName']
-        res.data['last_name'] = wrong_data['lastName']
-        res.data['middle_name'] = wrong_data['middleName']
-
-        return res.data;
-    }
 });
 
 const getMeSsrFx = createEffect<string, IAuthUser, AxiosError>({
     handler: async (accessToken) => {
-        const res: AxiosResponse = await $host.get('/users/', {
-            headers: {
-                Authorization: `JWT ${accessToken}`
-            }
-        })
 
-        const wrong_data: any = res.data
-        res.data['first_name'] = wrong_data['firstName']
-        res.data['last_name'] = wrong_data['lastName']
-        res.data['middle_name'] = wrong_data['middleName']
+            const res: AxiosResponse = await $host.get('/users/', {
+                headers: {
+                    Authorization: `JWT ${accessToken}`
+                }
+            })
+            const wrong_data: any = res.data
+            res.data['first_name'] = wrong_data['firstName']
+            res.data['last_name'] = wrong_data['lastName']
+            res.data['middle_name'] = wrong_data['middleName']
+            return res.data
+        }
 
-        return res.data
-    }
 });
 
 const ssrAuthFx = createEffect<
@@ -57,24 +56,23 @@ const ssrAuthFx = createEffect<
     AxiosError
 >({
     handler: async ({access_token, refresh_token}) => {
-        if (refresh_token && access_token && typeof window === 'undefined') {
-            const data = await $host.get<IAuthUser>('/users/', {
-                headers: {
-                    Authorization: `JWT ${access_token}`
-                }
-            })
-
-            const wrong_data: any = data.data
-            data.data['first_name'] = wrong_data['firstName']
-            data.data['last_name'] = wrong_data['lastName']
-            data.data['middle_name'] = wrong_data['middleName']
-            return {
-                user: data.data,
-                access_token
-            };
+            if (refresh_token && access_token && typeof window === 'undefined') {
+                const data = await $host.get<IAuthUser>('/users/', {
+                    headers: {
+                        Authorization: `JWT ${access_token}`
+                    }
+                })
+                const wrong_data: any = data.data
+                data.data['first_name'] = wrong_data['firstName']
+                data.data['last_name'] = wrong_data['lastName']
+                data.data['middle_name'] = wrong_data['middleName']
+                return {
+                    user: data.data,
+                    access_token
+                };
+            }
+            throw new Error('no token provided');
         }
-        throw new Error('no token provided');
-    }
 });
 
 const setAuthUser = createEvent<{

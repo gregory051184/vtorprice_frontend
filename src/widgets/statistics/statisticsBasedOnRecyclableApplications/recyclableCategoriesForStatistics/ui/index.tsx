@@ -27,6 +27,8 @@ import {
     RecyclableCategoriesForStatisticsType,
     RecyclableColorType, VolumesType
 } from "@box/widgets/statistics/statisticsBasedOnRecyclableApplications";
+import {useScreenSize} from "@box/shared/hooks";
+import {CompaniesRecyclableStatisticsSwiper} from "@box/widgets/companies";
 
 
 export const RecyclableCategoriesForStatistics: React.FC<RecyclableCategoriesForStatisticsType> = ({
@@ -40,6 +42,10 @@ export const RecyclableCategoriesForStatistics: React.FC<RecyclableCategoriesFor
 
     const [cityFilter, setCityFilter] = useState<string>('');
     const [fractionFilter, setFractionFilter] = useState<string>('');
+
+    const [screenSize, satisfies] = useScreenSize();
+    const isLaptop = screenSize === 'sm' || screenSize === 'xsm';
+    const isMobile = screenSize === 'xxsm';
 
     const {fields} = useForm(filters);
 
@@ -70,9 +76,6 @@ export const RecyclableCategoriesForStatistics: React.FC<RecyclableCategoriesFor
         const uniqCompaniesList = applications
             .filter(app => app.recyclables.category?.id === categoryId)
             .map(app => app.company)
-        //.map(app => app.company.id)
-        //.filter((item, index, arr) => arr
-        //.indexOf(item) === index)
         const list: ICompanyShortForAll[] = []
         for (let i = 0; i < uniqCompaniesList.length; i++) {
             if (!list.map(company => company.id).includes(uniqCompaniesList[i].id)) {
@@ -146,6 +149,151 @@ export const RecyclableCategoriesForStatistics: React.FC<RecyclableCategoriesFor
 
     useEffect(() => {
     }, [categories, currentCategory, currentCompaniesCategory, cityFilter, fractionFilter, applications]);
+
+
+    const currentCategoryHandler = (categoryId: number) => {
+        setCurrentCategory(categoryId)
+        return currentCategory
+    }
+
+    const currentCompaniesCategoryHandler = (categoryId: number) => {
+        setCurrentCompaniesCategory(categoryId)
+        return currentCompaniesCategory
+    }
+
+    if (isMobile) {
+        return (
+            <div className="mt-6">
+                <Tip>
+                    <p>
+                        Фильтры вторсырья и городов осуществляют фильтрацию именно компаний, так при фильтрации по
+                        вторсырью остаются компании, у которые занимаются данным сырьём
+                    </p>
+                </Tip>
+                <div className="mt-6">
+                    <div>
+                        <AsyncSelect
+                            withClearButton
+                            loadData={recyclablesSelectApi}
+                            inputProps={{mode: 'stroke'}}
+                            onSelect={(e) => {
+                                //@ts-ignore
+                                setFractionFilter(e?.value?.name)
+                            }}
+                            className={classNames(s.field, 'w-full shrink-0')}
+                            placeholder="Тип вторсырья"
+                        />
+                    </div>
+                    <div className="mt-6">
+                        <AsyncSelect
+                            withClearButton
+                            onSelect={(e) => {
+                                //@ts-ignore
+                                setCityFilter(e?.value?.name)
+                            }}
+                            inputProps={{mode: 'stroke'}}
+                            //value={fields.city.value}
+                            loadData={citySelectApi}
+                            className={classNames(s.field_city, 'w-full shrink-0')}
+                            placeholder="Город"
+                        />
+                    </div>
+                </div>
+
+                {categories?.length > 0 && filtered_recyclableCategory()
+                    .map((recyclableCategory) => (
+                        <div
+                            className={s.category_main_page}
+                            key={recyclableCategory?.recyclableCategory?.id}>
+                            <div>
+                                <div
+                                    onClick={() => {
+                                        setCurrentCategory(currentCategory !== recyclableCategory.recyclableCategory.id ?
+                                            recyclableCategory.recyclableCategory.id : 0)
+                                        setCurrentCompaniesCategory(0)
+                                    }}
+                                    className={classNames(s.category_title_statistics, recyclableCategory?.recyclableCategory?.id === currentCategory ?
+                                        "bg-black text-white p-2 rounded-[10px]" : "")}>
+                                    {recyclableCategory?.recyclableCategory?.name}
+                                </div>
+                                <div
+                                    onClick={() => {
+                                        setCurrentCompaniesCategory(currentCompaniesCategory !== recyclableCategory.recyclableCategory.id ?
+                                            recyclableCategory.recyclableCategory.id : 0)
+                                        setCurrentCategory(0)
+                                    }}
+                                    className={classNames(s.category_title_statistics, recyclableCategory?.recyclableCategory?.id === currentCompaniesCategory ?
+                                        "bg-black text-white p-2 rounded-[10px] w-full" : "w-full")}>
+                                    {`Компаний - ${uniqCompanies(recyclableCategory?.recyclableCategory?.id)?.length}`}
+                                </div>
+                                <div className="inline-flex w-full">
+                                    <div className="text-lg mt-2 w-28">
+                                        <p>Покупка</p>
+                                        <p>{`${recyclableCategory?.totalVolume.buyVolume} т`}</p>
+                                    </div>
+                                    <div className="text-lg mt-2 w-28">
+                                        <p>Продажа</p>
+                                        <p>{`${recyclableCategory?.totalVolume.sellVolume} т`}</p>
+                                    </div>
+                                    <div className="text-lg mt-2 w-28">
+                                        <p>Общий</p>
+                                        <p>{`${recyclableCategory?.totalVolume.totalVolume} т`}</p>
+                                    </div>
+                                </div>
+                                <div className="text-lg mt-2 w-full">
+                                    {`Контрактов на поставку - ${applicationsCount(recyclableCategory?.recyclableCategory?.id)}`}
+                                </div>
+                            </div>
+
+
+
+                            {(currentCategory === recyclableCategory.recyclableCategory.id && categories && currentCompaniesCategory === 0) &&
+                                <div className="inline-flex">
+                                    <div className="mt-6">
+                                        <p>ПОКУПКА</p>
+                                        <div className="mt-4 w-[500px]" key={recyclableCategory?.recyclableCategory?.id}>
+                                            <RecyclableApplicationsForStatistics
+                                                buy={true}
+                                                sell={false}
+                                                applications={applications}
+                                                categoryId={recyclableCategory?.recyclableCategory?.id}></RecyclableApplicationsForStatistics>
+                                        </div>
+                                    </div>
+                                    <div className="mt-6 ml-20">
+                                        <p>ПРОДАЖА</p>
+                                        <div className="mt-4 w-[500px]" key={recyclableCategory?.recyclableCategory?.id}>
+                                            <RecyclableApplicationsForStatistics
+                                                buy={false}
+                                                sell={true}
+                                                applications={applications}
+                                                categoryId={recyclableCategory?.recyclableCategory?.id}></RecyclableApplicationsForStatistics>
+                                        </div>
+                                    </div>
+                                </div>}
+                            {(companiesWithTheirFractionsList(recyclableCategory.recyclableCategory.id)?.length > 0 &&
+                                    currentCompaniesCategory === recyclableCategory.recyclableCategory.id && currentCategory === 0) &&
+                                companiesWithTheirFractionsList(recyclableCategory.recyclableCategory.id)
+                                    .filter(item => cityFilter?.length > 0 ? item.company?.city?.name === cityFilter : item)
+                                    .filter(item => fractionFilter?.length > 0 ? item.fractions
+                                        .map(fraction => fraction?.name).includes(fractionFilter) : item)
+                                    .map(item => (
+                                        <div className="mt-6">
+                                            <CompanyForStatisticsRow
+                                                companiesWithRecyclable={{
+                                                    company: item.company,
+                                                    fractions: item.fractions,
+                                                    applications: item.applications
+                                                }}></CompanyForStatisticsRow>
+                                        </div>
+                                    ))
+
+                            }
+
+
+                        </div>))}
+            </div>
+        )
+    }
 
     return (
         <div className="mt-6">

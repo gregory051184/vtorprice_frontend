@@ -10,7 +10,7 @@ export type CompaniesWithFractionsType = {
 
 export type RecyclableColorType = {
     recyclableCategory: IRecyclableCategory,
-    totalVolume: VolumesType,//number,
+    totalVolume: VolumesType,
     percents: string,
 }
 

@@ -73,7 +73,7 @@ export const CompaniesStatsCircleGraphics: React.FC<IRecyclablesCircleGraphics> 
           textAlign: 'center'
         },
         {
-          text: 'Переработачики',
+          text: 'Переработчики',
           left: adaptiveData.title.size2.x,
           top: adaptiveData.title.size2.y,
           textAlign: 'center'

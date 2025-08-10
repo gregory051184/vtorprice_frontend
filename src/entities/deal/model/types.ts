@@ -108,6 +108,21 @@ export enum BuyOrSellDeals {
     SELL = 2,
 }
 
+export enum CompanyStatus {
+    NEW = 1,
+    VERIFIED = 2,
+    RELIABLE = 3,
+    DECLINE = 4,
+    FOR_DELETE = 5,
+}
+
+export enum ApplicationStatus {
+    ON_REVIEW = 1,
+    PUBLISHED = 2,
+    CLOSED = 3,
+    DECLINED = 4,
+}
+
 export enum CompaniesTypes {
     SUPPLIER = 1,
     PROCESSOR = 2,

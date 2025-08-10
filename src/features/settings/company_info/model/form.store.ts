@@ -4,7 +4,7 @@ import {
     validationPipe,
     isNotEmptyString,
     isNotEmptyNumber,
-    isNotNull
+    isNotNull, correctEmail, telephoneNumber
 } from '@box/shared/effector-form-controller/validator';
 import {createLoaderStore} from '@box/shared/lib/helpers';
 import {$authStore, $usersCompany, getMeFx} from '@box/entities/auth';
@@ -98,10 +98,17 @@ headFullNameField.$value.on($usersCompany, (store, val) => val?.headFullName || 
 
 const phoneField = createField<string>({
     initialValue: '',
-    validateFn: (val) => validationPipe(val, isNotEmptyString()),
+    validateFn: (val) => validationPipe(val, isNotEmptyString(), telephoneNumber()),
 });
 
 phoneField.$value.on($usersCompany, (store, val) => val?.phone || store);
+
+const emailUserField = createField<string>({
+    initialValue: '',
+    validateFn: (val) => validationPipe(val, correctEmail()),
+});
+
+emailUserField.$value.on($usersCompany, (store, val) => val?.email || store);
 
 const cityField = createField<ISelectValue<ICity> | null>({
     initialValue: null,
@@ -130,7 +137,8 @@ const companyInfoForm = createForm(
     bankNameField,
     headFullNameField,
     phoneField,
-    cityField
+    cityField,
+    emailUserField,
 );
 
 const loading = createLoaderStore(false, getMeFx);
@@ -150,7 +158,8 @@ const updateCompanyInfoFx = createEffect<{
     bank_name: string,
     head_full_name: string,
     phone: string,
-    city: number | string
+    city: number | string,
+    email: string,
 }, unknown, AxiosError>({
     handler: async (fields) => {
         companyApi.setCompany(fields)
@@ -181,6 +190,7 @@ sample({
         head_full_name: headFullNameField.$value,
         phone: phoneField.$value,
         city: cityField.$value.map((val) => val?.id || 0),
+        email: emailUserField.$value
     }),
     target: updateCompanyInfoFx,
 });
@@ -204,4 +214,5 @@ export {
     headFullNameField,
     phoneField,
     cityField,
+    emailUserField,
 };

@@ -10,10 +10,14 @@ import Router from 'next/router';
 import {notificationModel} from '@box/entities/notification';
 import {createGate} from "effector-react";
 import {createPagination} from "@box/shared/lib/factories";
+import {$authStore} from "@box/entities/auth";
+import {ROLE} from "@types";
 
 
 const gate = createGate();
 const allApplicationsGate = createGate();
+// Gate для статистики сделок
+const allApplicationsForDealsStatisticsGate = createGate();
 
 const getApplicationFx = createEffect<
     Parameters<typeof applicationApi.getApplication>[0],
@@ -54,10 +58,31 @@ const getAllApplicationsFx = createEffect<
     }
 )
 
+// Effect для статистики сделок
+const getAllApplicationsForDealsStatisticsFx = createEffect<
+    Parameters<typeof applicationApi.getAllApplications>[0], IRecyclableApplicationShortForAll, AxiosError>({
+        handler: async (params) => {
+            params["period"] = "all"
+            const {data} = await applicationApi.getAllApplications(params)
+            return data
+        }
+    }
+)
+
+
 // @ts-ignore
 // eslint-disable-next-line
 const $allApplicationsWithoutPages = createStore<Array<IRecyclableApplicationShortForAll>>([])
     .on(getAllApplicationsFx.doneData, (state, data) => {
+        return data
+    })
+
+
+// Стор для статистики сделок
+// @ts-ignore
+// eslint-disable-next-line
+const $allApplicationsWithoutPagesForDealsStatistics = createStore<Array<IRecyclableApplicationShortForAll>>([])
+    .on(getAllApplicationsForDealsStatisticsFx.doneData, (state, data) => {
         return data
     })
 
@@ -73,7 +98,9 @@ const getApplicationsFx = createEffect<
 
     handler: async (params) => {
         //ДОБАВИЛ
-        if (Router.asPath === 'profile/applications' || Router.asPath === 'profile/applications-management') {
+        const user = $authStore.getState()
+        if ((Router.asPath === '/profile/applications' || Router.asPath === '/profile/applications-management') &&
+            user.user && user?.user?.role?.id > ROLE.LOGIST) {
             const {data} = await applicationApi.getApplicationsForMyProfile(params)
             if (params.company_rating) {
                 //@ts-ignore
@@ -84,6 +111,7 @@ const getApplicationsFx = createEffect<
             return {
                 data,
                 page: params.page,
+                count: data.results.length
             };
         }
         const {data} = await applicationApi.getApplications(params);
@@ -95,6 +123,7 @@ const getApplicationsFx = createEffect<
         return {
             data,
             page: params.page,
+            count: data.results.length
         };
     },
 });
@@ -109,6 +138,28 @@ const updateApplicationEvent =
     createEvent<Parameters<typeof applicationApi.setApplication>[0]>();
 
 const updateApplicationFx = createEffect<
+    Parameters<typeof applicationApi.setApplication>[0],
+    applicationModel.IRecyclableApplication,
+    AxiosError
+>({
+    handler: async (params) => {
+        const {data} = await applicationApi.setApplication(params);
+        return data;
+    },
+});
+
+const updateApplicationStatusFx = createEffect<
+    Parameters<typeof applicationApi.setApplication>[0],
+    applicationModel.IRecyclableApplication,
+    AxiosError
+>({
+    handler: async (params) => {
+        const {data} = await applicationApi.setApplication(params);
+        return data;
+    },
+});
+
+const updateApplicationInCompanyCardFx = createEffect<
     Parameters<typeof applicationApi.setApplication>[0],
     applicationModel.IRecyclableApplication,
     AxiosError
@@ -139,6 +190,12 @@ const deleteApplicationFx = createEffect<number, number | null, AxiosError>({
 
 const resetApplicationsListEvent = createEvent();
 
+const $applicationsNumber = createStore<number>(0)
+    .on(
+        getApplicationsFx.doneData, (_, data) => {
+            return data.data.count
+        }
+    )
 
 const $applications = createStore<Array<IRecyclableApplication>>([])
 
@@ -158,7 +215,7 @@ const $applications = createStore<Array<IRecyclableApplication>>([])
         }
         return newState;
     })
-    .on(updateIsFavoriteApplicationFx.doneData, (state, data) => {
+    .on(updateApplicationFx.doneData, (state, data) => {
         const newState = [...state];
         const updatedApplicationIndex = newState.findIndex(
             (el) => el.id === data.id
@@ -168,6 +225,18 @@ const $applications = createStore<Array<IRecyclableApplication>>([])
         }
         return newState;
     })
+
+    .on(updateApplicationInCompanyCardFx.doneData, (state, data) => {
+        const newState = [...state];
+        const updatedApplicationIndex = newState.findIndex(
+            (el) => el.id === data.id
+        );
+        if (updatedApplicationIndex) {
+            newState[updatedApplicationIndex] = data;
+        }
+        return newState;
+    })
+
     .on(deleteApplicationFx.doneData, (store, id) =>
         id !== null ? store.filter((el) => el.id !== id) : store
     )
@@ -211,6 +280,12 @@ sample({
     target: getAllApplicationsFx
 })
 
+sample({
+    //@ts-ignore
+    clock: allApplicationsForDealsStatisticsGate.open,
+    target: getAllApplicationsForDealsStatisticsFx
+})
+
 
 export {
     $application,
@@ -228,4 +303,9 @@ export {
     getAllApplicationsFx,
     $allApplicationsWithoutPages,
     allApplicationsGate,
+    allApplicationsForDealsStatisticsGate,
+    $allApplicationsWithoutPagesForDealsStatistics,
+    $applicationsNumber,
+    updateApplicationStatusFx,
+    updateApplicationInCompanyCardFx
 };

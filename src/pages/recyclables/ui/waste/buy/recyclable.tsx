@@ -28,12 +28,11 @@ import {
 import {useForm} from "@box/shared/effector-forms";
 import {applicationFiltersForMainPageChart} from "@box/features/application/filters/applicationFiltersForMainPageChart";
 import {gate} from "@box/widgets/applications/applicationsListForMainPage";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Pagination} from "swiper";
 import {useScreenSize} from "@box/shared/hooks";
 import {CompaniesCircleGraphics} from "@box/entities/company";
 import {CompaniesFilteredByRecyclableTable} from "@box/widgets/companies";
-import classNames from "classnames";
+import {RecyclablesStatsSwiper} from "@box/widgets/recyclable";
+
 
 interface ISubCategoriesForChart {
     name: string,
@@ -292,6 +291,7 @@ export const ApplicationsAndCompaniesByRecyclableWasteBuy = () => {
 
     //useGate(applicationsWithPeriodWithoutPagesGate);
     useGate(gate);
+
     useEffect(() => {
     }, [recyclable, applications, apps]);
 
@@ -308,7 +308,7 @@ export const ApplicationsAndCompaniesByRecyclableWasteBuy = () => {
                     <BackButton/>
                     <div className="mt-6">
                         <h2>{recyclable?.id ? `Покупка отходы (${recyclable?.name})` : 'Покупка отходы'}</h2>
-                        <div className={'w-auto ml-5 inline-flex'}>
+                        <div className='w-auto ml-5 inline-flex mt-6'>
                             <Select
                                 inputProps={{mode: "stroke"}}
                                 placeholder={'Период'}
@@ -328,7 +328,13 @@ export const ApplicationsAndCompaniesByRecyclableWasteBuy = () => {
                             />
                         </div>
                     </div>
-                    <div className="mt-6">
+                    <RecyclablesStatsSwiper
+                        recyclables={filteredRecFixed}
+                        totalVolume={totalVolume}
+                        middlePrice={middlePrice}
+                        deviationPercent={deviationPercent}
+                        deviationRubles={deviationRubles}/>
+                    {/*<div className="mt-6">
                         <Swiper
                             slidesPerView={1}
                             spaceBetween={15}
@@ -406,12 +412,12 @@ export const ApplicationsAndCompaniesByRecyclableWasteBuy = () => {
                             </SwiperSlide>
                         </Swiper>
                         <div className='swiper-pagination flex mt-[22px] justify-center gap-[15px]'></div>
-                    </div>
+                    </div>*/}
                     {(recyclable?.id && filteredRecFixed().length > 0) &&
-                        <div className='mt-8'>
+                        <div className='mt-6'>
                             <div>
                                 <h3>График изменения цены покупки</h3>
-                                <div className='mt-7'>
+                                <div className='mt-6'>
                                     <RecyclablesChartsForRecyclableCategoryPage applications={
                                         filteredRecFixed()}></RecyclablesChartsForRecyclableCategoryPage>
                                 </div>
@@ -422,7 +428,7 @@ export const ApplicationsAndCompaniesByRecyclableWasteBuy = () => {
                                     //@ts-ignore
                                     forCompaniesGraphicsAndList()}/>
                             </div>
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <CompaniesFilteredByRecyclableTable companies={
                                     //@ts-ignore
                                     showAllCompanies ? forCompaniesGraphicsAndList() : forCompaniesGraphicsAndList().slice(0, 4)}/>
@@ -432,8 +438,12 @@ export const ApplicationsAndCompaniesByRecyclableWasteBuy = () => {
                                     mode="light">{!showAllCompanies ? "Показать все компании" : "Скрыть компании"}
                                 </Button>
                             </div>
-                            <div className='mt-10'>
-                                <h3>{`Компании с контрактами на поставку по покупке ${recyclable?.name}, сортированные по городам`}</h3>
+                            <div className='mt-6'>
+                                <Button
+                                    onClick={() => setShowAllCompaniesWithCities(!showAllCompaniesWithCities)}
+                                    type="micro" fullWidth
+                                    mode="light">{!showAllCompaniesWithCities ? "Показать компании сортированные по городам" : "Скрыть компании"}
+                                </Button>
                                 {showAllCompaniesWithCities &&
                                     //@ts-ignore
                                     companies(filteredRecFixed(), recyclable?.id).map(item => (
@@ -487,11 +497,7 @@ export const ApplicationsAndCompaniesByRecyclableWasteBuy = () => {
                                             </div>}
                                         </div>
                                     ))}
-                                <Button
-                                    onClick={() => setShowAllCompaniesWithCities(!showAllCompaniesWithCities)}
-                                    type="micro" fullWidth
-                                    mode="light">{!showAllCompanies ? "Показать компании сортированные по городам" : "Скрыть компании"}
-                                </Button>
+
                             </div>
                         </div>}
                     {(recyclable?.id && filteredRecFixed().length > 0) &&

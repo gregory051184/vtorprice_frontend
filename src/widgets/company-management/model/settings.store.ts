@@ -20,20 +20,22 @@ const submitCompanyRecyclablesManagement = createEffect({
   // eslint-disable-next-line
   handler: async (data: any) => {
     const body = [];
-
-    
+    const list = ['гранула', 'гранулы', "дробленка", "флекс"]
     if (data.toBuyActive || data.toSellActive) {
       if (data.toBuyActive) {
         // eslint-disable-next-line no-restricted-syntax        
         for (const recyclable of Object.values(data.toBuy)) {
           // @ts-ignore
-          const { monthlyVolume, price, recyclables } = recyclable;
+          const { monthlyVolume, price, recyclables, isDeleted} = recyclable;
+          const applicationRecyclableStatus = list.some(v => recyclables.label.toLowerCase().includes(v)) ? 2 : 1
           body.push({
             action: 1,
             ...(monthlyVolume && { monthlyVolume: ((+monthlyVolume) * 1000) }),
             price,
             company: $company.getState()?.id || 0,
             recyclables: recyclables.id,
+            application_recyclable_status: applicationRecyclableStatus,
+            deleted: isDeleted.id === 2,
           });
         }
       }
@@ -41,13 +43,16 @@ const submitCompanyRecyclablesManagement = createEffect({
         // eslint-disable-next-line no-restricted-syntax
         for (const recyclable of Object.values(data.toSell)) {
           // @ts-ignore
-          const { monthlyVolume, price, recyclables } = recyclable;
+          const { monthlyVolume, price, recyclables, isDeleted} = recyclable;
+          const applicationRecyclableStatus = list.some(v => recyclables.label.toLowerCase().includes(v)) ? 2 : 1
           body.push({
             action: 2,
             ...(monthlyVolume && { monthlyVolume: ((+monthlyVolume) * 1000) }),
             price,
             company: $company.getState()?.id || 0,
             recyclables: recyclables.id,
+            application_recyclable_status: applicationRecyclableStatus,
+            deleted: isDeleted.id === 2,
           });
         }
       }
@@ -55,19 +60,19 @@ const submitCompanyRecyclablesManagement = createEffect({
         await $authHost.post('/company_recyclables/', body);        
       } catch (e) {
       }
-    } else {
-      const body2: any = [];
-      try {
-        const company = $company.getState()?.id || 0
-        await $authHost.delete('/company_recyclables/delete_all_recyclables/', {
-          params: {
-            company: company
-          }
-        });
-      } catch (e) {
-        console.error(`varsToEndpoint: ${body2}`, 'Error:', e)
-      };
-    }
+    } //else {
+    //   const body2: any = [];
+    //   try {
+    //     const company = $company.getState()?.id || 0
+    //     await $authHost.delete('/company_recyclables/delete_all_recyclables/', {
+    //       params: {
+    //         company: company
+    //       }
+    //     });
+    //   } catch (e) {
+    //     console.error(`varsToEndpoint: ${body2}`, 'Error:', e)
+    //   };
+    // }
   },
 });
 

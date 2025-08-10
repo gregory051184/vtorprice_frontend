@@ -12,10 +12,10 @@ import {dealsForOffersFiltersModel} from '@box/features/generateListOfOffers';
 import {getCompaniesForMainFiltersPageFx} from "@box/entities/company/model";
 import {mainMenuCompaniesFilters} from "@box/features/company/filters/mainMenuCompaniesFilters";
 
+
 const gate = createGate();
 const companiesMainFiltersGate = createGate();
 const ordering = createOrdering();
-
 
 const orderingForOffers = createOrdering();
 
@@ -23,6 +23,11 @@ const paginationForOffers = createPagination(dealsForOffersModel.getDealForOffer
     gate.close,
     dealsForOffersFiltersModel.dealsForOffersFilters.$values
 
+]));
+
+const pagination = createPagination(companyModel.getCompaniesFx, merge([
+    gate.close,
+    companiesListFiltersModel.filters.$values
 ]));
 
 
@@ -46,11 +51,6 @@ const getCompaniesForOfferFx = attach({
     effect: dealsForOffersModel.getDealForOffersFx
 });
 
-
-const pagination = createPagination(companyModel.getCompaniesFx, merge([
-    gate.close,
-    companiesListFiltersModel.filters.$values
-]));
 
 const getCompaniesFx = attach({
     source: {
@@ -84,15 +84,18 @@ const getCompaniesFx = attach({
             page,
             activity_types: middleWareActivityTypes(),
             activity_types__rec_col_types: middleWareActivityTypesRecColTypes(),
-            recyclables__recyclables: filters.recyclables__recyclables?.value.id.toString(),
+            //recyclables__recyclables: filters.recyclables__recyclables?.value.id.toString(),
+            recyclables_applications__recyclables: filters.recyclables__recyclables?.value.id.toString(),
             status: filters.status?.value as number,
             city: filters.city?.value.id,
+            exist_company_recyclables: filters.exist_company_recyclables?.value as number,
             activity_types__advantages: mappedAdvantages,
             search: filters.search,
             ordering: ordering || '',
             city__region__district: filters?.district?.value?.id,
             city__region: filters?.region?.value?.id,
             rate: filters?.company_rating?.value ? filters?.company_rating?.value.toString() : "0",
+            manager:  filters.manager?.value?.id,
         };
     },
     effect: companyModel.getCompaniesFx

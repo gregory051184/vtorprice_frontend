@@ -5,3 +5,31 @@
     display: none;
   }
 }
+
+.headerSubscribeExists {
+  font-size: 10px;
+  height: auto;
+  width: auto;
+  margin-left: 5px;
+  margin-bottom: 10px;
+  color: rgba(67, 158, 126);
+  cursor: pointer;
+  @include adaptive("xxsm") {
+    margin-left: 20px;
+    margin-bottom: 6px;
+  }
+}
+
+.headerSubscribeNotExists {
+  font-size: 10px;
+  height: auto;
+  width: auto;
+  margin-left: 5px;
+  margin-bottom: 10px;
+  color: red;
+  cursor: pointer;
+  @include adaptive("xxsm") {
+    margin-left: 20px;
+    margin-bottom: 6px;
+  }
+}

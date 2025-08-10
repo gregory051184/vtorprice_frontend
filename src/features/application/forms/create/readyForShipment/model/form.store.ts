@@ -44,9 +44,11 @@ const createReadyForShipmentApplicationFx = createEffect<{
   userRoleId?: number
 }, Awaited<AxiosResponse<IRecyclableApplication>>, AxiosError>({
   handler: async (data) => {
+    const list = ['гранула', 'гранулы', "дробленка", "флекс"]
+    const applicationRecyclableStatus = list.some(v => data.recyclableType?.label.toLowerCase().includes(v)) ? 2 : 1
     const response = await applicationApi.createApplication({
       deal_type: data.dealType.value as 1 | 2,
-      application_recyclable_status: data.applicationRecyclableStatus.value as 1 | 2,
+      application_recyclable_status: applicationRecyclableStatus,//data.applicationRecyclableStatus.value as 1 | 2,
       urgency_type: 1,
       with_nds: data.withNds,
       bale_count: +data.kipVolume,

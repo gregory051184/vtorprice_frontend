@@ -17,7 +17,8 @@ applicationModel.IRecyclableApplication | undefined) => {
     return {
       price: lastSale.price,
       direction: prevSale.price < lastSale.price ? 'grow' : 'drop',
-      percentage: (1 - prevSale.price / lastSale.price) * 100
+      //percentage: (1 - prevSale.price / lastSale.price) * 100
+      percentage: (lastSale.price - prevSale.price) / prevSale.price * 100
     };
   }
 };

@@ -4,17 +4,21 @@ import {
     validationPipe,
     isNotEmptyString,
     isNotEmptyNumber,
-    isNotNull
+    isNotNull,
+    correctEmail, telephoneNumber,
 } from '@box/shared/effector-form-controller/validator';
 import {createField, createForm} from '@box/shared/effector-form-controller';
 import {companyApi} from '@box/entities/company';
 import {$company} from '@box/pages/companies/company/model/company.store';
 import {ISelectValue} from '@box/shared/ui';
 import {ICity} from '@box/entities/city/model';
-import { notificationModel } from '@box/entities/notification';
+import {notificationModel} from '@box/entities/notification';
 import {ICompany} from "@box/entities/company/model";
 import {IAuthUser} from "@box/entities/auth";
 import {IUser} from "@box/entities/user";
+import {CompanyStatus} from "@box/entities/deal/model";
+import {IStatus} from "@box/entities/logistics/model";
+import {IManager} from "@box/entities/user/ui/types";
 
 const onLoadPageEvent = createEvent();
 
@@ -171,7 +175,7 @@ sample({
 
 const phoneField = createField<string>({
     initialValue: '',
-    validateFn: (val) => validationPipe(val, isNotEmptyString()),
+    validateFn: (val) => validationPipe(val, isNotEmptyString(), telephoneNumber()),
 });
 
 sample({
@@ -180,6 +184,20 @@ sample({
     fn: (company) => company?.phone || "",
     target: phoneField.$value,
 });
+
+
+const emailField = createField<string>({
+    initialValue: '',
+    validateFn: (val) => validationPipe(val, correctEmail()),
+});
+
+sample({
+    source: $company,
+    clock: onLoadPageEvent,
+    fn: (company) => company?.email || "",
+    target: emailField.$value,
+});
+
 
 const cityField = createField<ISelectValue<ICity> | null>({
     initialValue: null,
@@ -191,8 +209,8 @@ sample({
     clock: onLoadPageEvent,
     fn: (company) => {
         const selectValue: ISelectValue = {
-            id: company?.city.id || 0,
-            label: company?.city.name || "",
+            id: company?.city?.id || 0,
+            label: company?.city?.name || "",
             value: company?.city || null
         }
         return selectValue
@@ -202,7 +220,7 @@ sample({
 
 const managerField = createField<ISelectValue<IUser> | null>({
     initialValue: null,
-    //validateFn: (val) => validationPipe(val, isNotNull()),
+    validateFn: (val) => validationPipe(val, isNotNull()),
 })
 
 sample({
@@ -212,13 +230,35 @@ sample({
         const selectValue: ISelectValue = {
             //@ts-ignore
             id: company?.manager?.id || 0,
-            label: `${company?.manager?.lastName} ${company?.manager?.firstName} ${company?.manager?.middleName}` || "",
-            value: company?.manager || null
+            label: company && company.manager ? `${company?.manager?.lastName} ${company?.manager?.firstName}` : "",
+            value: company?.manager || ''
         }
         return selectValue
     },
     target: managerField.$value,
 });
+
+
+const companyStatusField = createField<ISelectValue<IStatus> | null>({
+    initialValue: null,
+    validateFn: (val) => validationPipe(val, isNotNull()),
+})
+
+sample({
+    source: $company,
+    clock: onLoadPageEvent,
+    fn: (company) => {
+        const selectValue: ISelectValue = {
+            //@ts-ignore
+            id: company?.status?.id || 0,
+            label: company && company.status ? company.status.label : "",
+            value: company?.status || ''
+        }
+        return selectValue
+    },
+    target: companyStatusField.$value,
+});
+
 
 const companyInfoFormManagement = createForm(
     nameField,
@@ -234,25 +274,28 @@ const companyInfoFormManagement = createForm(
     headFullNameField,
     phoneField,
     cityField,
-    managerField
+    managerField,
+    emailField,
 );
 
 const updateCompanyInfoFx = createEffect<{
     id: number,
-    name: string,
-    inn: string,
-    image: File | string | null,
-    address: string,
-    description: string,
-    withNds: boolean,
-    bic: string,
-    payment_account: string | null,
-    correction_account: string,
-    bank_name: string,
-    head_full_name: string,
-    phone: string,
-    city: number | string,
-    manager: string,
+    name?: string,
+    inn?: string,
+    image?: File | string | null,
+    address?: string,
+    description?: string,
+    withNds?: boolean,
+    bic?: string,
+    payment_account?: string | null,
+    correction_account?: string,
+    bank_name?: string,
+    head_full_name?: string,
+    phone?: string,
+    city?: number | string,
+    manager?: string,
+    email?: string,
+
 }, unknown, AxiosError>({
     handler: async (fields) => {
         companyApi.setCompany(fields)
@@ -270,9 +313,21 @@ const patchCompanyStaffFX = createEffect<
     },
     unknown, AxiosError>({
     handler: async (fields) => {
-          companyApi.patchCompany(fields)
+        companyApi.patchCompany(fields)
     }
 })
+
+const patchCompanyStatusFX = createEffect<
+    {
+        id: number,
+        status: string,
+    },
+    unknown, AxiosError>({
+    handler: async (fields) => {
+        companyApi.patchCompanyStatus(fields)
+    }
+})
+
 
 sample({
     // @ts-ignore
@@ -294,7 +349,8 @@ sample({
         head_full_name: headFullNameField.$value,
         phone: phoneField.$value,
         city: cityField.$value.map((val) => val?.id || 0),
-        manager: managerField.$value.map((val) => val?.id || 0),
+        manager: managerField.$value.map((val) => val?.id || null),
+        email: emailField.$value,
     }),
     target: updateCompanyInfoFx,
 });
@@ -318,5 +374,8 @@ export {
     phoneField,
     cityField,
     managerField,
-    patchCompanyStaffFX
+    patchCompanyStaffFX,
+    emailField,
+    companyStatusField,
+    patchCompanyStatusFX
 };

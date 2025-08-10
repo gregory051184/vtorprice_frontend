@@ -17,7 +17,9 @@ const getApplications = (deal_type: 1 | 2) => async (params: Params) => {
     //@ts-ignore
     const results = data.results.filter(app => +app.urgencyType.id === +router.query.type);
     return {
-        result: results, count: data.count, page: params.page
+        result: results,
+        count: data.count,
+        page: params.page
     }
 }
 
@@ -50,9 +52,11 @@ const purchaseList = createList({
         status: 2,
         ...(filters.price__lte.length > 0 && {price__lte: filters.price__lte}),
         ...(filters.price__gte.length > 0 && {price__gte: filters.price__gte}),
-        ...(filters.total_weight__gte.length > 0 && {total_weight__gte: filters.total_weight__gte}),
-        ...(filters.total_weight__gte.length > 0 && {total_weight__lte: filters.total_weight__gte}),
+        ...(filters.total_weight__gte.length > 0 && {total_weight__gte: +filters.total_weight__gte * 1000}),
+        ...(filters.total_weight__lte.length > 0 && {total_weight__lte: +filters.total_weight__lte * 1000}),
         ...(filters.city?.value?.id && {city: filters.city.value.id}),
+        ...(filters.region?.value?.id && {city__region: filters.region.value.id}),
+        ...(filters.district?.value?.id && {city__region__district: filters.district.value.id}),
         ...(filters.createdAt.every((el) => el !== null)
             && {created_at__gte: filters.createdAt[0] || undefined}
         ),
@@ -78,9 +82,13 @@ const salesList = createList({
         status: 2,
         ...(filters.price__lte.length > 0 && {price__lte: filters.price__lte}),
         ...(filters.price__gte.length > 0 && {price__gte: filters.price__gte}),
-        ...(filters.total_weight__gte.length > 0 && {total_weight__gte: (parseInt(filters.total_weight__gte, 10) * 1000)}),
-        ...(filters.total_weight__gte.length > 0 && {total_weight__lte: (parseInt(filters.total_weight__gte, 10) * 1000)}),
-        ...(filters.city?.value?.id && {city: filters.city.value.id}),
+        ...(filters.total_weight__gte.length > 0 && {total_weight__gte: +filters.total_weight__gte * 1000}),
+        ...(filters.total_weight__lte.length > 0 && {total_weight__lte: +filters.total_weight__lte * 1000}),
+        // ...(filters.total_weight__gte.length > 0 && {total_weight__gte: (parseInt(filters.total_weight__gte, 10) * 1000)}),
+        // ...(filters.total_weight__gte.length > 0 && {total_weight__lte: (parseInt(filters.total_weight__gte, 10) * 1000)}),
+        ...(filters.city?.value?.id && {region: filters.city.value.id}),
+        ...(filters.region?.value?.id && {city__region: filters.region.value.id}),
+        ...(filters.district?.value?.id && {city__region__district: filters.district.value.id}),
         ...(filters.createdAt.every((el) => el !== null)
             && {created_at__gte: filters.createdAt[0] || undefined}
         ),
@@ -111,6 +119,7 @@ const $salesStore = createStore<{ result: Array<applicationModel.IRecyclableAppl
             count: payload.count
         }
     });
+
 
 const $purchaseStore = createStore<{
     result: Array<applicationModel.IRecyclableApplication>,

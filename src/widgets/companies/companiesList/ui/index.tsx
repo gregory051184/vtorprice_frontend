@@ -10,10 +10,12 @@ import classNames from 'classnames';
 import {headers} from '../lib';
 import {gate, pagination, ordering as od} from '../model';
 import s from './style.module.scss';
+import {$statusCompaniesNumber} from "@box/entities/company/model";
 
 export const CompaniesTable: React.FC<IWithClass> = ({className}) => {
 
     const companies = useStore(companyModel.$companies);
+    const companiesCount = useStore($statusCompaniesNumber);
     const loading = useStore(companyModel.companiesLoading.$loaderStore);
     const updateInFavorite = useUnit(companyModel.updateCompanyInFavoriteEvent);
     const pag = usePagination(pagination);
@@ -57,6 +59,14 @@ export const CompaniesTable: React.FC<IWithClass> = ({className}) => {
                     ))}
                 </Table.Body>
             </Table>
+            {
+                companiesCount > 0 &&
+                <div className="flex gap-4 cursor-pointer items-center float-right">
+                    <p className="text-grey-50 text-sm whitespace-nowrap">Компаний</p>
+
+                    <p>{companiesCount}</p>
+                </div>
+            }
             <div className={s.card_view}>
                 <div className={classNames(s.card_view_block)}>
                     {companies.map((company) => (

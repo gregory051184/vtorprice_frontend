@@ -4,6 +4,9 @@ import {IEquipmentApplication} from '@box/entities/application/model/types';
 import {AxiosError} from 'axios';
 import {equiomentApplicationApi} from '@box/entities/application';
 import {createLoaderStore} from '@box/shared/lib/helpers';
+import {$authStore} from "@box/entities/auth";
+import {ROLE} from "@types";
+
 
 const getEquipmentApplicationsFx = createEffect<
     Parameters<typeof equiomentApplicationApi.getEquipmentApplications>[0]
@@ -12,17 +15,20 @@ const getEquipmentApplicationsFx = createEffect<
     page?: number
 }, AxiosError>({
     handler: async (params) => {
-        if (Router.asPath === '/profile/applications' || Router.asPath ==='profile/applications-management') {
+        const user = $authStore.getState();
+        if ((Router.asPath === '/profile/applications' || Router.asPath === 'profile/applications-management') && user.user && user?.user?.role?.id > ROLE.MANAGER) {
             const {data} = await equiomentApplicationApi.getEquipmentApplicationsForMyProfile(params)
             return {
                 data,
                 page: params.page,
+                count: data.results.length
             };
         }
         const {data} = await equiomentApplicationApi.getEquipmentApplications(params);
         return {
             data,
-            page: params.page
+            page: params.page,
+            count: data.results.length
         };
     }
 });
@@ -36,11 +42,24 @@ const getEquipmentApplicationFx = createEffect<
     }
 });
 
+const patchEquipmentApplicationStatusFX = createEffect<
+    {
+        id: number,
+        status: string,
+    },
+    unknown, AxiosError>({
+    handler: async (fields) => {
+
+        equiomentApplicationApi.patchEquipmentApplicationStatus(fields)
+    }
+})
+
 const updateEquipmentApplicationFx = createEffect<
     Parameters<typeof equiomentApplicationApi.upadateEquipmentApplication>[0]
     , IEquipmentApplication, AxiosError>({
     handler: async (params) => {
         const {data} = await equiomentApplicationApi.upadateEquipmentApplication(params);
+        Router.back();
         return data;
     }
 });
@@ -74,6 +93,13 @@ const postEquipmentsImagesFx = createEffect<
 const equipmentApplicationsLoading = createLoaderStore(false, getEquipmentApplicationsFx);
 
 const resetEquipmentApplicationsListEvent = createEvent();
+
+const $equipmentApplicationsNumber = createStore<number>(0)
+    .on(
+        getEquipmentApplicationsFx.doneData, (_, data) => {
+            return data.data.count
+        }
+    )
 
 const $equipmentApplications = createStore<Array<IEquipmentApplication>>([])
     .on(getEquipmentApplicationsFx.doneData, (state, data) => {
@@ -121,5 +147,7 @@ export {
     getEquipmentApplicationsFx,
     getEquipmentApplicationFx,
     updateIsFavoriteEquipmentApplicationFx,
-    resetEquipmentApplicationsListEvent
+    resetEquipmentApplicationsListEvent,
+    $equipmentApplicationsNumber,
+    patchEquipmentApplicationStatusFX
 };

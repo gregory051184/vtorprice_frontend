@@ -1,6 +1,11 @@
 import { ISelectValue } from '@box/shared/ui';
 import { $usersCompany } from '@box/entities/auth';
-import { validationPipe, isNotNull, isNotEmptyString } from '@box/shared/effector-form-controller/validator';
+import {
+  validationPipe,
+  isNotNull,
+  isNotEmptyString,
+  maxPriceLimit
+} from '@box/shared/effector-form-controller/validator';
 import {
   combine, sample, createEvent, createEffect,
 } from 'effector';
@@ -37,7 +42,7 @@ export const createRecyclablesFormState = (action: 1 | 2, sid: string) => {
     validators: {
       recyclables: (val) => validationPipe(val, isNotNull()),
       monthlyVolume: (val) => validationPipe(val, isNotEmptyString()),
-      price: (val) => validationPipe(val, isNotEmptyString()),
+      price: (val) => validationPipe(val, isNotEmptyString(), maxPriceLimit()),
     },
     sid,
   });

@@ -36,3 +36,22 @@ export interface IRecyclableCategory {
   apps_number?: number,
   deals_number?: number
 }
+
+interface IDistrictWithVolume {
+  volume: number;
+  region: number;
+  district: number;
+}
+
+export interface ICategoriesWithStatistics {
+  id: number;
+  name: string;
+  contracts: {
+    lastPrice: number;
+    preLastPrice: number;
+  };
+  purchaseTotalVolume: number;
+  salesTotalVolume: number;
+  purchaseContractsVolumeList: IDistrictWithVolume[];
+  salesContractsVolumeList: IDistrictWithVolume[];
+}

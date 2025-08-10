@@ -4,7 +4,10 @@ import { Footer } from '@box/widgets/footer';
 import Head from 'next/head';
 import {AsyncSelect, Button, Container, SearchInput, Separator} from '@box/shared/ui';
 import { AppShell } from '@box/layouts';
-import { ExchangeRecyclablesList } from '@box/widgets/recyclable';
+import {
+  ExchangeRecyclablesList,
+  ExchangeSquareRecyclablesCategoryList
+} from '@box/widgets/recyclable';
 import Pointer from '@assets/icons/16_location.svg';
 import Add from '@assets/icons/16_add.svg';
 import { ExchangeRecyclablesListFilters } from '@box/features/recyclable';
@@ -32,11 +35,12 @@ export const Exchange = () => {
         <title>Все заявки</title>
       </Head>
       <Container>
+        {/*<ExchangeRecyclablesListFilters.UrgencyTypeTabs />*/}
+        <ExchangeSquareRecyclablesCategoryList/>
         <CompaniesStats/>
         <div className={classNames("mb-8 flex justify-between items-center", isMobile && 'flex-col mb-[10px]')}>
           <div className={classNames("flex items-center gap-6", isMobile && 'flex-col w-full')}>
             <h1 className="font-normal text-2xl">Все заявки</h1>
-
             <ExchangeRecyclablesListFilters.UrgencyTypeTabs />
           </div>
           {!isLaptop && <div className={classNames("flex gap-[10px]", isMobile && "mt-[10px]")}>

@@ -77,32 +77,35 @@ export const ReadyForShipmentFormTemplate: React.FC<IReadyForShipmentForm> = ({
         return await existingCompanySelectApi(val, user?.role.id === ROLE.MANAGER ? user?.id : undefined);
     }
 
-    const data = (id: string) => {
-        recyclablesSelectApi().then(data => {
-            if (+id === 1) {
-                setFractionStatus([...data
-                    .filter((elem => elem.label
-                        .toLowerCase()
-                        .split(' ')
-                        //@ts-ignore
-                        .includes('гранула' || 'гранулы')))
-                ])
-            }
-            if (+id === 2) {
-                setFractionStatus([...data
-                    .filter((elem => !elem.label
-                        .toLowerCase()
-                        .split(' ')
-                        //@ts-ignore
-                        .includes('гранула' || 'гранулы')))
-                ])
-            }
-        })
-    }
+    // const data = (id: string) => {
+    //     recyclablesSelectApi().then(data => {
+    //         if (+id === 1) {
+    //             setFractionStatus([...data
+    //                 .filter((elem => elem.label
+    //                     .toLowerCase()
+    //                     .split(' ')
+    //                     //@ts-ignore
+    //                     .includes('гранула' || 'гранулы')))
+    //             ])
+    //         }
+    //         if (+id === 2) {
+    //             setFractionStatus([...data
+    //                 .filter((elem => !elem.label
+    //                     .toLowerCase()
+    //                     .split(' ')
+    //                     //@ts-ignore
+    //                     .includes('гранула' || 'гранулы')))
+    //             ])
+    //         }
+    //     })
+    // }
 
 
     useEffect(() => {
-    }, [fractionStatus, currentSubscribe]);
+        // if (fractionStatus.length === 0) {
+        //     data("2")
+        // }
+    }, [/*fractionStatus,*/ currentSubscribe]);
 
     useEffect(() => {
         return () => {
@@ -153,21 +156,21 @@ export const ReadyForShipmentFormTemplate: React.FC<IReadyForShipmentForm> = ({
                     values={dealTypeSelectValues}
                     value={fields.dealType.value}
                 />
-                <TabSelect
-                    label="Тип сырья"
-                    values={applicationRecyclableStatusSelectValues}
-                    onChange={(e) => {
-                        fields.applicationRecyclableStatus.onChange(e)
-                        if (fields.applicationRecyclableStatus.value.id === 2) {
-                            data("2")
+                {/*<TabSelect*/}
+                {/*    label="Тип сырья"*/}
+                {/*    values={applicationRecyclableStatusSelectValues}*/}
+                {/*    onChange={(e) => {*/}
+                {/*        fields.applicationRecyclableStatus.onChange(e)*/}
+                {/*        if (fields.applicationRecyclableStatus.value.id === 2) {*/}
+                {/*            data("2")*/}
 
-                        }
-                        if (fields.applicationRecyclableStatus.value.id === 1) {
-                            data("1")
-                        }
-                    }}
-                    value={fields.applicationRecyclableStatus.value}
-                />
+                {/*        }*/}
+                {/*        if (fields.applicationRecyclableStatus.value.id === 1) {*/}
+                {/*            data("1")*/}
+                {/*        }*/}
+                {/*    }}*/}
+                {/*    value={fields.applicationRecyclableStatus.value}*/}
+                {/*/>*/}
                 <DisabledView
                     className="w-full"
                     disabled={user?.role.id !== ROLE.ADMIN && user?.role.id !== ROLE.MANAGER}
@@ -181,7 +184,10 @@ export const ReadyForShipmentFormTemplate: React.FC<IReadyForShipmentForm> = ({
                         }}
                         loadData={loadData}
                         value={fields.company.value}
-                        onSelect={(val) => fields.company.onChange(val)}
+                        onSelect={(val) => {
+                            fields.address.onChange(val?.value.address)
+                            fields.company.onChange(val)
+                        }}
                     />
                 </DisabledView>
             </div>
@@ -202,18 +208,30 @@ export const ReadyForShipmentFormTemplate: React.FC<IReadyForShipmentForm> = ({
                 />
             </div>
             <div className={classNames('flex gap-[20px]', s.block)}>
-            {// @ts-ignore
-                <Select
-                    inputProps={{
-                        required: true,
-                        error: hasError('recyclableType'),
-                    }}
-                    className="grow"
-                    placeholder="Тип вторсырья"
-                    onSelect={fields.recyclableType.onChange}
-                    value={fields.recyclableType.value}
-                    data={fractionStatus}>
-                </Select>}
+                    <AsyncSelect
+                        className={classNames('grow', s.block_select)}
+                        inputProps={{
+                            required: true,
+                            error: hasError('recyclables'),
+                        }}
+                        placeholder="Тип вторсырья"
+                        loadData={recyclablesSelectApi}
+                        value={fields.recyclableType.value}
+                        onSelect={fields.recyclableType.onChange}
+                    />
+            {/*{// @ts-ignore*/}
+            {/*    <Select*/}
+            {/*        inputProps={{*/}
+            {/*            required: true,*/}
+            {/*            error: hasError('recyclableType'),*/}
+            {/*        }}*/}
+            {/*        className="grow"*/}
+            {/*        placeholder="Тип вторсырья"*/}
+            {/*        onSelect={fields.recyclableType.onChange}*/}
+            {/*        value={fields.recyclableType.value}*/}
+            {/*        data={fractionStatus}>*/}
+            {/*    </Select>}*/}
+
 
                 <div className={classNames('flex gap-[20px] grow-[2]', s.block_nds)}>
                     <BaseInput type="number" error={hasError('preferential')} className="grow"

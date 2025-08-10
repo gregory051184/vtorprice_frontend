@@ -131,94 +131,96 @@ export const MainMenuApplicationsListFilters: React.FC<IWithClass> = () => {
                     Фильтры по параметрам компании
                 </h4>
             </div>
-            {(companyParametersFilters && (isLaptop || isMobile)) && <div className="mt-6">
-                <div>
-                    <AsyncSelect
-                        withClearButton
-                        value={fields.activity_types__rec_col_types.value}
-                        onSelect={fields.activity_types__rec_col_types.onChange}
-                        withSearch={false}
-                        wide
-                        inputProps={{mode: 'stroke'}}
-                        loadData={collectionTypeSelectApi}
-                        withSpecialWideAndCloseButton={true}
-                        placeholder="Тип компании"
-                    />
-                </div>
-                <div className="mt-5">
-                    <Select
-                        className={s.field}
-                        inputProps={{mode: 'stroke'}}
-                        value={fields.company_rating.value}
-                        placeholder="Рейтинг компании"
-                        onSelect={fields.company_rating.onChange}
-                        data={companyRatingSelectValues}
-                    />
-                </div>
-                <div className="mt-5">
-                    <Select
-                        onSelect={fields.companies_trust.onChange}
-                        value={fields.companies_trust.value}
-                        inputProps={{mode: 'stroke'}}
-                        placeholder="Доверие к компании"
-                        data={companyStatusSelectValues}
-                    />
-                </div>
-                <div className="mt-5">
-                    <Select
-                        value={fields.nds.value}
-                        onSelect={fields.nds.onChange}
-                        withClearButton
-                        placeholder="НДС"
-                        inputProps={{mode: 'stroke'}}
-                        data={ndsTaxSelectValues}
-                    />
-                </div>
-            </div>}
-            {(!isLaptop && !isMobile) && <div className="mt-6">
-                <div>
-                    <AsyncSelect
-                        withClearButton
-                        value={fields.activity_types__rec_col_types.value}
-                        onSelect={fields.activity_types__rec_col_types.onChange}
-                        withSearch={false}
-                        wide
-                        inputProps={{mode: 'stroke'}}
-                        loadData={collectionTypeSelectApi}
-                        withSpecialWideAndCloseButton={true}
-                        placeholder="Тип компании"
-                    />
-                </div>
-                <div className="mt-5">
-                    <Select
-                        className={s.field}
-                        inputProps={{mode: 'stroke'}}
-                        value={fields.company_rating.value}
-                        placeholder="Рейтинг компании"
-                        onSelect={fields.company_rating.onChange}
-                        data={companyRatingSelectValues}
-                    />
-                </div>
-                <div className="mt-5">
-                    <Select
-                        onSelect={fields.companies_trust.onChange}
-                        value={fields.companies_trust.value}
-                        inputProps={{mode: 'stroke'}}
-                        placeholder="Доверие к компании"
-                        data={companyStatusSelectValues}
-                    />
-                </div>
-                <div className="mt-5">
-                    <Select
-                        value={fields.nds.value}
-                        onSelect={fields.nds.onChange}
-                        withClearButton
-                        placeholder="НДС"
-                        inputProps={{mode: 'stroke'}}
-                        data={ndsTaxSelectValues}
-                    />
-                </div>
-            </div>}
+            {(companyParametersFilters && (isLaptop || isMobile)) &&
+                <div className="mt-6">
+                    <div>
+                        <AsyncSelect
+                            withClearButton
+                            value={fields.activity_types__rec_col_types.value}
+                            onSelect={fields.activity_types__rec_col_types.onChange}
+                            withSearch={false}
+                            wide
+                            inputProps={{mode: 'stroke'}}
+                            loadData={collectionTypeSelectApi}
+                            withSpecialWideAndCloseButton={true}
+                            placeholder="Тип компании"
+                        />
+                    </div>
+                    <div className="mt-5">
+                        <Select
+                            className={s.field}
+                            inputProps={{mode: 'stroke'}}
+                            value={fields.company_rating.value}
+                            placeholder="Рейтинг компании"
+                            onSelect={fields.company_rating.onChange}
+                            data={companyRatingSelectValues}
+                        />
+                    </div>
+                    <div className="mt-5">
+                        <Select
+                            onSelect={fields.companies_trust.onChange}
+                            value={fields.companies_trust.value}
+                            inputProps={{mode: 'stroke'}}
+                            placeholder="Доверие к компании"
+                            data={companyStatusSelectValues}
+                        />
+                    </div>
+                    <div className="mt-5">
+                        <Select
+                            value={fields.nds.value}
+                            onSelect={fields.nds.onChange}
+                            withClearButton
+                            placeholder="НДС"
+                            inputProps={{mode: 'stroke'}}
+                            data={ndsTaxSelectValues}
+                        />
+                    </div>
+                </div>}
+            {(!isLaptop && !isMobile) &&
+                <div className="mt-6">
+                    <div>
+                        <AsyncSelect
+                            withClearButton
+                            value={fields.activity_types__rec_col_types.value}
+                            onSelect={fields.activity_types__rec_col_types.onChange}
+                            withSearch={false}
+                            wide
+                            inputProps={{mode: 'stroke'}}
+                            loadData={collectionTypeSelectApi}
+                            withSpecialWideAndCloseButton={true}
+                            placeholder="Тип компании"
+                        />
+                    </div>
+                    <div className="mt-5">
+                        <Select
+                            className={s.field}
+                            inputProps={{mode: 'stroke'}}
+                            value={fields.company_rating.value}
+                            placeholder="Рейтинг компании"
+                            onSelect={fields.company_rating.onChange}
+                            data={companyRatingSelectValues}
+                        />
+                    </div>
+                    <div className="mt-5">
+                        <Select
+                            onSelect={fields.companies_trust.onChange}
+                            value={fields.companies_trust.value}
+                            inputProps={{mode: 'stroke'}}
+                            placeholder="Доверие к компании"
+                            data={companyStatusSelectValues}
+                        />
+                    </div>
+                    <div className="mt-5">
+                        <Select
+                            value={fields.nds.value}
+                            onSelect={fields.nds.onChange}
+                            withClearButton
+                            placeholder="НДС"
+                            inputProps={{mode: 'stroke'}}
+                            data={ndsTaxSelectValues}
+                        />
+                    </div>
+                </div>}
             <div className={s.title_for_filters}>
                 <h4>Базовые фильтры</h4>
             </div>

@@ -122,7 +122,8 @@
   display: inline-flex;
   background: white;
   padding: 12px 12px 12px 12px;
-  width: 680px;
+  min-width: 220px;
+  max-width: 380px;
   border-radius: 10px;
   @include adaptive("xxsm") {
     display: block;

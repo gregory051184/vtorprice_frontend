@@ -1,6 +1,10 @@
 import React, {useState} from "react";
 import s from "@box/widgets/recyclableCategories/ui/styles.module.scss";
 import {useRouter} from "next/router";
+import {useStore} from "effector-react";
+import {applicationType} from "@box/features/map/filters/applications/model";
+import {useForm} from "@box/shared/effector-forms";
+import {mainMenuApplicationFilters} from "@box/features/application";
 
 type IEquipment = {
     id: number,
@@ -16,6 +20,8 @@ export const EquipmentApplicationContextMenuForMainPageApplicationsFilters: Reac
                                                                                                                                                                equipment
                                                                                                                                                            }) => {
     const router = useRouter();
+    const type = useStore(applicationType);
+    const {fields} = useForm(mainMenuApplicationFilters);
     const [showContextMenu, setShowContextMenu] = useState<number>(0);
     const [close, setClose] = useState<boolean>(true);
     return (

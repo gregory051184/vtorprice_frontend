@@ -25,11 +25,11 @@ export const groupTypes = [
   {
     id: 1,
     label: 'Активные',
-    value: null
+    value: 1
   },
   {
     id: 2,
     label: 'Архивные',
-    value: 3
+    value: 2
   },
 ];

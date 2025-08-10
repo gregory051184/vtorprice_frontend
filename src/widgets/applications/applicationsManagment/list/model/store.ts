@@ -58,7 +58,8 @@ const getApplications = attach({
         ),
         ...(filters.created_at.every((el) => el !== null)
             && {created_at__lte: filters.created_at[1] || undefined}
-        )
+        ),
+        ...(filters.is_deleted?.value && {is_deleted: filters.is_deleted.value === 2}),
     }),
     effect: applicationModel.getApplicationsFx
 })
@@ -87,10 +88,12 @@ sample({
         pagination.setPerPage,
         companyApplicationsValue,
         searchApplicationsValue,
-        applyApplicationManagementTableFilters,
+        applicationManagementTableFilters.$values,
+        //applyApplicationManagementTableFilters,
         resetApplicationsForm,
         $userApplicationlistTypeManagement
     ],
+    source: applicationManagementTableFilters.$values,
     target: getApplications
 })
 
@@ -138,7 +141,8 @@ const getEquipmentApplications = attach({
         ),
         ...(filters.created_at.every((el) => el !== null)
             && {created_at__lte: filters.created_at[1] || undefined}
-        )
+        ),
+        ...(filters.is_deleted?.value && {is_deleted: filters.is_deleted.value === 2}),
     }),
     effect: applicationModel.getEquipmentApplicationsFx
 })
@@ -167,9 +171,11 @@ sample({
         paginationEquipment.setPerPage,
         companyEquipmentApplicationsValue,
         searchEquipmentApplicationsValue,
-        applyEquipmentApplicationManagementTableFilters,
+        equipmentApplicationsManagementTableFilters.$values,
+        //applyEquipmentApplicationManagementTableFilters,
         resetEquipmentApplicationsForm,
     ],
+    source: equipmentApplicationsManagementTableFilters.$values,
     target: getEquipmentApplications
 })
 

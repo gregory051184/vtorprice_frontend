@@ -299,7 +299,7 @@ export const EquipmentApplicationPage = () => {
               <div
                 key={application.id}
                 className="cursor-pointer"
-                onClick={() => router.push(`/equipment-applications/${application.id}`)}
+                onClick={() => router.push(`/equip-apps/${application.id}`)}
               >
                 <img
                   className={classNames(

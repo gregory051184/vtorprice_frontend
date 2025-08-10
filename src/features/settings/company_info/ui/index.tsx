@@ -25,7 +25,7 @@ import {
     bankNameField,
     headFullNameField,
     phoneField,
-    cityField
+    cityField, emailUserField
 } from '../model';
 import {TGeoSelectValues} from "@box/shared/ui/select/geo-select/types";
 import dynamic from "next/dynamic";
@@ -60,6 +60,7 @@ export const CompanyInfoForm: React.FC<IWithClass> = ({
     const head_full_name = useField(headFullNameField);
     const phone = useField(phoneField);
     const city = useField(cityField);
+    const email = useField(emailUserField);
 
     const avatarUrl = useMemo(() => {
         const avatarValue = avatar.store.$value;
@@ -129,6 +130,8 @@ export const CompanyInfoForm: React.FC<IWithClass> = ({
                         <BaseInput loading={loadingStore} onChange={phone.onChange} value={phone.store.$value}
                                    error={!!phone.store.$error} className="grow" placeholder="Контактный телефон"
                                    required/>
+                        <BaseInput loading={loadingStore} onChange={email.onChange} value={email.store.$value}
+                                   error={!!email.store.$error} className="grow" placeholder="Контактный телефон"/>
                         <AsyncSelect
                             className={classNames('', s.sitySelect)}
                             placeholder="Город"

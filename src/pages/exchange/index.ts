@@ -1,2 +1,2 @@
 export * from './list';
-export * from './glass';
+export * from './glass/stockGlass';

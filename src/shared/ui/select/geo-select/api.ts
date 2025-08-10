@@ -9,7 +9,6 @@ const geocodeSelectApi = async (raw_address: string):
         raw_address
       }
     });
-
     return data
   } catch {
     return [];

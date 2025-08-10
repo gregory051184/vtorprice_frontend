@@ -34,8 +34,9 @@ import {
 import {FormsModals} from "@box/widgets/formsModals";
 import {gate} from "@box/widgets/applications/applicationsListForMainPage";
 import classNames from "classnames";
+import {RecyclablesCategorySwiper} from "@box/widgets/recyclable";
 
-type RecyclableColorType = {
+export interface IRecyclableColor {
     recyclableCategory: IRecyclableCategory,
     totalVolume: number,
 }
@@ -64,7 +65,7 @@ export const RecyclablesWasteBuy = () => {
         return +(filtered_apps.map(app => app.totalWeight).reduce((sum, a) => sum + a, 0) / 1000).toFixed();
     };
 
-    const filtered_recyclableCategory = (): Array<RecyclableColorType> => {
+    const filtered_recyclableCategory = (): Array<IRecyclableColor> => {
         const result = []
         for (let i = 0; i < recyclableCategories.length; i++) {
             const recCat = recyclableCategories[i];
@@ -122,7 +123,7 @@ export const RecyclablesWasteBuy = () => {
                                 value={f.fields.period_tab.value}
                             />
                             <Select
-                                className="w-full"
+                                className="w-full mt-6"
                                 withClearButton
                                 inputProps={{mode: 'stroke'}}
                                 value={f.fields.company_activity_types.value}
@@ -132,7 +133,8 @@ export const RecyclablesWasteBuy = () => {
                             />
                         </div>
                     </div>
-                    <div className="mt-6">
+                    <RecyclablesCategorySwiper categories={filtered_recyclableCategory}/>
+                    {/*<div className="mt-6">
                         <Swiper
                             slidesPerView={1}
                             spaceBetween={15}
@@ -163,7 +165,7 @@ export const RecyclablesWasteBuy = () => {
                             )}
                         </Swiper>
                         <div className='swiper-pagination flex mt-[22px] justify-center gap-[15px]'></div>
-                    </div>
+                    </div>*/}
                     <div
                         onClick={() => router.push('/profile/favorites')}
                         className={s.switch_button}>

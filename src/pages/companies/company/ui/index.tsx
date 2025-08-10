@@ -18,7 +18,12 @@ import {useRouter} from 'next/router';
 import classNames from 'classnames';
 import {
     $applicationsCount,
-    $company, $companyApplications, applicationsPagination, changeInFavoriteFx, fetchApplications
+    $company,
+    $companyApplications,
+    $companyReadyForShipmentApplications,
+    applicationsPagination,
+    changeInFavoriteFx,
+    fetchApplications, gate
 } from '../model';
 import {ContactsSlider} from '@box/widgets/companies/contactsDrawer';
 import s from './style.module.scss';
@@ -37,11 +42,12 @@ export const Company: React.FC = () => {
     const applications = useStore($companyApplications);
     const applicationsCount = useStore($applicationsCount);
     const fetchCompanyApplications = useEvent(fetchApplications);
+    const readyForShipmentApplications = useStore($companyReadyForShipmentApplications);
 
     const changeIsFavorite = useUnit(changeInFavoriteFx);
     const router = useRouter();
     const {clickButton} = router.query;
-    const [mode, setMode] = useState<'comments' | 'applications'>('applications');
+    const [mode, setMode] = useState<'comments' | 'supply contracts' | 'ready for shipment'>('supply contracts');
     const authStore = useStore($authStore);
     const {value, toggle} = useBoolean(false);
     const openModalNotAuth = useEvent(openModalNotAuthEvent);
@@ -55,6 +61,17 @@ export const Company: React.FC = () => {
         handleClickContactButton();
     }
 
+    const companySupplyContractsVolume = () => {
+        if (applications.length > 0) {
+            return +applications
+                .map(app => app.volume / 1000)
+                .reduce((a, b) => a + b)
+                .toFixed(1);
+        } else {
+            return 0
+        }
+    }
+
     const handleOnClickInFavorite = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation();
         if (company) {
@@ -63,10 +80,10 @@ export const Company: React.FC = () => {
         }
         openModalNotAuth();
     };
-
+    useGate(gate)
     useEffect(() => {
         fetchCompanyApplications({});
-    }, [company, users]);
+    }, [company, users, readyForShipmentApplications]);
 
     return (
         <AppShell
@@ -204,7 +221,10 @@ export const Company: React.FC = () => {
                                                 className={classNames("pb-[25px] border-b border-b-grey-20 mt-[16px]", s.myTable_down_elems3, s.myTable_down_border2, s.myTable_littleMargin)}>
                                                 <p className="text-sm text-grey-40">Ежемесячный объем </p>
                                                 <h5 className="text-xl font-semibold mt-[5px]">
-                                                    {company.monthlyVolume ? (company.monthlyVolume / 1000).toFixed(1) : '0'}
+                                                    {
+                                                        /*company.monthlyVolume ? (company.monthlyVolume / 1000).toFixed(1) : '0'*/
+                                                        companySupplyContractsVolume() > 0 ? companySupplyContractsVolume() : '0'
+                                                    }
                                                     {' '}
                                                     т
                                                 </h5>
@@ -259,15 +279,28 @@ export const Company: React.FC = () => {
 
                 <div className="flex items-center gap-[20px] mt-[20px]">
                     <p
-                        onClick={() => setMode('applications')}
+                        onClick={() => setMode('supply contracts')}
                         className={classNames(
                             'text-sm font-medium cursor-pointer pb-[2px] border-b-2',
-                            mode === 'comments' ? 'text-grey-40 border-b-white' : 'text-primaryGreen-main border-b-primaryGreen-main'
+                            mode === 'comments' || mode === 'ready for shipment' ? 'text-grey-40 border-b-white' : 'text-primaryGreen-main border-b-primaryGreen-main'
                         )}
                     >
-                        Заявки компании
+                        Контракты на поставку
                         (
                         {applicationsCount}
+                        )
+
+                    </p>
+                    <p
+                        onClick={() => setMode('ready for shipment')}
+                        className={classNames(
+                            'text-sm font-medium cursor-pointer pb-[2px] border-b-2',
+                            mode === 'comments' || mode === 'supply contracts' ? 'text-grey-40 border-b-white' : 'text-primaryGreen-main border-b-primaryGreen-main'
+                        )}
+                    >
+                        Готов к отгрузке
+                        (
+                        {readyForShipmentApplications.length}
                         )
 
                     </p>
@@ -275,7 +308,7 @@ export const Company: React.FC = () => {
                         onClick={() => setMode('comments')}
                         className={classNames(
                             'text-sm font-medium cursor-pointer pb-[2px] border-b-2 ',
-                            mode === 'applications' ? 'text-grey-40 border-b-white' : 'text-primaryGreen-main border-b-primaryGreen-main'
+                            mode === 'ready for shipment' || mode === 'supply contracts' ? 'text-grey-40 border-b-white' : 'text-primaryGreen-main border-b-primaryGreen-main'
                         )}
                     >
                         Отзывы
@@ -285,7 +318,7 @@ export const Company: React.FC = () => {
                     </p>
                 </div>
 
-                {mode === 'applications'
+                {mode === 'supply contracts'
                     && (
                         <>
                             <div className={s.card_view_block}>
@@ -293,11 +326,60 @@ export const Company: React.FC = () => {
                                     <div key={rec.id} className={classNames('cursor-pointer', s.card_view_card)}
                                          onClick={() => router.push(`/applications/${rec.id}`)}>
                                         <div className="w-full aspect-[4/3]">
-                                            <img
+                                        <img
                                                 className="rounded-[10px] w-full h-full object-cover"
                                                 src={
-                                                    rec.images[0] ? rec.images[0].image
+                                                    rec.images[0] ? `${process.env.NEXT_PUBLIC_API_URL}${rec.images[0].image}`
                                                         : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg'
+                                                }
+                                                alt=""
+                                            />
+                                        </div>
+                                        {rec.dealType.id === 2 && (
+                                            <Badge color="red" className="my-[10px]">
+                                                Продажа
+                                            </Badge>
+                                        )}
+                                        {rec.dealType.id === 1 && (
+                                            <Badge color="green" className="my-[10px]">
+                                                Покупка
+                                            </Badge>
+                                        )}
+                                        <h4 className="text-base font-medium">{rec.recyclables.name}</h4>
+                                        <p className="text-primaryGreen-main font-semibold mt-[10px]">
+                                            {rec.price * 1000}
+                                            {' '}
+                                            ₽ / т
+                                        </p>
+                                        <p className="text-xs text-grey-40 mt-[6px]">
+                                            {rec.totalPrice}
+                                            {' '}
+                                            ₽ за
+                                            {' '}
+                                            {(rec.totalWeight / 1000).toFixed(1)}
+                                            {' '}
+                                            т
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                            <Pagination pagination={applicationsPagination}/>
+
+                        </>
+                    )}
+
+                {mode === 'ready for shipment'
+                    && (
+                        <>
+                            <div className={s.card_view_block}>
+                                {readyForShipmentApplications.map((rec) => (
+                                    <div key={rec.id} className={classNames('cursor-pointer', s.card_view_card)}
+                                         onClick={() => router.push(`/applications/${rec.id}`)}>
+                                        <div className="w-full aspect-[4/3]">
+                                            <img
+                                                className="rounded-[10px] w-full h-full object-cover"
+                                                src={rec.images[0] ? rec.images[0].image
+                                                    : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg'
                                                 }
                                                 alt=""
                                             />

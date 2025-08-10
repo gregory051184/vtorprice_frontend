@@ -4,6 +4,7 @@ import {Paginationable} from '@types';
 import {ISelectValue} from '@box/shared/ui';
 import {companyModel} from '@box/entities/company';
 import {IEquipmentApplication, IEquipmentCategory} from '../model';
+import {ICompany} from "@box/entities/company/model";
 
 
 type CreateEquipmentApplicationParams = {
@@ -36,7 +37,7 @@ export type GetEquipmentsApplicationsParams = {
     search: string,
     ordering: string | null,
     deal_type: number,
-
+    is_deleted: boolean,
     //ДОБАВИЛ
     category?: number,
 
@@ -63,6 +64,11 @@ export type GetEquipmentsApplicationsParams = {
 
     city__region__district?: number,
     city__region?: number,
+};
+
+type UpdateEquipmentApplicationStatusParams = {
+    id: number,
+    status: string,
 };
 
 class EquipmentApplicationApi {
@@ -107,6 +113,14 @@ class EquipmentApplicationApi {
     ): Promise<AxiosResponse<IEquipmentApplication>> {
         const {id, ...params} = data;
         return $authHost.patch(`/equipment_applications/${id}/`, params);
+    }
+
+    patchEquipmentApplicationStatus(data: UpdateEquipmentApplicationStatusParams): Promise<AxiosResponse<IEquipmentApplication>> {
+        const {id, ...params} = data;
+        console.log(id)
+        return $authHost.patch(`/equipment_applications/${id}/`, {
+            ...params
+        });
     }
 
     setEquipmentApplicationImage(

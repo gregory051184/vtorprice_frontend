@@ -17,6 +17,7 @@ import { useStore } from "effector-react";
 import { $authStore } from "@box/entities/auth";
 import { useScreenSize } from "@box/shared/hooks";
 import { IDealCreateForm } from "./types";
+import {data} from "dom7";
 
 const DynamicGeoSelect = dynamic(
   () => import('@box/shared/ui').then(module => module.GeoSelect),
@@ -50,7 +51,7 @@ export const DealCreateForm: React.FC<IDealCreateForm> = ({
   }
 
   const loadData = async (val: string) => {
-    return await existingCompanySelectApi(val, user?.role.id === ROLE.MANAGER ? user?.id : undefined);
+    return await existingCompanySelectApi(val/*, user?.role.id === ROLE.MANAGER ? user?.id : undefined*/);
   }
 
   useEffect(() => {
@@ -79,7 +80,14 @@ export const DealCreateForm: React.FC<IDealCreateForm> = ({
             className="grow"
             loadData={loadData}
             value={fields.companySeller.value}
-            onSelect={val => fields.companySeller.onChange(val)}
+            onSelect={val => {
+              fields.companySeller.onChange(val)
+              fields.addressSeller.onChange(val?.value.address)
+              fields.latitudeSeller.onChange(val?.value.latitude)
+              fields.longitudeSeller.onChange(val?.value.longitude)
+              fields.citySeller.onChange(val?.value.city.id)
+
+            }}
           />
         </DisabledView>
         <DisabledView
@@ -93,7 +101,13 @@ export const DealCreateForm: React.FC<IDealCreateForm> = ({
             placeholder="Компания покупатель"
             loadData={loadData}
             value={fields.companyBuyer.value}
-            onSelect={val => fields.companyBuyer.onChange(val)}
+            onSelect={val => {
+              fields.companyBuyer.onChange(val)
+              fields.addressBuyer.onChange(val?.value.address)
+              fields.latitudeBuyer.onChange(val?.value.latitude)
+              fields.longitudeSeller.onChange(val?.value.longitude)
+              fields.cityBuyer.onChange(val?.value.city?.id)
+            }}
           />
         </DisabledView>
       </div>

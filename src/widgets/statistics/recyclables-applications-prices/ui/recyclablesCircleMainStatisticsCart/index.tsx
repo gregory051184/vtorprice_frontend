@@ -59,6 +59,18 @@ export const RecyclablesCircleMainStatisticsCart = () => {
         '#FAD900',
     ]
 
+    const col = [
+        '#91cc75',
+        '#5470c6',
+        '#ea7ccc',
+        '#9a60b4',
+        '#fc8452',
+        '#3ba272',
+        '#73c0de',
+        '#ee6666',
+        '#fac858',
+    ]
+
     //для получения категорий для графиков
     const dataCategories = (applications: IRecyclableApplicationShortForAll[]/*IRecyclableApplication[]*/) => {
         const list = []
@@ -148,33 +160,33 @@ export const RecyclablesCircleMainStatisticsCart = () => {
     return (
         <div>
             <div className="block">
-            <div className='w-auto ml-5 inline-flex'>
-                <Select
-                    inputProps={{mode: "stroke"}}
-                    placeholder={'Период'}
-                    className="w-130"
-                    onSelect={f.fields.period_tab.onChange}
-                    data={TimeframeTypes}
-                    value={f.fields.period_tab.value}
-                />
-                <Select
-                    className="w-130 ml-5"
-                    withClearButton
-                    inputProps={{mode: 'stroke'}}
-                    value={f.fields.company_activity_types.value}
-                    placeholder="Тип компании"
-                    onSelect={f.fields.company_activity_types.onChange}
-                    data={companyActivityTypesSelectValues}
-                />
-                <Select
-                    inputProps={{mode: "stroke"}}
-                    placeholder={'Тип продукции'}
-                    className="w-130 ml-5"
-                    onSelect={f.fields.application_recyclable_status_tab.onChange}
-                    data={applicationRecyclableStatusSelectValues}
-                    value={f.fields.application_recyclable_status_tab.value}
-                />
-            </div>
+                <div className='w-auto ml-5 inline-flex'>
+                    <Select
+                        inputProps={{mode: "stroke"}}
+                        placeholder={'Период'}
+                        className="w-130"
+                        onSelect={f.fields.period_tab.onChange}
+                        data={TimeframeTypes}
+                        value={f.fields.period_tab.value}
+                    />
+                    <Select
+                        className="w-130 ml-5"
+                        withClearButton
+                        inputProps={{mode: 'stroke'}}
+                        value={f.fields.company_activity_types.value}
+                        placeholder="Тип компании"
+                        onSelect={f.fields.company_activity_types.onChange}
+                        data={companyActivityTypesSelectValues}
+                    />
+                    <Select
+                        inputProps={{mode: "stroke"}}
+                        placeholder={'Тип продукции'}
+                        className="w-130 ml-5"
+                        onSelect={f.fields.application_recyclable_status_tab.onChange}
+                        data={applicationRecyclableStatusSelectValues}
+                        value={f.fields.application_recyclable_status_tab.value}
+                    />
+                </div>
             </div>
             <div className="mt-8 inline-flex">
                 {category.id > 0 &&
@@ -208,7 +220,11 @@ export const RecyclablesCircleMainStatisticsCart = () => {
                     <div className="ml-4 w-1/3 h-auto">
                         {dataCategories(applications).map(category => (
                             <div
-                                onClick={() => setCategory({id: category.id, value: category.value, name: category.name})}
+                                onClick={() => setCategory({
+                                    id: category.id,
+                                    value: category.value,
+                                    name: category.name
+                                })}
                                 style={{background: category.fill}}
                                 className={s.item}>
                                 <p>
@@ -231,7 +247,11 @@ export const RecyclablesCircleMainStatisticsCart = () => {
                     <div className="ml-4 w-2/3 h-auto">
                         {dataFractions(applications, category.id).map(subCategory => (
                             <div
-                                onClick={() => setSubCategory({id: subCategory.id, value: subCategory.value, name: subCategory.name})}
+                                onClick={() => setSubCategory({
+                                    id: subCategory.id,
+                                    value: subCategory.value,
+                                    name: subCategory.name
+                                })}
                                 style={{background: subCategory.fill}}
                                 className={s.item}>
                                 <p>

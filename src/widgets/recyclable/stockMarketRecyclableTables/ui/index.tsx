@@ -119,19 +119,26 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
 
     const fractionVolume = (fractionId: number) => {
         const volumeFraction = applications
-            .filter(app => app.recyclables?.category?.id === fractionId)
+            .filter(app => app.recyclables?.id === fractionId)
             .map(app => app.totalWeight / 1000)
             .reduce((sum, a) => sum + a, 0)
         return {volumeFraction: volumeFraction, fractionId: fractionId}
+
     }
 
     const showFractionsHandler = (categoryId: number) => {
         const fractions = recyclables.filter(recyclable =>
             recyclable.category === categoryId);
         const fractionSortedList = fractions
-            .map(fraction => fraction.id === fractionVolume(fraction.id).fractionId ? {fraction: fraction, fractionVolume:fractionVolume(fraction.id).volumeFraction} : {fraction: fraction, fractionVolume: 0})
+            // .filter(fraction => fractionVolume(fraction.id).volumeFraction > 0)
+            .map(fraction => fraction.id === fractionVolume(fraction.id).fractionId ? {fraction: fraction, fractionVolume: fractionVolume(fraction.id).volumeFraction} : {fraction: fraction, fractionVolume: 0})
+            .filter(fraction => fractionVolume(fraction.fraction.id).volumeFraction > 0)
             .sort((a, b) => b.fractionVolume - a.fractionVolume)
             .map(fraction => fraction.fraction)
+        // const fList = fractions
+        //     .map(fraction => fraction.id === fractionVolume(fraction.id).fractionId ? {fraction: fraction, fractionVolume: fractionVolume(fraction.id).volumeFraction} : {fraction: fraction, fractionVolume: 0})
+        //     .sort((a, b) => b.fractionVolume - a.fractionVolume)
+        //     .filter(fraction => fraction.fractionVolume > 0)
         return fractionSortedList
     };
 
@@ -181,6 +188,7 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                 .filter(application => application.recyclables?.id === fractionId && application?.dealType?.id === dealType)
                 .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                 .map(application => application?.price)
+
             const devPercent = +((currentApp[0] - currentApp[currentApp.length - 1]) / currentApp[currentApp.length - 1] * 100).toFixed(2);
             let deviation = "";
             if (devPercent) {
@@ -425,12 +433,14 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                             </div>
                             {recyclableCategories.length > 0 &&
                                 filtered_recyclableCategory()
-                                    .filter(recyclableCategory => fields.search?.value.length > 0 ?
+                                    .filter(recyclableCategory => recyclableCategory.totalVolume.totalVolume > 0)
+                                    /*.filter(recyclableCategory => fields.search?.value.length > 0 ?
                                         recyclableCategory?.recyclableCategory?.name
                                             .toLowerCase()
                                             .indexOf(fields.search?.value
                                                 .split(' ')[0]
-                                                .toLowerCase()) > -1 : recyclableCategory).slice(0, !showCategoriesStatisticsForMobile ? 3 : filtered_recyclableCategory().length - 1)
+                                                .toLowerCase()) > -1 : recyclableCategory)*/
+                                    .slice(0, !showCategoriesStatisticsForMobile ? 3 : filtered_recyclableCategory().length - 1)
                                     .map((recyclableCategory) => (
                                         <div
                                             className={s.table}
@@ -509,10 +519,11 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                                 }
                             </div>
                             {recyclableCategories.length > 0 && filtered_recyclableCategory('BUY')
-                                .filter(recyclableCategory => fields.search?.value.length > 0 ?
+                                /*.filter(recyclableCategory => fields.search?.value.length > 0 ?
                                     recyclableCategory?.recyclableCategory?.name
                                         .toLowerCase().indexOf(fields.search?.value.split(' ')[0]
-                                        .toLowerCase()) > -1 : recyclableCategory)
+                                        .toLowerCase()) > -1 : recyclableCategory)*/
+                                .filter(recyclableCategory => recyclableCategory.totalVolume.totalVolume > 0)
                                 .slice(0, !showFractionBuyStatisticsForMobile ? 3 : filtered_recyclableCategory('BUY').length - 1)
                                 .map((recyclableCategory) => (
                                     <div
@@ -594,11 +605,12 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                                 }
                             </div>
                             {recyclableCategories.length > 0 && filtered_recyclableCategory('SELL')
-                                .filter(recyclableCategory => fields.search?.value.length > 0 ?
+                                /*.filter(recyclableCategory => fields.search?.value.length > 0 ?
                                     recyclableCategory?.recyclableCategory?.name
                                         .toLowerCase()
                                         .indexOf(fields.search?.value.split(' ')[0]
-                                            .toLowerCase()) > -1 : recyclableCategory)
+                                            .toLowerCase()) > -1 : recyclableCategory)*/
+                                .filter(recyclableCategory => recyclableCategory.totalVolume.totalVolume > 0)
                                 .slice(0, !showFractionSellStatisticsForMobile ? 3 : filtered_recyclableCategory('SELL').length - 1)
                                 .map((recyclableCategory) => (
                                     <div
@@ -757,10 +769,11 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                             Общие
                         </p>
                         {recyclableCategories.length > 0 && filtered_recyclableCategory()
-                            .filter(recyclableCategory => fields.search?.value.length > 0 ?
+                            /*.filter(recyclableCategory => fields.search?.value.length > 0 ?
                                 recyclableCategory?.recyclableCategory?.name.toLowerCase().indexOf(fields.search?.value
                                     .split(' ')[0]
-                                    .toLowerCase()) > -1 : recyclableCategory)
+                                    .toLowerCase()) > -1 : recyclableCategory)*/
+                            .filter(recyclableCategory => recyclableCategory.totalVolume.totalVolume > 0)
                             .map((recyclableCategory) => (
                                 <div
                                     className={s.table}
@@ -830,10 +843,11 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                             Покупка
                         </p>
                         {recyclableCategories.length > 0 && filtered_recyclableCategory('BUY')
-                            .filter(recyclableCategory => fields.search?.value.length > 0 ?
+                            /*.filter(recyclableCategory => fields.search?.value.length > 0 ?
                                 recyclableCategory?.recyclableCategory?.name
                                     .toLowerCase().indexOf(fields.search?.value.split(' ')[0]
-                                    .toLowerCase()) > -1 : recyclableCategory)
+                                    .toLowerCase()) > -1 : recyclableCategory)*/
+                            .filter(recyclableCategory => recyclableCategory.totalVolume.totalVolume > 0)
                             .map((recyclableCategory) => (
                                 <div
                                     className={s.table}
@@ -903,11 +917,12 @@ export const StockMarketRecyclableTables: React.FC<StockMarketRecyclableTablesTy
                             className={s.category_title}>Продажа
                         </h4>}
                         {recyclableCategories.length > 0 && filtered_recyclableCategory('SELL')
-                            .filter(recyclableCategory => fields.search?.value.length > 0 ?
+                            /*.filter(recyclableCategory => fields.search?.value.length > 0 ?
                                 recyclableCategory?.recyclableCategory?.name
                                     .toLowerCase()
                                     .indexOf(fields.search?.value.split(' ')[0]
-                                        .toLowerCase()) > -1 : recyclableCategory)
+                                        .toLowerCase()) > -1 : recyclableCategory)*/
+                            .filter(recyclableCategory => recyclableCategory.totalVolume.totalVolume > 0)
                             .map((recyclableCategory) => (
                                 <div
                                     className={s.table}

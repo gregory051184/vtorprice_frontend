@@ -8,9 +8,12 @@ import {
     applicationModel
 } from '@box/entities/application';
 import {notAuthAlertModel} from '@box/entities/notAuthAlert/model';
-import {Badge, Button} from "@box/shared/ui";
+import {Badge, Button, Rating} from "@box/shared/ui";
 import StarImg from "@box/shared/ui/starImg";
 import {$getFavoritesApplicationFx, gate} from "@box/widgets/applications/applicationsFavoritesList/model";
+import Verified from "@assets/icons/16_verified.svg";
+import Reliable from "@assets/icons/16_reliable.svg";
+import BadCompany from "@assets/icons/bad_company.svg";
 
 export const AppCardForShortListForMainPage: React.FC<AppCardForFullListForMainPageType> = ({
                                                                                                 application
@@ -34,9 +37,9 @@ export const AppCardForShortListForMainPage: React.FC<AppCardForFullListForMainP
         id: number,
         event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
-        if(favoriteApplication === 0) {
+        if (favoriteApplication === 0) {
             setFavoriteApplication(id)
-        }else {
+        } else {
             setFavoriteApplication(0)
         }
         if (event) {
@@ -65,24 +68,24 @@ export const AppCardForShortListForMainPage: React.FC<AppCardForFullListForMainP
                         </Badge>
                     </td>
 
-                        {application?.company?.id !== company.user?.company?.id ?
-                            <td className="ml-7 w-28">
-                                <Button
-                                    type='micro'
-                                    onClick={(event) => handleOnClickInFavorite(application?.id, event)}
-                                    mode="notFilled"
-                                    iconLeft={<StarImg width={20}
-                                                       style={/*{fill: `${application?.isFavorite ? '' : 'none'}`}*/ {
-                                                           fill: `${favoriteApplication === application.id ||
-                                                           applications.map(app => app.id).includes(application.id) ? '' : 'none'}`
-                                                       }}/>}
-                                >
-                                </Button>
-                            </td> :
-                            <td className="ml-4 w-48">
-                                <p className="text-red-dark mt-[8px] w-auto whitespace-nowrap">{"Ваша заявка"}</p>
-                            </td>
-                        }
+                    {application?.company?.id !== company.user?.company?.id ?
+                        <td className="ml-7 w-28">
+                            <Button
+                                type='micro'
+                                onClick={(event) => handleOnClickInFavorite(application?.id, event)}
+                                mode="notFilled"
+                                iconLeft={<StarImg width={20}
+                                                   style={/*{fill: `${application?.isFavorite ? '' : 'none'}`}*/ {
+                                                       fill: `${favoriteApplication === application.id ||
+                                                       applications.map(app => app.id).includes(application.id) ? '' : 'none'}`
+                                                   }}/>}
+                            >
+                            </Button>
+                        </td> :
+                        <td className="ml-4 w-48">
+                            <p className="text-red-dark mt-[8px] w-auto whitespace-nowrap">{"Ваша заявка"}</p>
+                        </td>
+                    }
 
                 </tr>
                 <div onClick={() => router.push(`/applications/${application?.id}`)}>
@@ -121,6 +124,20 @@ export const AppCardForShortListForMainPage: React.FC<AppCardForFullListForMainP
                 </p>
                 <p className="text-xs text-grey-40 mt-[6px]">
                     {`Дата публикации: ${new Date(application?.createdAt).toLocaleDateString()}`}
+                </p>
+                <p>
+                    <p className="text-xs text-grey-40 mt-[6px]">
+                        {`Компания: ${application.company.name}`}
+                    </p>
+                    <Rating rating={application.company.averageReviewRate} total={application.company.dealsCount || 0}/>
+                    {application.company.status?.id === 2 && <Verified className="inline"/>}
+                    {application.company.status?.id === 3 && (
+                        <>
+                            <Verified className="inline"/>
+                            <Reliable className="inline"/>
+                        </>
+                    )}
+                    {application.company.status?.id === 4 && <BadCompany className="inline"/>}
                 </p>
                 <p className="text-xs text-grey-40 mt-[6px]"
                     //@ts-ignore

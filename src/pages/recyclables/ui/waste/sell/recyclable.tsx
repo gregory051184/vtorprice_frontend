@@ -25,17 +25,14 @@ import {
     dealTypeSelectValues,
     TimeframeTypes
 } from "@box/entities/application";
-import {
-    applicationsWithPeriodWithoutPagesGate
-} from "@box/widgets/applications/applicationsAllWithoutPagesList/model/store";
 import {useForm} from "@box/shared/effector-forms";
 import {applicationFiltersForMainPageChart} from "@box/features/application/filters/applicationFiltersForMainPageChart";
 import {gate} from "@box/widgets/applications/applicationsListForMainPage";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Pagination} from "swiper";
+
 import {useScreenSize} from "@box/shared/hooks";
 import {CompaniesCircleGraphics} from "@box/entities/company";
 import {CompaniesFilteredByRecyclableTable} from "@box/widgets/companies";
+import {RecyclablesStatsSwiper} from "@box/widgets/recyclable";
 
 interface ISubCategoriesForChart {
     name: string,
@@ -329,7 +326,13 @@ export const ApplicationsAndCompaniesByRecyclableWasteSell = () => {
                             />
                         </div>
                     </div>
-                    <div className="mt-6">
+                    <RecyclablesStatsSwiper
+                        recyclables={filteredRecFixed}
+                        totalVolume={totalVolume}
+                        middlePrice={middlePrice}
+                        deviationPercent={deviationPercent}
+                        deviationRubles={deviationRubles}/>
+                    {/*<div className="mt-6">
                         <Swiper
                             slidesPerView={1}
                             spaceBetween={15}
@@ -407,7 +410,7 @@ export const ApplicationsAndCompaniesByRecyclableWasteSell = () => {
                             </SwiperSlide>
                         </Swiper>
                         <div className='swiper-pagination flex mt-[22px] justify-center gap-[15px]'></div>
-                    </div>
+                    </div>*/}
                     {(recyclable?.id && filteredRecFixed().length > 0) &&
                         <div className='mt-8'>
                             <div>

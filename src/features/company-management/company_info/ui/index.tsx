@@ -25,12 +25,12 @@ import {
     headFullNameField,
     phoneField,
     cityField,
-    onLoadPageEvent, managerField
+    onLoadPageEvent, managerField, emailField
 } from '../model';
 import {TGeoSelectValues} from "@box/shared/ui/select/geo-select/types";
 import dynamic from "next/dynamic";
 import {citySelectApi} from '@box/entities/city';
-import {$allUsers} from "@box/widgets/users/usersRoleList/model";
+
 
 const DynamicGeoSelect = dynamic(
     () => import('@box/shared/ui').then(module => module.GeoSelect),
@@ -57,7 +57,8 @@ export const CompanyInfoFormManagement: React.FC<IWithClass> = ({
     const head_full_name = useField(headFullNameField);
     const phone = useField(phoneField);
     const city = useField(cityField);
-    const manager = useField(managerField)
+    const manager = useField(managerField);
+    const email = useField(emailField);
 
     const avatarUrl = useMemo(() => {
         const avatarValue = avatar.store.$value;
@@ -111,6 +112,8 @@ export const CompanyInfoFormManagement: React.FC<IWithClass> = ({
                     <div className={classNames('flex gap-[16px]', s.block)}>
                         <BaseInput onChange={phone.onChange} value={phone.store.$value} error={!!phone.store.$error}
                                    className="grow" placeholder="Контактный телефон" required/>
+                        <BaseInput onChange={email.onChange} value={email.store.$value} error={!!email.store.$error}
+                                   className="grow" placeholder="Email"/>
                         <AsyncSelect
                             className={classNames('', s.sitySelect)}
                             placeholder="Город"

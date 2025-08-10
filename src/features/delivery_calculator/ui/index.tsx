@@ -151,7 +151,7 @@ export const DeliveryCalculatorVertical: React.FC<IWithClass> = ({
           </div>
           <div className={classNames('gap-[24px] items-center', s.adaptiveCalcButtonHolder)}>
             <div className="flex-col justify-between">
-              <p className=" mt-1 text-grey-40 text-xs">Предварительная оценка</p>
+              <p className=" mt-1 text-grey-40 text-xs">Предварительная оценка за 1 км</p>
               <p className="text-primaryGreen-main text-lg font-semibold mt-1">{"~ "}{Math.round(price)}{" "}₽</p>
             </div>
             <Button className={classNames(s.adaptiveCalcButton)} onClick={() => router.push('/transport-new-application')}>

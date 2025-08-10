@@ -72,12 +72,12 @@ export const SupplyContractFormTemplate: React.FC<ISupplyContractForm> = ({
           values={dealTypeSelectValues}
           value={fields.dealType.value}
         />
-        <TabSelect
-            label="Тип продукции"
-            values={applicationRecyclableStatusSelectValues}
-            onChange={fields.applicationRecyclableStatus.onChange}
-            value={fields.applicationRecyclableStatus.value}
-        />
+        {/*<TabSelect*/}
+        {/*    label="Тип продукции"*/}
+        {/*    values={applicationRecyclableStatusSelectValues}*/}
+        {/*    onChange={fields.applicationRecyclableStatus.onChange}*/}
+        {/*    value={fields.applicationRecyclableStatus.value}*/}
+        {/*/>*/}
         <DisabledView className="w-full" disabled={user?.role.id !== ROLE.ADMIN && user?.role.id !== ROLE.MANAGER}>
           <AsyncSelect
             placeholder="Название компании или ИНН"
@@ -88,7 +88,10 @@ export const SupplyContractFormTemplate: React.FC<ISupplyContractForm> = ({
             className={classNames('grow self-end', s.block_input)}
             loadData={loadData}
             value={fields.company.value}
-            onSelect={(val) => fields.company.onChange(val)}
+            onSelect={(val) => {
+              fields.address.onChange(val?.value.address)
+              fields.company.onChange(val)
+            }}
           />
         </DisabledView>
       </div>

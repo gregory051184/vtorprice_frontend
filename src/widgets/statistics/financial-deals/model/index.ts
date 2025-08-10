@@ -29,11 +29,11 @@ const getGraphData = attach({
   },
   mapParams: (_, { filters }) => ({
     period: filters.period.value,
-    ...(filters.createdAt[0] && {
-      from_date: filters.createdAt[0],
+    ...(filters.created_at[0] && {
+      from_date: filters.created_at[0],
     }),
-    ...(filters.createdAt[1] && {
-      to_date: filters.createdAt[1],
+    ...(filters.created_at[1] && {
+      to_date: filters.created_at[1],
     }),
   }),
 

@@ -2,6 +2,7 @@ import {TStatus} from '@box/types';
 import {recyclableModel} from '@box/entities/recyclable';
 import {ICity, ICityShortForAll} from '../../city/model/types';
 import {IUser} from "@box/entities/user";
+import {applicationRecyclableStatusSelectValues} from "@box/entities/application";
 
 
 // export interface IActivityForShort {
@@ -12,6 +13,11 @@ import {IUser} from "@box/entities/user";
 // export interface IRecColTypesForShort {
 //     recColTypes: Array<IActivityForShort>;
 // }
+
+export interface IApplicationRecyclableStatus {
+    id: number,
+    label: string,
+}
 
 export interface ICompanyShortForAll {
     id: number;
@@ -78,6 +84,9 @@ export interface ICompanyRecyclable {
     monthlyVolume: number;
     price: number;
     company: number;
+    applicationRecyclableStatus: IApplicationRecyclableStatus;
+    deleted: boolean
+
 }
 
 export interface ICompanyMember {
@@ -160,4 +169,5 @@ export interface ICompany {
     companyVolume?: number;
     companyRecyclables?: Array<number>;
     totalApplicationsCount?: number;
+
 }

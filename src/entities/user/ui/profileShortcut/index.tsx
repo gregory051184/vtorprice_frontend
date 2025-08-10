@@ -14,6 +14,7 @@ import {
     acceptSubscribeFX,
     setShowSubscribeModalFX, subscribeLevels
 } from "@box/widgets/subscribeModal";
+import {useScreenSize} from "@box/shared/hooks";
 
 
 export const ProfileShortcut = () => {
@@ -25,6 +26,11 @@ export const ProfileShortcut = () => {
     const acceptSubscribe = useEvent(acceptSubscribeFX)
 
     const updateSubscribeAlert = useEvent(subscribeEvent);
+
+    const [screenSize, satisfies] = useScreenSize();
+    const isLaptop = screenSize === 'sm' || screenSize === 'xsm';
+    const isMobile = screenSize === 'xxsm';
+
 
     let nameOfProfile: string | undefined;
     let avatar: string | null;
@@ -66,37 +72,28 @@ export const ProfileShortcut = () => {
         <div className="flex items-center gap-[28px]">
             <div>
                 <div
-                    style={currentSubscribe ? {
-                            fontSize: '10px',
-                            height: 'auto',
-                            width: 'auto',
-                            marginLeft: '5px',
-                            marginBottom: '10px',
-                            color: 'rgba(67, 158, 126)',
-                            cursor: 'pointer'
-                        } :
-                        {
-                            fontSize: '10px',
-                            height: 'auto',
-                            width: 'auto',
-                            marginLeft: '10px',
-                            marginBottom: '10px',
-                            color: 'red',
-                            cursor: 'pointer'
-                        }
-                    }
+                    className={currentSubscribe ? s.headerSubscribeExists : s.headerSubscribeNotExists}
                     onClick={() => router.push('/subscribes')}
                 >
                     {currentSubscribe ? `${currentSubscribe?.subscribe?.name}` : 'Нет подписки'}
                 </div>
-                <Button onClick={() => {
-                    acceptSubscribe(subscribeLevels.ABSOLUTE)
-                    setShowSubscribeFx(subscribeLevels.ABSOLUTE).then(data => {
-                        if (!data) {
-                            router.push("/new-application")
-                        }
-                    })
-                }} iconLeft={<Add/>} type="mini" mode="stroke">
+                {/*<Button
+                    className={isMobile ? "ml-4" : ""}
+                    onClick={() => {
+                        acceptSubscribe(subscribeLevels.ABSOLUTE)
+                        setShowSubscribeFx(subscribeLevels.ABSOLUTE).then(data => {
+                            if (!data) {
+                                router.push("/new-application")
+                            }
+                        })
+                    }}
+                    iconLeft={<Add/>} type={isMobile ? "micro" : "mini"} mode="stroke">
+                    Заявка
+                </Button>*/}
+                <Button
+                    className={isMobile ? "ml-4" : ""}
+                    onClick={() => router.push("/new-application")}
+                    iconLeft={<Add/>} type={isMobile ? "micro" : "mini"} mode="stroke">
                     Заявка
                 </Button>
             </div>

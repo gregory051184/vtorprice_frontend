@@ -30,12 +30,10 @@ import {applicationFiltersForMainPageChart} from "@box/features/application/filt
 import {FormsModals} from "@box/widgets/formsModals";
 import {gate} from "@box/widgets/applications/applicationsListForMainPage";
 import {useScreenSize} from "@box/shared/hooks";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Pagination} from "swiper";
-import classNames from "classnames";
+import {RecyclableSwiper} from "@box/widgets/recyclable";
 
 
-type RecyclableTotalVolumeType = {
+export interface IRecyclableTotalVolume {
     recyclable: IRecyclable,
     totalVolume: number,
 }
@@ -121,7 +119,7 @@ export const RecyclablesWasteBuyByCategory = () => {
     }
 
 
-    const filteredRecyclableCategory = (): Array<RecyclableTotalVolumeType> => {
+    const filteredRecyclableCategory = (): Array<IRecyclableTotalVolume> => {
         const result = []
         for (let i = 0; i < recyclables.length; i++) {
             const recCat = recyclables[i];
@@ -181,7 +179,7 @@ export const RecyclablesWasteBuyByCategory = () => {
                                 value={f.fields.period_tab.value}
                             />
                             <Select
-                                className="w-full"
+                                className="w-full mt-6"
                                 withClearButton
                                 inputProps={{mode: 'stroke'}}
                                 value={f.fields.company_activity_types.value}
@@ -191,7 +189,8 @@ export const RecyclablesWasteBuyByCategory = () => {
                             />
                         </div>
                     </div>
-                    <div className="mt-6">
+                    <RecyclableSwiper recyclables={filteredRecyclableCategory}/>
+                    {/*<div className="mt-6">
                         <Swiper
                             slidesPerView={1}
                             spaceBetween={15}
@@ -222,7 +221,7 @@ export const RecyclablesWasteBuyByCategory = () => {
                             )}
                         </Swiper>
                         <div className='swiper-pagination flex mt-[22px] justify-center gap-[15px]'></div>
-                    </div>
+                    </div>*/}
                     <div className='mt-7'>
                         <h3>{recyclables.length > 0 ? `Компании с объявлениями по отходам ${recyclables.map(rec => rec?.category?.name)[0]} покупка` : ''}</h3>
                         {recyclables.length > 0 && filteredCompaniesByCityAndCategoryId(recyclables.map(rec => rec?.category?.id)[0]).map(item => (

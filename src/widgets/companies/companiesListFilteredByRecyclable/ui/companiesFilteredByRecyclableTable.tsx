@@ -8,11 +8,30 @@ import s from './style.module.scss';
 import {
     ICompanyFilteredByRecyclableTable
 } from "@box/widgets/companies/companiesListFilteredByRecyclable";
+import {useScreenSize} from "@box/shared/hooks";
 
 export const CompaniesFilteredByRecyclableTable: React.FC<ICompanyFilteredByRecyclableTable> = ({
                                                                                                     className,
                                                                                                     companies
                                                                                                 }) => {
+    const [screenSize, satisfies] = useScreenSize();
+    const isLaptop = screenSize === 'sm' || screenSize === 'xsm';
+    const isMobile = screenSize === 'xxsm';
+
+    if (isMobile) {
+        return (
+            <div className={className}>
+                {companies.map((item) => (
+                    <CompanyFilteredByRecyclableRow
+                        company={item?.company}
+                        lastPrice={item?.lastPrice}
+                        volume={item?.volume}
+                        key={item?.company?.id}
+                    />
+                ))}
+            </div>
+        );
+    }
     return (
         <div className={className}>
             <Table
